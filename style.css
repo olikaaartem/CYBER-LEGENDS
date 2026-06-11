@@ -53,8 +53,8 @@ body {
   position: absolute;
   inset: 28px 55px 28px 55px;
   background-image: var(--bg);
-  background-size: contain;
-  background-position: center center;
+  background-size: 115% auto;
+  background-position: center top;
   background-repeat: no-repeat;
   z-index: 1;
 }
@@ -103,8 +103,8 @@ body {
 
 .main-menu {
   position: absolute;
-  left: 7%;
-  top: 55%;
+  left: 8%;
+  top: 50%;
   width: 280px;
   display: flex;
   flex-direction: column;

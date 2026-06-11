@@ -6,16 +6,11 @@
   <title>Королівство КіберЛегенд</title>
 
   <style>
-    /* =====================================================
-      БАЗА
-    ===================================================== */
-
     * {
       box-sizing: border-box;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       width: 100%;
       height: 100%;
@@ -30,12 +25,7 @@
       height: 100vh;
     }
 
-    /* =====================================================
-      АДАПТИВНИЙ ФОН
-      Основний фон не обрізається.
-      По боках — темна розмита рамка.
-    ===================================================== */
-
+    /* Фон: основна картинка + розмита рамка з боків */
     .screen {
       width: 100vw;
       height: 100vh;
@@ -72,10 +62,6 @@
       z-index: 5;
     }
 
-    /* =====================================================
-      КНОПКИ
-    ===================================================== */
-
     .btn {
       padding: 12px 24px;
       border-radius: 18px;
@@ -92,27 +78,10 @@
       transform: scale(1.05);
     }
 
-    .back-btn {
-      position: absolute;
-      left: 30px;
-      bottom: 30px;
-    }
-
-    .center-bottom-btn {
-      position: absolute;
-      left: 50%;
-      bottom: 35px;
-      transform: translateX(-50%);
-    }
-
-    /* =====================================================
-      СТАРТОВЕ МЕНЮ
-    ===================================================== */
-
     .main-menu {
       position: absolute;
       left: 7%;
-      top: 55%;
+      top: 52%;
       width: 280px;
       display: flex;
       flex-direction: column;
@@ -123,28 +92,37 @@
       width: 100%;
     }
 
-    /* =====================================================
-      КАРТА
-    ===================================================== */
+    .bottom-buttons {
+      position: absolute;
+      left: 50%;
+      bottom: 32px;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      width: 90vw;
+    }
 
     .map-point {
       position: absolute;
       cursor: pointer;
-      z-index: 10;
-      border-radius: 18px;
+      border-radius: 22px;
       background: rgba(255, 230, 120, 0.02);
       border: 2px solid transparent;
+      z-index: 10;
     }
 
     .map-point:hover {
-      border-color: rgba(255, 230, 120, 0.9);
+      border-color: rgba(255, 230, 120, 0.95);
       background: rgba(255, 230, 120, 0.12);
       box-shadow: 0 0 28px rgba(255, 230, 120, 0.95);
     }
 
-    /* =====================================================
-      ВИБІР ГЕРОЯ
-    ===================================================== */
+    .final-lock {
+      border-radius: 50%;
+    }
 
     .hero-choice {
       position: absolute;
@@ -166,8 +144,8 @@
       position: absolute;
       left: 43%;
       bottom: 8%;
-      width: 220px;
-      max-height: 70vh;
+      width: 250px;
+      max-height: 74vh;
       object-fit: contain;
       filter: drop-shadow(0 0 18px rgba(255, 213, 74, 0.8));
     }
@@ -176,7 +154,7 @@
       position: absolute;
       right: 8%;
       bottom: 22%;
-      width: 330px;
+      width: 340px;
       padding: 14px 18px;
       border-radius: 14px;
       border: 2px solid #f5c85b;
@@ -189,12 +167,8 @@
       position: absolute;
       right: 8%;
       bottom: 13%;
-      width: 330px;
+      width: 340px;
     }
-
-    /* =====================================================
-      ЗАВДАННЯ НА РІВНЯХ
-    ===================================================== */
 
     .task-panel {
       position: absolute;
@@ -203,12 +177,13 @@
       transform: translateX(-50%);
       display: flex;
       gap: 12px;
-      flex-wrap: wrap;
       justify-content: center;
-      max-width: 90vw;
+      flex-wrap: wrap;
+      width: 90vw;
     }
 
     .task-panel .btn {
+      min-width: 150px;
       font-size: 16px;
       padding: 10px 18px;
     }
@@ -230,10 +205,6 @@
       height: 25%;
       cursor: pointer;
     }
-
-    /* =====================================================
-      МОДАЛЬНІ ВІКНА
-    ===================================================== */
 
     .modal-bg {
       position: fixed;
@@ -310,15 +281,10 @@
   <div id="app"></div>
 
   <script>
-    /* =====================================================
-      ГОЛОВНИЙ КОНТЕЙНЕР
-    ===================================================== */
-
     const app = document.getElementById("app");
 
     /* =====================================================
       КАРТИНКИ
-      Тут міняємо посилання на фони, героїв, наставників.
     ===================================================== */
 
     const ASSETS = {
@@ -331,6 +297,7 @@
       level3: "https://i.postimg.cc/Vk9brxYR/9B78E35A-6157-4128-8B15-8531447BDA6A.png",
       level4: "https://i.postimg.cc/667c2pFd/8A287455-114C-4FEE-BC9D-064668C5BA5D.png",
       level5: "https://i.postimg.cc/YqK6vf18/FB40A4BD-0988-4FBD-8256-C86AD241B043.png",
+
       mordor: "https://i.postimg.cc/d0KpnyPS/201001D0-1E32-4D2D-A28C-A69ADF0F5914.png",
       victory: "https://i.postimg.cc/sX9MWZd1/E855BBD2-18AC-47CF-A655-1BD381A0A770.png",
 
@@ -354,6 +321,10 @@
     let selectedHeroType = "boy";
     let selectedHeroName = "";
     let completedTasks = {};
+
+    function screenStyle(imageUrl) {
+      return `style="--bg: url('${imageUrl}')"`;
+    }
 
     /* =====================================================
       РІВНІ
@@ -469,12 +440,8 @@
       ]
     };
 
-    function screenStyle(imageUrl) {
-      return `style="--bg: url('${imageUrl}')"`;
-    }
-
     /* =====================================================
-      СТАРТОВИЙ ЕКРАН
+      СТАРТ
     ===================================================== */
 
     function showStartScreen() {
@@ -496,21 +463,25 @@
     function showMap() {
       app.innerHTML = `
         <section class="screen" ${screenStyle(ASSETS.map)}>
-          <button class="btn back-btn" onclick="showStartScreen()">← Назад</button>
-          <button class="btn center-bottom-btn" onclick="showHeroSelect()">Створити героя</button>
 
-          <div class="map-point" style="left:5%; bottom:19%; width:25%; height:9%;" onclick="showLevel(1)"></div>
-          <div class="map-point" style="left:43%; bottom:27%; width:25%; height:9%;" onclick="showLevel(2)"></div>
-          <div class="map-point" style="right:3%; bottom:39%; width:25%; height:9%;" onclick="showLevel(3)"></div>
-          <div class="map-point" style="left:9%; top:27%; width:25%; height:9%;" onclick="showLevel(4)"></div>
-          <div class="map-point" style="right:7%; top:25%; width:27%; height:9%;" onclick="showLevel(5)"></div>
-          <div class="map-point" style="right:7%; top:7%; width:24%; height:9%;" onclick="showMordor()"></div>
+          <div class="map-point" style="left:13%; bottom:16%; width:16%; height:10%;" onclick="showLevel(1)"></div>
+          <div class="map-point" style="left:42%; bottom:21%; width:18%; height:10%;" onclick="showLevel(2)"></div>
+          <div class="map-point" style="right:10%; bottom:31%; width:18%; height:10%;" onclick="showLevel(3)"></div>
+          <div class="map-point" style="left:9%; top:34%; width:20%; height:10%;" onclick="showLevel(4)"></div>
+          <div class="map-point" style="right:18%; top:31%; width:19%; height:10%;" onclick="showLevel(5)"></div>
+
+          <div class="map-point final-lock" style="right:9%; top:12%; width:13%; height:15%;" onclick="showMordor()"></div>
+
+          <div class="bottom-buttons">
+            <button class="btn" onclick="showStartScreen()">← Назад</button>
+            <button class="btn" onclick="showHeroSelect()">Створити героя</button>
+          </div>
         </section>
       `;
     }
 
     /* =====================================================
-      ВИБІР ГЕРОЯ
+      ГЕРОЙ
     ===================================================== */
 
     function showHeroSelect() {
@@ -518,7 +489,7 @@
 
       app.innerHTML = `
         <section class="screen" ${screenStyle(ASSETS.heroSelect)}>
-          <button class="btn back-btn" onclick="showMap()">← Назад</button>
+          <button class="btn" style="position:absolute; left:30px; bottom:30px;" onclick="showMap()">← Назад</button>
 
           <img class="hero-choice hero-boy" src="${ASSETS.boy}" onclick="chooseHero('boy')" />
           <img class="hero-choice hero-girl" src="${ASSETS.girl}" onclick="chooseHero('girl')" />
@@ -559,7 +530,7 @@
 
       app.innerHTML = `
         <section class="screen" ${screenStyle(level.bg)}>
-          <button class="btn back-btn" onclick="showMap()">← До карти</button>
+          <button class="btn" style="position:absolute; left:30px; bottom:30px;" onclick="showMap()">← До карти</button>
 
           <div class="mentor-zone" onclick="openMentorStory(${level.id})"></div>
           <div class="notes-zone" onclick="openNotes(${level.id})"></div>
@@ -611,6 +582,7 @@
         if (!completedTasks[key].includes(taskIndex)) completedTasks[key].push(taskIndex);
 
         const progress = completedTasks[key].length * 25;
+
         document.getElementById("result").innerHTML =
           `✅ Правильно! Кристал наповнився на ${progress}%.`;
       } else {
@@ -624,14 +596,16 @@
     }
 
     /* =====================================================
-      МОРДОР / ФІНАЛ
+      МОРДОР
     ===================================================== */
 
     function showMordor() {
       app.innerHTML = `
         <section class="screen" ${screenStyle(ASSETS.mordor)}>
-          <button class="btn back-btn" onclick="showMap()">← До карти</button>
-          <button class="btn center-bottom-btn" onclick="openLordBattle()">Визволити королівство</button>
+          <div class="bottom-buttons">
+            <button class="btn" onclick="showMap()">← До карти</button>
+            <button class="btn" onclick="openLordBattle()">Визволити королівство</button>
+          </div>
         </section>
       `;
     }
@@ -644,14 +618,14 @@
             <img src="${ASSETS.lord}" alt="Лорд Мордор" />
 
             <div class="modal-content">
-              <h2>Лорд Мордор</h2>
-              <p>Щоб визволити Королівство КіберЛегенд, дай відповідь на фінальне питання.</p>
+              <h2>Фінальне випробування</h2>
+              <p>Лорд Мордор намагається обманути героя.</p>
 
-              <p><b>Що найкраще допомагає захистити акаунт?</b></p>
+              <p><b>Що потрібно зробити, якщо отримав підозрілий лист?</b></p>
 
-              <button class="answer-btn" onclick="winGame()">Складний пароль і двофакторна автентифікація</button>
-              <button class="answer-btn" onclick="wrongAnswer()">Один простий пароль для всіх сайтів</button>
-              <button class="answer-btn" onclick="wrongAnswer()">Передати пароль друзям</button>
+              <button class="answer-btn" onclick="winGame()">Перевірити відправника та повідомити дорослому</button>
+              <button class="answer-btn" onclick="wrongAnswer()">Натиснути посилання</button>
+              <button class="answer-btn" onclick="wrongAnswer()">Ввести пароль</button>
 
               <p id="result"></p>
             </div>
@@ -671,7 +645,9 @@
     function showVictoryScreen() {
       app.innerHTML = `
         <section class="screen" ${screenStyle(ASSETS.victory)}>
-          <button class="btn center-bottom-btn" onclick="showStartScreen()">Почати знову</button>
+          <button class="btn" style="position:absolute; left:50%; bottom:35px; transform:translateX(-50%);" onclick="showStartScreen()">
+            Нова пригода
+          </button>
         </section>
       `;
     }
@@ -732,10 +708,6 @@
       const modal = document.getElementById("modal");
       if (modal) modal.remove();
     }
-
-    /* =====================================================
-      СТАРТ ГРИ
-    ===================================================== */
 
     showStartScreen();
   </script>

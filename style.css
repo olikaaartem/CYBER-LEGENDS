@@ -1,0 +1,320 @@
+/* =========================================================
+   CYBER LEGENDS / КОРОЛІВСТВО КІБЕРЛЕГЕНД
+   CSS v3 — чиста версія під поточний HTML
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #061329;
+  color: white;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
+.screen {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-size: 100% 100% !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Кнопки */
+.btn {
+  padding: 12px 24px;
+  border-radius: 18px;
+  border: 3px solid #f5c85b;
+  background: linear-gradient(#124985, #071d44);
+  color: #ffe9a6;
+  font-size: 19px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0,0,0,0.55);
+  z-index: 50;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+/* Стартовий екран */
+.main-menu {
+  position: absolute;
+  left: 8%;
+  top: 55%;
+  width: 270px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  z-index: 20;
+}
+
+.main-menu .btn {
+  width: 100%;
+}
+
+/* Кнопки на карті та рівнях */
+.back-btn {
+  position: absolute !important;
+  left: 40% !important;
+  bottom: 10px !important;
+  top: auto !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 100;
+}
+
+.create-hero-btn,
+.next-btn {
+  position: absolute !important;
+  left: 60% !important;
+  bottom: 10px !important;
+  top: auto !important;
+  right: auto !important;
+  transform: translateX(-50%) !important;
+  z-index: 100;
+}
+
+/* Клікабельні зони карти */
+.map-point {
+  position: absolute;
+  cursor: pointer;
+  z-index: 30;
+  border-radius: 18px;
+  background: rgba(255, 230, 120, 0.01);
+  border: 2px solid transparent;
+}
+
+.map-point:hover {
+  border-color: rgba(255, 230, 120, 0.9);
+  background: rgba(255, 230, 120, 0.12);
+  box-shadow: 0 0 28px rgba(255, 230, 120, 0.95);
+}
+
+/* Вибір героя */
+.hero-choice {
+  position: absolute;
+  width: 150px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+.hero-choice:hover {
+  transform: scale(1.08);
+}
+
+.hero-boy {
+  right: 24%;
+  top: 28%;
+}
+
+.hero-girl {
+  right: 10%;
+  top: 28%;
+}
+
+.selected-preview {
+  position: absolute;
+  left: 43%;
+  bottom: 8%;
+  width: 220px;
+  max-height: 70vh;
+  object-fit: contain;
+  z-index: 20;
+  filter: drop-shadow(0 0 18px rgba(255, 213, 74, 0.8));
+}
+
+.hero-name-input {
+  position: absolute;
+  right: 8%;
+  bottom: 22%;
+  width: 330px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 2px solid #f5c85b;
+  background: rgba(6, 19, 41, 0.78);
+  color: white;
+  font-size: 18px;
+  z-index: 20;
+}
+
+.hero-name-input::placeholder {
+  color: #ddd;
+}
+
+.create-final-btn {
+  position: absolute;
+  right: 8%;
+  bottom: 13%;
+  width: 330px;
+  z-index: 20;
+}
+
+/* Артефакти на рівнях */
+.artifact {
+  position: absolute;
+  width: 14%;
+  height: 26%;
+  top: 58%;
+  border-radius: 24px;
+  cursor: pointer;
+  z-index: 30;
+  background: rgba(255, 230, 120, 0.01);
+  border: 2px solid transparent;
+}
+
+.artifact:hover {
+  border-color: rgba(255, 230, 120, 0.9);
+  background: rgba(255, 230, 120, 0.08);
+  box-shadow: 0 0 30px gold;
+}
+
+.artifact-1 { left: 14%; }
+.artifact-2 { left: 32%; }
+.artifact-3 { left: 52%; }
+.artifact-4 { left: 70%; }
+
+/* Наставник і нотатки */
+.mentor-zone {
+  position: absolute;
+  right: 3%;
+  top: 9%;
+  width: 25%;
+  height: 40%;
+  cursor: pointer;
+  z-index: 30;
+}
+
+.mentor-zone:hover {
+  box-shadow: 0 0 24px rgba(255, 230, 120, 0.75);
+  border-radius: 30px;
+}
+
+.notes-zone {
+  position: absolute;
+  right: 4%;
+  bottom: 12%;
+  width: 25%;
+  height: 25%;
+  cursor: pointer;
+  z-index: 25;
+  background: rgba(255,255,255,0.01);
+  border-radius: 22px;
+}
+
+.notes-zone:hover {
+  box-shadow: 0 0 22px rgba(255, 230, 120, 0.75);
+}
+
+/* Модальні вікна */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  position: relative;
+  width: min(1000px, 88vw);
+  max-height: 88vh;
+  overflow: auto;
+  background: #fff3d8;
+  color: #211305;
+  border: 5px solid #d7a13d;
+  border-radius: 30px;
+  padding: 30px;
+  display: flex;
+  gap: 28px;
+  box-shadow: 0 0 50px rgba(0,0,0,0.85);
+}
+
+.modal img {
+  width: 260px;
+  max-height: 390px;
+  object-fit: contain;
+}
+
+.modal-content {
+  flex: 1;
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 34px;
+}
+
+.close-modal {
+  position: absolute;
+  right: 24px;
+  top: 14px;
+  font-size: 36px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.answer-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border-radius: 14px;
+  border: 2px solid #bd8429;
+  background: white;
+  color: #211305;
+  font-size: 19px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.answer-btn:hover {
+  background: #ffe7a3;
+}
+
+#result {
+  font-weight: bold;
+  margin-top: 15px;
+}
+/* =========================================
+   КНОПКИ КАРТИ ПО ЦЕНТРУ ВНИЗУ
+========================================= */
+
+.back-btn {
+    position: absolute !important;
+    left: 35% !important;
+    bottom: 20px !important;
+    top: auto !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    z-index: 9999 !important;
+}
+
+.create-hero-btn,
+.next-btn {
+    position: absolute !important;
+    left: 65% !important;
+    bottom: 20px !important;
+    top: auto !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    z-index: 9999 !important;
+}

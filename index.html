@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Королівство КіберЛегенд</title>
+
+  <style>
+    /* =====================================================
+      1. БАЗОВІ НАЛАШТУВАННЯ
+    ===================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #061329;
+      color: white;
+      overflow: hidden;
+    }
+
+    #app {
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .screen {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      overflow: hidden;
+    }
+
+    /* =====================================================
+      2. УНІВЕРСАЛЬНІ КНОПКИ
+    ===================================================== */
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 18px;
+      border: 3px solid #f5c85b;
+      background: linear-gradient(#124985, #071d44);
+      color: #ffe9a6;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(0,0,0,0.55);
+      transition: 0.2s;
+      z-index: 20;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+    }
+
+    .next-btn {
+      position: absolute;
+      right: 30px;
+      bottom: 30px;
+    }
+
+    /* =====================================================
+      3. СТАРТОВИЙ ЕКРАН
+    ===================================================== */
+
+    .main-menu {
+      position: absolute;
+      left: 7%;
+      top: 55%;
+      width: 280px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 10;
+    }
+
+    .main-menu .btn {
+      width: 100%;
+    }
+
+    /* =====================================================
+      4. КАРТА
+      Кожен map-point — це невидима клікабельна зона.
+      Якщо зона не попадає в локацію на карті — міняй left/top.
+    ===================================================== */
+
+    .map-point {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .map-point:hover {
+      box-shadow: 0 0 35px rgba(255,255,255,0.95);
+    }
+
+    /* =====================================================
+      5. ВИБІР ГЕРОЯ
+    ===================================================== */
+
+    .hero-choice {
+      position: absolute;
+      width: 170px;
+      cursor: pointer;
+      transition: 0.25s;
+      z-index: 10;
+    }
+
+    .hero-choice:hover {
+      transform: scale(1.08);
+    }
+
+    .hero-boy {
+      right: 25%;
+      top: 28%;
+    }
+
+    .hero-girl {
+      right: 11%;
+      top: 28%;
+    }
+
+    .selected-preview {
+      position: absolute;
+      left: 43%;
+      bottom: 9%;
+      width: 220px;
+      max-height: 70vh;
+      object-fit: contain;
+      z-index: 12;
+      filter: drop-shadow(0 0 18px rgba(255, 213, 74, 0.8));
+    }
+
+    .hero-name-input {
+      position: absolute;
+      right: 8%;
+      bottom: 22%;
+      width: 330px;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 2px solid #f5c85b;
+      background: rgba(6, 19, 41, 0.75);
+      color: white;
+      font-size: 18px;
+      z-index: 12;
+    }
+
+    .hero-name-input::placeholder {
+      color: #ddd;
+    }
+
+    .create-final-btn {
+      position: absolute;
+      right: 8%;
+      bottom: 13%;
+      width: 330px;
+    }
+
+    /* =====================================================
+      6. РІВНІ
+      artifact — невидимі клікабельні зони на книгах / лупах /
+      дзеркалах / сферах / мечах.
+    ===================================================== */
+
+    .artifact {
+      position: absolute;
+      width: 13%;
+      height: 18%;
+      bottom: 11%;
+      border-radius: 22px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .artifact:hover {
+      box-shadow: 0 0 35px gold;
+    }
+
+    .artifact-1 { left: 18%; }
+    .artifact-2 { left: 34%; }
+    .artifact-3 { left: 51%; }
+    .artifact-4 { left: 67%; }
+
+    /* Клік по наставнику справа */
+    .mentor-zone {
+      position: absolute;
+      right: 3%;
+      top: 10%;
+      width: 24%;
+      height: 38%;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    /* Клік по полю "Нотатки наставника" */
+    .notes-zone {
+      position: absolute;
+      right: 4%;
+      bottom: 13%;
+      width: 25%;
+      height: 25%;
+      cursor: pointer;
+      z-index: 9;
+    }
+
+    /* =====================================================
+      7. МОДАЛЬНІ ВІКНА
+    ===================================================== */
+
+    .modal-bg {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal {
+      position: relative;
+      width: min(1000px, 88vw);
+      min-height: 58vh;
+      background: #fff3d8;
+      color: #211305;
+      border: 5px solid #d7a13d;
+      border-radius: 30px;
+      padding: 30px;
+      display: flex;
+      gap: 28px;
+      box-shadow: 0 0 50px rgba(0,0,0,0.85);
+    }
+
+    .modal img {
+      width: 260px;
+      max-height: 390px;
+      object-fit: contain;
+    }
+
+    .modal-content {
+      flex: 1;
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .close-modal {
+      position: absolute;
+      right: 24px;
+      top: 14px;
+      font-size: 36px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .answer-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      border-radius: 14px;
+      border: 2px solid #bd8429;
+      background: white;
+      font-size: 19px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .answer-btn:hover {
+      background: #ffe7a3;
+    }
+
+    #result {
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <script>
+    /* =====================================================
+      1. ГОЛОВНИЙ КОНТЕЙНЕР
+    ===================================================== */
+
+    const app = document.getElementById("app");
+
+    /* =====================================================
+      2. УСІ КАРТИНКИ ГРИ
+      Якщо треба замінити картинку — міняємо тільки тут.
+    ===================================================== */
+
+    const ASSETS = {
+      /* Основні екрани */
+      start: "https://i.postimg.cc/yNqvs4Lx/DFD0BD22-E458-4020-94E2-0E700F6C0A35.png",
+      map: "https://i.postimg.cc/4Nm5cNM6/D51BF37C-3B26-4B2F-B003-1586F9F5ECF3.png",
+      heroSelect: "https://i.postimg.cc/nzFKhHBX/2E85EFD6-BBAA-49C8-B8EF-56336A95C736.png",
+
+      /* Фони рівнів */
+      level1: "https://i.postimg.cc/6pCCV7hX/AF446C6D-3F3E-4914-81BA-F7441B63A4E4.png",
+      level2: "https://i.postimg.cc/9Mg9XycL/6E996DFA-C827-43BD-AA70-A08D20A4F840.png",
+      level3: "https://i.postimg.cc/Vk9brxYR/9B78E35A-6157-4128-8B15-8531447BDA6A.png",
+      level4: "https://i.postimg.cc/667c2pFd/8A287455-114C-4FEE-BC9D-064668C5BA5D.png",
+      level5: "https://i.postimg.cc/YqK6vf18/FB40A4BD-0988-4FBD-8256-C86AD241B043.png",
+      mordor: "https://i.postimg.cc/d0KpnyPS/201001D0-1E32-4D2D-A28C-A69ADF0F5914.png",
+
+      /* Герої дитини */
+      boy: "https://i.postimg.cc/hPBmD4BH/2DE1C8A1-160E-4000-932C-6961E1E58F6A.png",
+      girl: "https://i.postimg.cc/02nz9pZM/A3703B9F-2B57-4D7B-8C53-3D605D2AD79E.png",
+
+      /* Наставники */
+      pony: "https://i.postimg.cc/8kB5bh2Z/A2FB2A61-0D6C-4C64-9176-4B024EC98AE6.png",
+      totus: "https://i.postimg.cc/mDgd63Xx/AC7DED94-C121-44FA-A2E1-1E4877C53F6C.png",
+      foxita: "https://i.postimg.cc/hv71H2Vx/7452F87E-1C36-4266-BF76-EA7593B00D84.png",
+      nereus: "https://i.postimg.cc/15wLFHbc/A8BCA949-D4F3-477D-8D61-C0B91EAFAB5C.png",
+      anubisa: "https://i.postimg.cc/05J3gnkC/56395AD2-D3DE-4743-AC15-53177BEB6888.png",
+      dragon: "https://i.postimg.cc/W43W56Y7/FB663721-574D-45B9-8EE5-DF77ADA9C5F1.png",
+      lord: "https://i.postimg.cc/sfSnH2mb/849A55BC-537D-4634-A842-B952DC45C112.png",
+
+      /* Картки наставників */
+      cardPony: "https://i.postimg.cc/Y9FxPX6C/F45F044F-8585-4B63-AF68-11A5B77812B4.png",
+      cardTotus: "https://i.postimg.cc/qRGNgy4d/73C069BE-EAEA-4C33-ADBD-0B435B043BAD.png",
+      cardFoxita: "https://i.postimg.cc/BvBSC3yB/1C8AE7F7-4CD2-4A04-9000-A80A723571C2.png",
+      cardNereus: "https://i.postimg.cc/d1SKWV9s/EC540D92-952F-40B4-A480-A95EBC8B4CFE.png",
+      cardAnubisa: "https://i.postimg.cc/2yBg2Fyp/EC7EC6F3-1D48-46AC-B2B8-05A305EC0BEA.png",
+      cardDragon: "https://i.postimg.cc/6379xZqb/1F115E88-1D0B-4CC8-849D-CB6F8019E04D.png",
+      cardLord: "https://i.postimg.cc/85rV0VXM/86A412C7-EF4E-461B-800C-1C54350CAC2B.png",
+      cardHeroes: "https://i.postimg.cc/2SqTv81g/94436ACA-29A6-4A8F-9EAB-C2B9B56CDEB2.png"
+    };
+
+    /* =====================================================
+      3. СТАН ГРИ
+    ===================================================== */
+
+    let selectedHeroType = null;
+    let selectedHeroName = "";
+    let completedLevels = [];
+    let currentProgress = {};
+
+    /* =====================================================
+      4. ДАНІ РІВНІВ
+    ===================================================== */
+
+    const LEVELS = [
+      {
+        id: 1,
+        key: "level1",
+        title: "Замок Паролів",
+        mentorName: "Тотус",
+        bg: ASSETS.level1,
+        mentor: ASSETS.totus,
+        card: ASSETS.cardTotus,
+        artifactName: "книгу",
+        artifactPlural: "книги",
+        notesTitle: "Нотатки наставника",
+        story: [
+          "Тотус — хранитель Замку Паролів.",
+          "Він охороняє Книгу Знань та Жовтий Кристал.",
+          "Тотус навчає створювати сильні паролі.",
+          "Він пояснює, чому не можна ділитися паролями.",
+          "Його сила — мудрість, уважність і терпіння.",
+          "Разом із ним герой робить перший крок у кіберпригоді."
+        ]
+      },
+      {
+        id: 2,
+        key: "level2",
+        title: "Ліс Приманок",
+        mentorName: "Фоксіта",
+        bg: ASSETS.level2,
+        mentor: ASSETS.foxita,
+        card: ASSETS.cardFoxita,
+        artifactName: "лупу",
+        artifactPlural: "лупи",
+        notesTitle: "Нотатки наставника",
+        story: [
+          "Фоксіта — детектив Лісу Приманок.",
+          "Вона бачить навіть найменші підозрілі деталі.",
+          "Її лупа допомагає знаходити фішингові пастки.",
+          "Фоксіта навчає перевіряти посилання, листи та повідомлення.",
+          "Вона допомагає герою не потрапити в пастку шахраїв.",
+          "Її сила — уважність і швидке мислення."
+        ]
+      },
+      {
+        id: 3,
+        key: "level3",
+        title: "Озеро Фейків",
+        mentorName: "Нереус",
+        bg: ASSETS.level3,
+        mentor: ASSETS.nereus,
+        card: ASSETS.cardNereus,
+        artifactName: "дзеркало",
+        artifactPlural: "дзеркала",
+        notesTitle: "Нотатки наставника",
+        story: [
+          "Нереус — хранитель Озера Фейків.",
+          "Він охороняє Дзеркало Правди.",
+          "Нереус навчає перевіряти інформацію.",
+          "Він не довіряє гучним заголовкам без доказів.",
+          "Його сила — спокій, мудрість і перевірка фактів.",
+          "З ним герой вчиться відрізняти правду від вигадки."
+        ]
+      },
+      {
+        id: 4,
+        key: "level4",
+        title: "Печера Даних",
+        mentorName: "Анубіса",
+        bg: ASSETS.level4,
+        mentor: ASSETS.anubisa,
+        card: ASSETS.cardAnubisa,
+        artifactName: "сферу даних",
+        artifactPlural: "сфери даних",
+        notesTitle: "Нотатки наставника",
+        story: [
+          "Анубіса — хранителька Печери Даних.",
+          "Вона береже Сферу Даних та особисті секрети.",
+          "Анубіса навчає не розкривати особисту інформацію.",
+          "Вона пояснює, чому важливо захищати акаунти.",
+          "Її сила — обережність, пам’ять і захист приватності.",
+          "З нею герой вчиться берегти свої цифрові скарби."
+        ]
+      },
+      {
+        id: 5,
+        key: "level5",
+        title: "Фортеця Вірусів",
+        mentorName: "Вірон",
+        bg: ASSETS.level5,
+        mentor: ASSETS.dragon,
+        card: ASSETS.cardDragon,
+        artifactName: "меч",
+        artifactPlural: "мечі",
+        notesTitle: "Нотатки наставника",
+        story: [
+          "Вірон — дракон-захисник Фортеці Вірусів.",
+          "Він охороняє Меч Кіберзахисту.",
+          "Вірон навчає не відкривати підозрілі файли.",
+          "Він пояснює, чому важливо оновлювати пристрої.",
+          "Його сила — сміливість, захист і вогняна уважність.",
+          "З ним герой готується до фінальної битви."
+        ]
+      }
+    ];
+
+    /* =====================================================
+      5. СТАРТОВИЙ ЕКРАН
+    ===================================================== */
+
+    function showStartScreen() {
+      app.innerHTML = `
+        <section class="screen" style="background-image:url('${ASSETS.start}')">
+          <div class="main-menu">
+            <button class="btn" onclick="showMap()">Почати пригоду</button>
+            <button class="btn" onclick="openGameStory()">Історія</button>
+                       <button class="btn" onclick="openSettings()">Налаштування</button>
+          </div>
+        </section>
+      `;
+    }
+
+    /* =====================================================
+      6. КАРТА
+    ===================================================== */
+
+    function showMap() {
+      app.innerHTML = `
+        <section class="screen" style="background-image:url('${ASSETS.map}')">
+          <button class="btn back-btn" onclick="showStartScreen()">← Назад</button>
+          <button class="btn create-hero-btn next-btn" onclick="showHeroSelect()">Створити героя</button>
+
+          <!-- Клікабельні точки рівнів на карті -->
+          <div class="map-point" style="left: 14%; bottom: 18%;" onclick="showLevel(1)"></div>
+          <div class="map-point" style="left: 35%; bottom: 25%;" onclick="showLevel(2)"></div>
+          <div class="map-point" style="right: 26%; bottom: 30%;" onclick="showLevel(3)"></div>
+          <div class="map-point" style="left: 40%; top: 24%;" onclick="showLevel(4)"></div>
+          <div class="map-point" style="right: 27%; top: 27%;" onclick="showLevel(5)"></div>
+
+          <!-- Фінальна зона Мордор -->
+          <div class="map-point" style="right: 13%; top: 9%;" onclick="showMordor()"></div>
+        </section>
+      `;
+    }
+
+    /* =====================================================
+      7. ВИБІР ГЕРОЯ
+    ===================================================== */
+
+    function showHeroSelect() {
+      const previewImg = selectedHeroType === "girl" ? ASSETS.girl : ASSETS.boy;
+
+      app.innerHTML = `
+        <section class="screen" style="background-image:url('${ASSETS.heroSelect}')">
+          <button class="btn back-btn" onclick="showMap()">← Назад</button>
+
+          <!-- Маленькі клікабельні герої -->
+          <img class="hero-choice hero-boy" src="${ASSETS.boy}" onclick="chooseHero('boy')" />
+          <img class="hero-choice hero-girl" src="${ASSETS.girl}" onclick="chooseHero('girl')" />
+
+          <!-- Великий герой на подіумі -->
+          <img class="selected-preview" id="heroPreview" src="${previewImg}" />
+
+          <!-- Ім’я героя -->
+          <input
+            id="heroNameInput"
+            class="hero-name-input"
+            type="text"
+            placeholder="Введи ім’я героя"
+            value="${selectedHeroName}"
+          />
+
+          <button class="btn create-final-btn" onclick="createHero()">Створити героя</button>
+        </section>
+      `;
+    }
+
+    function chooseHero(type) {
+      selectedHeroType = type;
+      document.getElementById("heroPreview").src =
+        type === "girl" ? ASSETS.girl : ASSETS.boy;
+    }
+
+    function createHero() {
+      const input = document.getElementById("heroNameInput");
+      selectedHeroName = input.value.trim();
+
+      if (!selectedHeroType) {
+        selectedHeroType = "boy";
+      }
+
+      if (!selectedHeroName) {
+        openSimpleModal("Введи ім’я героя", "Напиши ім’я героя перед початком пригоди.");
+        return;
+      }
+
+      openSimpleModal(
+        "Героя створено!",
+        `Супер! Герой ${selectedHeroName} готовий до пригоди. Тепер можна повертатися на карту.`
+      );
+    }
+
+    /* =====================================================
+      8. ЕКРАН РІВНЯ
+    ===================================================== */
+
+    function showLevel(levelId) {
+      const level = LEVELS.find(item => item.id === levelId);
+
+      app.innerHTML = `
+        <section class="screen" style="background-image:url('${level.bg}')">
+          <button class="btn back-btn" onclick="showMap()">← До карти</button>
+
+          <!-- Клік по наставнику відкриває його історію -->
+          <div class="mentor-zone" onclick="openMentorStory(${level.id})"></div>
+
+          <!-- Клік по нотатках відкриває пояснення -->
+          <div class="notes-zone" onclick="openNotes(${level.id})"></div>
+
+          <!-- 4 клікабельні артефакти рівня -->
+          <div class="artifact artifact-1" onclick="openTask(${level.id}, 1)"></div>
+          <div class="artifact artifact-2" onclick="openTask(${level.id}, 2)"></div>
+          <div class="artifact artifact-3" onclick="openTask(${level.id}, 3)"></div>
+          <div class="artifact artifact-4" onclick="openTask(${level.id}, 4)"></div>
+        </section>
+      `;
+    }
+
+    /* =====================================================
+      9. ФІНАЛЬНИЙ ЕКРАН — МОРДОР
+    ===================================================== */
+
+    function showMordor() {
+      app.innerHTML = `
+        <section class="screen" style="background-image:url('${ASSETS.mordor}')">
+          <button class="btn back-btn" onclick="showMap()">← До карти</button>
+          <button class="btn next-btn" onclick="openLordBattle()">Фінальна битва</button>
+        </section>
+      `;
+    }
+
+    /* =====================================================
+      10. ЗАВДАННЯ
+    ===================================================== */
+
+    function openTask(levelId, taskNumber) {
+      const level = LEVELS.find(item => item.id === levelId);
+
+      app.innerHTML += `
+        <div class="modal-bg" id="modal">
+          <div class="modal">
+            <div class="close-modal" onclick="closeModal()">×</div>
+
+            <img src="${level.mentor}" alt="${level.mentorName}" />
+
+            <div class="modal-content">
+              <h2>${level.mentorName}: завдання ${taskNumber}</h2>
+
+              <p>
+                Ти обрав ${level.artifactName}. Тут буде коротке пояснення від наставника
+                і завдання для цього випробування.
+              </p>
+
+              <p><b>Питання:</b> тут буде текст завдання.</p>
+
+              <button class="answer-btn" onclick="correctAnswer(${level.id}, ${taskNumber})">Варіант відповіді 1</button>
+              <button class="answer-btn" onclick="wrongAnswer()">Варіант відповіді 2</button>
+              <button class="answer-btn" onclick="wrongAnswer()">Варіант відповіді 3</button>
+
+              <p id="result"></p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function correctAnswer(levelId, taskNumber) {
+      const key = `level-${levelId}`;
+
+      if (!currentProgress[key]) {
+        currentProgress[key] = [];
+      }
+
+      if (!currentProgress[key].includes(taskNumber)) {
+        currentProgress[key].push(taskNumber);
+      }
+
+      const progress = currentProgress[key].length * 25;
+
+      document.getElementById("result").innerHTML =
+        `✅ Правильно! Кристал наповнився на ${progress}%.`;
+
+      if (progress === 100 && !completedLevels.includes(levelId)) {
+        completedLevels.push(levelId);
+      }
+    }
+
+    function wrongAnswer() {
+      document.getElementById("result").innerHTML =
+        "❌ Спробуй ще раз. Подумай уважніше.";
+    }
+
+    /* =====================================================
+      11. ІСТОРІЯ НАСТАВНИКА
+    ===================================================== */
+
+    function openMentorStory(levelId) {
+      const level = LEVELS.find(item => item.id === levelId);
+
+      app.innerHTML += `
+        <div class="modal-bg" id="modal">
+          <div class="modal">
+            <div class="close-modal" onclick="closeModal()">×</div>
+
+            <img src="${level.card}" alt="${level.mentorName}" />
+
+            <div class="modal-content">
+              <h2>Історія наставника: ${level.mentorName}</h2>
+
+              <ol>
+                ${level.story.map(item => `<li>${item}</li>`).join("")}
+              </ol>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =====================================================
+      12. НОТАТКИ НАСТАВНИКА
+    ===================================================== */
+
+    function openNotes(levelId) {
+      const level = LEVELS.find(item => item.id === levelId);
+
+      openSimpleModal(
+        "Нотатки наставника",
+        `Тут будуть нотатки для рівня "${level.title}". Їх можна змінювати під кожне завдання.`
+      );
+    }
+
+    /* =====================================================
+      13. КАРТКИ
+    ===================================================== */
+
+    function openCard(cardUrl, title) {
+      app.innerHTML += `
+        <div class="modal-bg" id="modal">
+          <div class="modal">
+            <div class="close-modal" onclick="closeModal()">×</div>
+            <img src="${cardUrl}" alt="${title}" />
+            <div class="modal-content">
+              <h2>${title}</h2>
+              <p>Це картка персонажа Королівства КіберЛегенд.</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =====================================================
+      14. ІСТОРІЯ ГРИ
+    ===================================================== */
+
+    function openGameStory() {
+      openSimpleModal(
+        "Історія Королівства КіберЛегенд",
+        "Лорд Мордор відкрив Портал Тіней і розкидав пастки по Королівству. Щоб урятувати світ, герой має пройти 5 рівнів, зібрати артефакти наставників і відкрити фінальну битву в Цитаделі хаусу."
+      );
+    }
+
+    function openSettings() {
+      openSimpleModal(
+        "Налаштування",
+        "Тут пізніше можна додати музику, звук, мову, підказки та режим гри."
+      );
+    }
+
+    function openLordBattle() {
+      app.innerHTML += `
+        <div class="modal-bg" id="modal">
+          <div class="modal">
+            <div class="close-modal" onclick="closeModal()">×</div>
+
+            <img src="${ASSETS.lord}" alt="Лорд Фішинг" />
+
+            <div class="modal-content">
+              <h2>Лорд Фішинг</h2>
+              <p>
+                Фінальна битва ще готується. Тут герой використає всі артефакти:
+                книги, лупи, дзеркала, сфери даних і мечі захисту.
+              </p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =====================================================
+      15. ПРОСТА МОДАЛКА ДЛЯ ТЕКСТУ
+    ===================================================== */
+
+    function openSimpleModal(title, text) {
+      app.innerHTML += `
+        <div class="modal-bg" id="modal">
+          <div class="modal">
+            <div class="close-modal" onclick="closeModal()">×</div>
+
+            <div class="modal-content">
+              <h2>${title}</h2>
+              <p>${text}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function closeModal() {
+      const modal = document.getElementById("modal");
+      if (modal) modal.remove();
+    }
+
+    /* =====================================================
+      16. СТАРТ ГРИ
+    ===================================================== */
+
+    showStartScreen();
+  </script>
+</body>
+</html>

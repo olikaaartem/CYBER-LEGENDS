@@ -1,19 +1,11 @@
 /* =====================================================
-  КОРОЛІВСТВО КІБЕРЛЕГЕНД — JAVASCRIPT v3
-  Тут вся логіка гри:
-  - стартовий екран
-  - карта
-  - вибір героя
-  - рівні
-  - Мордор
-  - завдання
-  - історії наставників
+  КОРОЛІВСТВО КІБЕРЛЕГЕНД — JS CLEAN v4
 ===================================================== */
 
 const app = document.getElementById("app");
 
 /* =====================================================
-  1. УСІ КАРТИНКИ
+  1. УСІ КАРТИНКИ ГРИ
 ===================================================== */
 
 const ASSETS = {
@@ -27,6 +19,7 @@ const ASSETS = {
   level4: "https://i.postimg.cc/667c2pFd/8A287455-114C-4FEE-BC9D-064668C5BA5D.png",
   level5: "https://i.postimg.cc/YqK6vf18/FB40A4BD-0988-4FBD-8256-C86AD241B043.png",
   mordor: "https://i.postimg.cc/d0KpnyPS/201001D0-1E32-4D2D-A28C-A69ADF0F5914.png",
+  victory: "https://i.postimg.cc/sX9MWZd1/E855BBD2-18AC-47CF-A655-1BD381A0A770.png",
 
   boy: "https://i.postimg.cc/hPBmD4BH/2DE1C8A1-160E-4000-932C-6961E1E58F6A.png",
   girl: "https://i.postimg.cc/02nz9pZM/A3703B9F-2B57-4D7B-8C53-3D605D2AD79E.png",
@@ -42,8 +35,7 @@ const ASSETS = {
   cardFoxita: "https://i.postimg.cc/BvBSC3yB/1C8AE7F7-4CD2-4A04-9000-A80A723571C2.png",
   cardNereus: "https://i.postimg.cc/d1SKWV9s/EC540D92-952F-40B4-A480-A95EBC8B4CFE.png",
   cardAnubisa: "https://i.postimg.cc/2yBg2Fyp/EC7EC6F3-1D48-46AC-B2B8-05A305EC0BEA.png",
-  cardDragon: "https://i.postimg.cc/6379xZqb/1F115E88-1D0B-4CC8-849D-CB6F8019E04D.png",
-  cardLord: "https://i.postimg.cc/85rV0VXM/86A412C7-EF4E-461B-800C-1C54350CAC2B.png"
+  cardDragon: "https://i.postimg.cc/6379xZqb/1F115E88-1D0B-4CC8-849D-CB6F8019E04D.png"
 };
 
 /* =====================================================
@@ -66,12 +58,10 @@ const LEVELS = [
     mentorName: "Тотус",
     mentor: ASSETS.totus,
     card: ASSETS.cardTotus,
-    artifact: "книгу",
+    artifact: "Книга знань",
     story: [
       "Тотус — хранитель Замку Паролів.",
-      "Він охороняє Жовтий Кристал Знань.",
-      "Тотус навчає створювати сильні паролі.",
-      "Він пояснює, чому не можна ділитися паролями.",
+      "Він навчає створювати сильні паролі.",
       "Його сила — мудрість, уважність і терпіння."
     ]
   },
@@ -82,13 +72,11 @@ const LEVELS = [
     mentorName: "Фоксіта",
     mentor: ASSETS.foxita,
     card: ASSETS.cardFoxita,
-    artifact: "лупу",
+    artifact: "Лупа уважності",
     story: [
       "Фоксіта — детектив Лісу Приманок.",
       "Вона знаходить фішингові пастки.",
-      "Її лупа допомагає перевіряти посилання.",
-      "Фоксіта навчає бути уважним до деталей.",
-      "Її сила — швидкість, логіка і спостережливість."
+      "Її сила — логіка і спостережливість."
     ]
   },
   {
@@ -98,12 +86,11 @@ const LEVELS = [
     mentorName: "Нереус",
     mentor: ASSETS.nereus,
     card: ASSETS.cardNereus,
-    artifact: "дзеркало",
+    artifact: "Дзеркало правди",
     story: [
       "Нереус — хранитель Озера Фейків.",
-      "Він охороняє Дзеркало Правди.",
-      "Нереус навчає перевіряти інформацію.",
-      "Його сила — спокій, мудрість і фактчекінг."
+      "Він навчає перевіряти інформацію.",
+      "Його сила — спокій і фактчекінг."
     ]
   },
   {
@@ -113,12 +100,11 @@ const LEVELS = [
     mentorName: "Анубіса",
     mentor: ASSETS.anubisa,
     card: ASSETS.cardAnubisa,
-    artifact: "сферу даних",
+    artifact: "Сфера даних",
     story: [
       "Анубіса — хранителька Печери Даних.",
-      "Вона береже Сферу Даних.",
-      "Анубіса навчає захищати особисту інформацію.",
-      "Її сила — обережність і захист приватності."
+      "Вона береже особисті секрети.",
+      "Її сила — обережність і приватність."
     ]
   },
   {
@@ -128,23 +114,147 @@ const LEVELS = [
     mentorName: "Вірон",
     mentor: ASSETS.dragon,
     card: ASSETS.cardDragon,
-    artifact: "меч",
+    artifact: "Меч кіберзахисту",
     story: [
       "Вірон — дракон-захисник Фортеці Вірусів.",
-      "Він охороняє Меч Кіберзахисту.",
-      "Вірон навчає не відкривати підозрілі файли.",
+      "Він навчає не відкривати підозрілі файли.",
       "Його сила — сміливість і захист."
     ]
   }
 ];
 
 /* =====================================================
-  4. СТАРТОВИЙ ЕКРАН
+  4. ЗАВДАННЯ ДЛЯ РІВНІВ
+===================================================== */
+
+const TASKS = {
+  1: [
+    {
+      question: "Який пароль найнадійніший?",
+      answers: ["123456", "qwerty", "Kiber!2026_Legend"],
+      correct: 2
+    },
+    {
+      question: "Чи можна ділитися паролем з другом?",
+      answers: ["Так", "Ні", "Тільки один раз"],
+      correct: 1
+    },
+    {
+      question: "Що допомагає краще захистити акаунт?",
+      answers: ["Один пароль всюди", "Двофакторна автентифікація", "Пароль у нотатках"],
+      correct: 1
+    },
+    {
+      question: "Що не варто використовувати як пароль?",
+      answers: ["Ім’я та дату народження", "Довгу фразу", "Символи та цифри"],
+      correct: 0
+    }
+  ],
+  2: [
+    {
+      question: "Що треба зробити перед переходом за посиланням?",
+      answers: ["Перевірити адресу", "Натиснути одразу", "Скинути друзям"],
+      correct: 0
+    },
+    {
+      question: "Фішинг — це коли...",
+      answers: ["Тебе вчать рибалити", "Шахраї виманюють дані", "Оновлюється гра"],
+      correct: 1
+    },
+    {
+      question: "Підозрілий лист просить пароль. Що робити?",
+      answers: ["Ввести пароль", "Ігнорувати і повідомити дорослим", "Переслати всім"],
+      correct: 1
+    },
+    {
+      question: "Що може бути ознакою шахрайства?",
+      answers: ["Помилки в тексті", "Терміновий тиск", "Обидва варіанти"],
+      correct: 2
+    }
+  ],
+  3: [
+    {
+      question: "Що треба зробити з гучною новиною?",
+      answers: ["Одразу поширити", "Перевірити джерело", "Повірити заголовку"],
+      correct: 1
+    },
+    {
+      question: "Фейк — це...",
+      answers: ["Неправдива інформація", "Корисна підказка", "Сильний пароль"],
+      correct: 0
+    },
+    {
+      question: "Якому джерелу краще довіряти?",
+      answers: ["Анонімному чату", "Офіційному сайту", "Невідомому скріну"],
+      correct: 1
+    },
+    {
+      question: "Що робити, якщо інформація викликає сумнів?",
+      answers: ["Перевірити в кількох джерелах", "Повірити одразу", "Поширити швидше"],
+      correct: 0
+    }
+  ],
+  4: [
+    {
+      question: "Які дані не можна публікувати відкрито?",
+      answers: ["Адресу та номер телефону", "Улюблений колір", "Назву гри"],
+      correct: 0
+    },
+    {
+      question: "Особиста інформація — це...",
+      answers: ["Дані про людину", "Назва рівня", "Колір кнопки"],
+      correct: 0
+    },
+    {
+      question: "Що робити з фото документів?",
+      answers: ["Публікувати всюди", "Зберігати обережно", "Кидати в чат"],
+      correct: 1
+    },
+    {
+      question: "Чому важливо берегти дані?",
+      answers: ["Щоб шахраї не використали їх", "Бо так красивіше", "Щоб було більше файлів"],
+      correct: 0
+    }
+  ],
+  5: [
+    {
+      question: "Що робити з підозрілим файлом?",
+      answers: ["Відкрити", "Не відкривати", "Запустити одразу"],
+      correct: 1
+    },
+    {
+      question: "Навіщо оновлювати пристрій?",
+      answers: ["Для захисту", "Щоб було повільніше", "Щоб зник інтернет"],
+      correct: 0
+    },
+    {
+      question: "Антивірус допомагає...",
+      answers: ["Захищати пристрій", "Створювати фейки", "Ламати пароль"],
+      correct: 0
+    },
+    {
+      question: "Як діяти, якщо файл дивний?",
+      answers: ["Порадитись з дорослим", "Відкрити", "Надіслати всім"],
+      correct: 0
+    }
+  ]
+};
+
+/* =====================================================
+  5. ДОПОМІЖНА ФУНКЦІЯ ДЛЯ ФОНУ
+===================================================== */
+
+function screenStyle(imageUrl) {
+  return `style="--bg: url('${imageUrl}')"`;
+}
+
+/* =====================================================
+  6. СТАРТОВИЙ ЕКРАН
 ===================================================== */
 
 function showStartScreen() {
   app.innerHTML = `
-    <section class="screen" style="background-image:url('${ASSETS.start}')">
+    <section class="screen" ${screenStyle(ASSETS.start)}>
       <div class="main-menu">
         <button class="btn" onclick="showMap()">Почати пригоду</button>
         <button class="btn" onclick="openGameStory()">Історія</button>
@@ -155,38 +265,37 @@ function showStartScreen() {
 }
 
 /* =====================================================
-  5. КАРТА
-  Кліки стоять НЕ на наставниках, а на табличках рівнів.
+  7. КАРТА
 ===================================================== */
 
 function showMap() {
   app.innerHTML = `
-    <section class="screen" style="background-image:url('${ASSETS.map}')">
-
+    <section class="screen" ${screenStyle(ASSETS.map)}>
       <button class="btn back-btn" onclick="showStartScreen()">← Назад</button>
-      <button class="btn create-hero-btn" onclick="showHeroSelect()">Створити героя</button>
 
-      <div class="map-point" style="left:5%; bottom:19%; width:25%; height:9%;" onclick="showLevel(1)"></div>
-      <div class="map-point" style="left:43%; bottom:27%; width:25%; height:9%;" onclick="showLevel(2)"></div>
-      <div class="map-point" style="right:3%; bottom:39%; width:25%; height:9%;" onclick="showLevel(3)"></div>
-      <div class="map-point" style="left:9%; top:27%; width:25%; height:9%;" onclick="showLevel(4)"></div>
-      <div class="map-point" style="right:7%; top:25%; width:27%; height:9%;" onclick="showLevel(5)"></div>
+      <button class="btn center-bottom-btn" onclick="showHeroSelect()">
+        Створити героя
+      </button>
 
-      <div class="map-point" style="right:7%; top:7%; width:24%; height:9%;" onclick="showMordor()"></div>
-
+      <div class="map-point" style="left:12%; bottom:18%; width:22%; height:9%;" onclick="showLevel(1)"></div>
+      <div class="map-point" style="left:43%; bottom:28%; width:22%; height:9%;" onclick="showLevel(2)"></div>
+      <div class="map-point" style="right:8%; bottom:36%; width:23%; height:9%;" onclick="showLevel(3)"></div>
+      <div class="map-point" style="left:8%; top:34%; width:24%; height:9%;" onclick="showLevel(4)"></div>
+      <div class="map-point" style="right:13%; top:34%; width:22%; height:9%;" onclick="showLevel(5)"></div>
+      <div class="map-point final-lock" style="right:12%; top:13%; width:12%; height:12%;" onclick="showMordor()"></div>
     </section>
   `;
 }
 
 /* =====================================================
-  6. ВИБІР ГЕРОЯ
+  8. ВИБІР ГЕРОЯ
 ===================================================== */
 
 function showHeroSelect() {
   const preview = selectedHeroType === "girl" ? ASSETS.girl : ASSETS.boy;
 
   app.innerHTML = `
-    <section class="screen" style="background-image:url('${ASSETS.heroSelect}')">
+    <section class="screen" ${screenStyle(ASSETS.heroSelect)}>
       <button class="btn back-btn" onclick="showMap()">← Назад</button>
 
       <img class="hero-choice hero-boy" src="${ASSETS.boy}" onclick="chooseHero('boy')" />
@@ -202,7 +311,9 @@ function showHeroSelect() {
         value="${selectedHeroName}"
       />
 
-      <button class="btn create-final-btn" onclick="createHero()">Створити героя</button>
+      <button class="btn create-final-btn" onclick="createHero()">
+        Створити героя
+      </button>
     </section>
   `;
 }
@@ -229,47 +340,36 @@ function createHero() {
 }
 
 /* =====================================================
-  7. РІВЕНЬ
+  9. ЕКРАН РІВНЯ
 ===================================================== */
 
 function showLevel(levelId) {
   const level = LEVELS.find(item => item.id === levelId);
 
   app.innerHTML = `
-    <section class="screen" style="background-image:url('${level.bg}')">
+    <section class="screen" ${screenStyle(level.bg)}>
       <button class="btn back-btn" onclick="showMap()">← До карти</button>
 
       <div class="mentor-zone" onclick="openMentorStory(${level.id})"></div>
       <div class="notes-zone" onclick="openNotes(${level.id})"></div>
 
-      <div class="artifact artifact-1" onclick="openTask(${level.id}, 1)"></div>
-      <div class="artifact artifact-2" onclick="openTask(${level.id}, 2)"></div>
-      <div class="artifact artifact-3" onclick="openTask(${level.id}, 3)"></div>
-      <div class="artifact artifact-4" onclick="openTask(${level.id}, 4)"></div>
+      <div class="task-panel">
+        <button class="btn" onclick="openTask(${level.id}, 0)">Завдання 1</button>
+        <button class="btn" onclick="openTask(${level.id}, 1)">Завдання 2</button>
+        <button class="btn" onclick="openTask(${level.id}, 2)">Завдання 3</button>
+        <button class="btn" onclick="openTask(${level.id}, 3)">Завдання 4</button>
+      </div>
     </section>
   `;
 }
 
 /* =====================================================
-  8. МОРДОР
+  10. ЗАВДАННЯ
 ===================================================== */
 
-function showMordor() {
-  app.innerHTML = `
-    <section class="screen" style="background-image:url('${ASSETS.mordor}')">
-      <button class="btn back-btn" onclick="showMap()">← До карти</button>
-      <button class="btn create-hero-btn" onclick="openLordBattle()">Фінальна битва</button>
-    </section>
-  `;
-}
-
-/* =====================================================
-  9. ЗАВДАННЯ
-===================================================== */
-
-function openTask(levelId, taskNumber) {
+function openTask(levelId, taskIndex) {
   const level = LEVELS.find(item => item.id === levelId);
-  const key = `level-${levelId}`;
+  const task = TASKS[levelId][taskIndex];
 
   app.innerHTML += `
     <div class="modal-bg" id="modal">
@@ -279,17 +379,16 @@ function openTask(levelId, taskNumber) {
         <img src="${level.mentor}" alt="${level.mentorName}" />
 
         <div class="modal-content">
-          <h2>${level.mentorName}: завдання ${taskNumber}</h2>
+          <h2>${level.mentorName}: завдання ${taskIndex + 1}</h2>
 
-          <p>
-            Ти обрав ${level.artifact}. Тут буде завдання цього рівня.
-          </p>
+          <p><b>Артефакт:</b> ${level.artifact}</p>
+          <p><b>Питання:</b> ${task.question}</p>
 
-          <p><b>Питання:</b> тут буде текст завдання.</p>
-
-          <button class="answer-btn" onclick="correctAnswer('${key}', ${taskNumber})">Правильна відповідь</button>
-          <button class="answer-btn" onclick="wrongAnswer()">Неправильна відповідь</button>
-          <button class="answer-btn" onclick="wrongAnswer()">Неправильна відповідь</button>
+          ${task.answers.map((answer, index) => `
+            <button class="answer-btn" onclick="checkAnswer(${levelId}, ${taskIndex}, ${index})">
+              ${answer}
+            </button>
+          `).join("")}
 
           <p id="result"></p>
         </div>
@@ -298,19 +397,26 @@ function openTask(levelId, taskNumber) {
   `;
 }
 
-function correctAnswer(levelKey, taskNumber) {
-  if (!completedTasks[levelKey]) {
-    completedTasks[levelKey] = [];
+function checkAnswer(levelId, taskIndex, answerIndex) {
+  const task = TASKS[levelId][taskIndex];
+  const key = `level-${levelId}`;
+
+  if (answerIndex === task.correct) {
+    if (!completedTasks[key]) {
+      completedTasks[key] = [];
+    }
+
+    if (!completedTasks[key].includes(taskIndex)) {
+      completedTasks[key].push(taskIndex);
+    }
+
+    const progress = completedTasks[key].length * 25;
+
+    document.getElementById("result").innerHTML =
+      `✅ Правильно! Кристал наповнився на ${progress}%.`;
+  } else {
+    wrongAnswer();
   }
-
-  if (!completedTasks[levelKey].includes(taskNumber)) {
-    completedTasks[levelKey].push(taskNumber);
-  }
-
-  const progress = completedTasks[levelKey].length * 25;
-
-  document.getElementById("result").innerHTML =
-    `✅ Правильно! Кристал наповнився на ${progress}%.`;
 }
 
 function wrongAnswer() {
@@ -319,7 +425,82 @@ function wrongAnswer() {
 }
 
 /* =====================================================
-  10. ІСТОРІЯ НАСТАВНИКА
+  11. МОРДОР / ФІНАЛ
+===================================================== */
+
+function showMordor() {
+  app.innerHTML = `
+    <section class="screen" ${screenStyle(ASSETS.mordor)}>
+      <button class="btn back-btn" onclick="showMap()">← До карти</button>
+
+      <button class="btn center-bottom-btn" onclick="openLordBattle()">
+        Визволити королівство
+      </button>
+    </section>
+  `;
+}
+
+function openLordBattle() {
+  app.innerHTML += `
+    <div class="modal-bg" id="modal">
+      <div class="modal">
+        <div class="close-modal" onclick="closeModal()">×</div>
+
+        <img src="${ASSETS.lord}" alt="Лорд Мордор" />
+
+        <div class="modal-content">
+          <h2>Лорд Мордор</h2>
+
+          <p>
+            Щоб визволити Королівство КіберЛегенд,
+            дай відповідь на фінальне питання.
+          </p>
+
+          <p><b>Що найкраще допомагає захистити акаунт?</b></p>
+
+          <button class="answer-btn" onclick="winGame()">
+            Складний пароль і двофакторна автентифікація
+          </button>
+
+          <button class="answer-btn" onclick="wrongAnswer()">
+            Один простий пароль для всіх сайтів
+          </button>
+
+          <button class="answer-btn" onclick="wrongAnswer()">
+            Передати пароль друзям
+          </button>
+
+          <p id="result"></p>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function winGame() {
+  document.getElementById("result").innerHTML = `
+    ✅ Королівство врятовано!
+
+    <br><br>
+
+    <button class="btn" onclick="showVictoryScreen()">
+      Завершити гру
+    </button>
+  `;
+}
+
+function showVictoryScreen() {
+  app.innerHTML = `
+    <section class="screen" ${screenStyle(ASSETS.victory)}>
+      <button class="btn center-bottom-btn" onclick="showStartScreen()">
+        Почати знову
+      </button>
+    </section>
+  `;
+}
+
+/* =====================================================
+  12. ІСТОРІЯ НАСТАВНИКА
 ===================================================== */
 
 function openMentorStory(levelId) {
@@ -344,7 +525,7 @@ function openMentorStory(levelId) {
 }
 
 /* =====================================================
-  11. НОТАТКИ НАСТАВНИКА
+  13. НОТАТКИ / ІСТОРІЯ / НАЛАШТУВАННЯ
 ===================================================== */
 
 function openNotes(levelId) {
@@ -356,14 +537,10 @@ function openNotes(levelId) {
   );
 }
 
-/* =====================================================
-  12. ДОДАТКОВІ МОДАЛКИ
-===================================================== */
-
 function openGameStory() {
   openSimpleModal(
     "Історія Королівства КіберЛегенд",
-    "Лорд Мордор відкрив Портал Тіней. Герой має пройти 5 рівнів, зібрати артефакти наставників і перемогти темряву."
+    "Лорд Мордор відкрив Портал Тіней. Герой має пройти 5 рівнів, зібрати артефакти наставників і визволити Королівство."
   );
 }
 
@@ -374,26 +551,16 @@ function openSettings() {
   );
 }
 
-function openLordBattle() {
-  app.innerHTML += `
-    <div class="modal-bg" id="modal">
-      <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
-        <img src="${ASSETS.lord}" alt="Лорд Мордор" />
-        <div class="modal-content">
-          <h2>Лорд Мордор</h2>
-          <p>Фінальна битва ще готується.</p>
-        </div>
-      </div>
-    </div>
-  `;
-}
+/* =====================================================
+  14. УНІВЕРСАЛЬНА МОДАЛКА
+===================================================== */
 
 function openSimpleModal(title, text) {
   app.innerHTML += `
     <div class="modal-bg" id="modal">
       <div class="modal">
         <div class="close-modal" onclick="closeModal()">×</div>
+
         <div class="modal-content">
           <h2>${title}</h2>
           <p>${text}</p>
@@ -409,7 +576,16 @@ function closeModal() {
 }
 
 /* =====================================================
-  13. СТАРТ ГРИ
+  15. СТАРТ ГРИ
 ===================================================== */
+
+showStartScreen();
+/* =====================================================
+  СТАРТ ГРИ
+===================================================== */
+
+function runStuff() {
+  showStartScreen();
+}
 
 showStartScreen();

@@ -1,7 +1,6 @@
-/* =========================================================
-   CYBER LEGENDS / КОРОЛІВСТВО КІБЕРЛЕГЕНД
-   CSS v3 — чиста версія під поточний HTML
-========================================================= */
+/* =====================================================
+  КОРОЛІВСТВО КІБЕРЛЕГЕНД — CSS CLEAN v4
+===================================================== */
 
 * {
   box-sizing: border-box;
@@ -23,79 +22,109 @@ body {
   height: 100vh;
 }
 
+/* =====================================================
+  АДАПТИВНИЙ ФОН
+  - ::before робить розмиту темну рамку
+  - ::after показує основний фон повністю, без обрізання
+===================================================== */
+
 .screen {
   width: 100vw;
-  height: 100vh;v 
+  height: 100vh;
   position: relative;
   overflow: hidden;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  background: #061329;
 }
 
-/* Кнопки */
+.screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.45);
+  transform: scale(1.08);
+  z-index: 0;
+}
+
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 28px 55px 28px 55px;
+  background-image: var(--bg);
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.screen > * {
+  position: relative;
+  z-index: 5;
+}
+
+/* =====================================================
+  КНОПКИ
+===================================================== */
+
 .btn {
   padding: 12px 24px;
   border-radius: 18px;
   border: 3px solid #f5c85b;
   background: linear-gradient(#124985, #071d44);
   color: #ffe9a6;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 0 20px rgba(0,0,0,0.55);
-  z-index: 50;
 }
 
 .btn:hover {
   transform: scale(1.05);
 }
 
-/* Стартовий екран */
+.back-btn {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+}
+
+.center-bottom-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 58px;
+  transform: translateX(-50%);
+}
+
+/* =====================================================
+  СТАРТОВЕ МЕНЮ
+===================================================== */
+
 .main-menu {
   position: absolute;
-  left: 8%;
+  left: 7%;
   top: 55%;
-  width: 270px;
+  width: 280px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  z-index: 20;
 }
 
 .main-menu .btn {
   width: 100%;
 }
 
-/* Кнопки на карті та рівнях */
-.back-btn {
-  position: absolute !important;
-  left: 40% !important;
-  bottom: 10px !important;
-  top: auto !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  z-index: 100;
-}
+/* =====================================================
+  КАРТА
+===================================================== */
 
-.create-hero-btn,
-.next-btn {
-  position: absolute !important;
-  left: 60% !important;
-  bottom: 10px !important;
-  top: auto !important;
-  right: auto !important;
-  transform: translateX(-50%) !important;
-  z-index: 100;
-}
-
-/* Клікабельні зони карти */
 .map-point {
   position: absolute;
   cursor: pointer;
-  z-index: 30;
+  z-index: 10;
   border-radius: 18px;
-  background: rgba(255, 230, 120, 0.01);
+  background: rgba(255, 230, 120, 0.02);
   border: 2px solid transparent;
 }
 
@@ -105,16 +134,14 @@ body {
   box-shadow: 0 0 28px rgba(255, 230, 120, 0.95);
 }
 
-/* Вибір героя */
+/* =====================================================
+  ВИБІР ГЕРОЯ
+===================================================== */
+
 .hero-choice {
   position: absolute;
   width: 150px;
   cursor: pointer;
-  z-index: 20;
-}
-
-.hero-choice:hover {
-  transform: scale(1.08);
 }
 
 .hero-boy {
@@ -134,7 +161,6 @@ body {
   width: 220px;
   max-height: 70vh;
   object-fit: contain;
-  z-index: 20;
   filter: drop-shadow(0 0 18px rgba(255, 213, 74, 0.8));
 }
 
@@ -149,11 +175,6 @@ body {
   background: rgba(6, 19, 41, 0.78);
   color: white;
   font-size: 18px;
-  z-index: 20;
-}
-
-.hero-name-input::placeholder {
-  color: #ddd;
 }
 
 .create-final-btn {
@@ -161,34 +182,33 @@ body {
   right: 8%;
   bottom: 13%;
   width: 330px;
-  z-index: 20;
 }
 
-/* Артефакти на рівнях */
-.artifact {
+/* =====================================================
+  КНОПКИ ЗАВДАНЬ НА РІВНІ
+===================================================== */
+
+.task-panel {
   position: absolute;
-  width: 14%;
-  height: 26%;
-  top: 58%;
-  border-radius: 24px;
-  cursor: pointer;
-  z-index: 30;
-  background: rgba(255, 230, 120, 0.01);
-  border: 2px solid transparent;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 90vw;
 }
 
-.artifact:hover {
-  border-color: rgba(255, 230, 120, 0.9);
-  background: rgba(255, 230, 120, 0.08);
-  box-shadow: 0 0 30px gold;
+.task-panel .btn {
+  font-size: 16px;
+  padding: 10px 18px;
 }
 
-.artifact-1 { left: 14%; }
-.artifact-2 { left: 32%; }
-.artifact-3 { left: 52%; }
-.artifact-4 { left: 70%; }
+/* =====================================================
+  КЛІК ПО НАСТАВНИКУ І НОТАТКАХ
+===================================================== */
 
-/* Наставник і нотатки */
 .mentor-zone {
   position: absolute;
   right: 3%;
@@ -196,12 +216,6 @@ body {
   width: 25%;
   height: 40%;
   cursor: pointer;
-  z-index: 30;
-}
-
-.mentor-zone:hover {
-  box-shadow: 0 0 24px rgba(255, 230, 120, 0.75);
-  border-radius: 30px;
 }
 
 .notes-zone {
@@ -211,16 +225,12 @@ body {
   width: 25%;
   height: 25%;
   cursor: pointer;
-  z-index: 25;
-  background: rgba(255,255,255,0.01);
-  border-radius: 22px;
 }
 
-.notes-zone:hover {
-  box-shadow: 0 0 22px rgba(255, 230, 120, 0.75);
-}
+/* =====================================================
+  МОДАЛЬНІ ВІКНА
+===================================================== */
 
-/* Модальні вікна */
 .modal-bg {
   position: fixed;
   inset: 0;
@@ -247,8 +257,8 @@ body {
 }
 
 .modal img {
-  width: 260px;
-  max-height: 390px;
+  width: 240px;
+  max-height: 360px;
   object-fit: contain;
 }
 
@@ -256,11 +266,6 @@ body {
   flex: 1;
   font-size: 20px;
   line-height: 1.45;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-  font-size: 34px;
 }
 
 .close-modal {
@@ -294,27 +299,38 @@ body {
   font-weight: bold;
   margin-top: 15px;
 }
-/* =========================================
-   КНОПКИ КАРТИ ПО ЦЕНТРУ ВНИЗУ
-========================================= */
 
-.back-btn {
-    position: absolute !important;
-    left: 35% !important;
-    bottom: 20px !important;
-    top: auto !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    z-index: 9999 !important;
-}
+/* =====================================================
+  АДАПТАЦІЯ ДЛЯ МАЛИХ ЕКРАНІВ
+===================================================== */
 
-.create-hero-btn,
-.next-btn {
-    position: absolute !important;
-    left: 65% !important;
-    bottom: 20px !important;
-    top: auto !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    z-index: 9999 !important;
+@media (max-width: 700px) {
+  .main-menu {
+    left: 50%;
+    top: auto;
+    bottom: 40px;
+    transform: translateX(-50%);
+  }
+
+  .btn {
+    font-size: 15px;
+    padding: 10px 16px;
+  }
+
+  .modal {
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .modal img {
+    width: 170px;
+    margin: 0 auto;
+  }
+
+  .task-panel {
+    bottom: 20px;
+  }
 }
+  /* =====================================================
+  Cтиль замочка на карті рівень Мордор
+===================================================== */  

@@ -1,329 +1,439 @@
 /* =====================================================
-  КОРОЛІВСТВО КІБЕРЛЕГЕНД — CSS CLEAN v5
-  Фони тепер розтягуються на весь екран
+   CYBER LEGENDS
+   Таємниця П'яти Кристалів
 ===================================================== */
 
-* {
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 html,
-body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
-  background: #061329;
-  color: white;
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  font-family:Arial,sans-serif;
+  background:#061329;
+  color:white;
 }
 
-#app {
-  width: 100vw;
-  height: 100vh;
-}
-
-/* =====================================================
-  ЕКРАНИ
-  Кожен екран займає всю ширину і всю висоту браузера
-===================================================== */
-
-.screen {
-  width: 100vw;
-  height: 100vh;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
-
-  /* Основний фон на весь екран */
-  background-image: var(--bg);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-/* 
-  Старі ::before і ::after вимикаємо.
-  Вони робили внутрішню картинку і через це були поля з боків.
-*/
-.screen::before,
-.screen::after {
-  display: none;
-}
-
-/* Усі елементи поверх фону */
-.screen > * {
-  position: relative;
-  z-index: 5;
+#app{
+  width:100vw;
+  height:100vh;
 }
 
 /* =====================================================
-  КНОПКИ
+   ЕКРАН
 ===================================================== */
 
-.btn {
-  padding: 12px 24px;
-  border-radius: 18px;
-  border: 3px solid #f5c85b;
-  background: linear-gradient(#124985, #071d44);
-  color: #ffe9a6;
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.55);
+.screen{
+  width:100vw;
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+
+  background-image:var(--bg);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
 }
 
-.btn:hover {
-  transform: scale(1.05);
-}
-
-/* Кнопка назад */
-.back-btn {
-  position: absolute;
-  left: 30px;
-  bottom: 30px;
-}
-
-/* Центральна нижня кнопка */
-.center-bottom-btn {
-  position: absolute;
-  left: 50%;
-  bottom: 58px;
-  transform: translateX(-50%);
+.screen > *{
+  position:relative;
+  z-index:5;
 }
 
 /* =====================================================
-  СТАРТОВЕ МЕНЮ
+   КНОПКИ
 ===================================================== */
 
-.main-menu {
-  position: absolute;
-  left: 8%;
-  top: 50%;
-  width: 280px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.btn{
+  padding:12px 24px;
+  border-radius:18px;
+  border:3px solid #f5c85b;
+
+  background:linear-gradient(
+    #124985,
+    #071d44
+  );
+
+  color:#ffe9a6;
+
+  font-size:18px;
+  font-weight:bold;
+
+  cursor:pointer;
+
+  box-shadow:0 0 20px rgba(0,0,0,.55);
+
+  transition:.25s;
 }
 
-.main-menu .btn {
-  width: 100%;
+.btn:hover{
+  transform:scale(1.05);
 }
 
 /* =====================================================
-  КАРТА
+   СТАРТОВЕ МЕНЮ
 ===================================================== */
 
-.map-point {
-  position: absolute;
-  cursor: pointer;
-  z-index: 10;
-  border-radius: 18px;
-  background: rgba(255, 230, 120, 0.02);
-  border: 2px solid transparent;
+.main-menu{
+  position:absolute;
+
+  left:8%;
+  top:50%;
+
+  width:280px;
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.map-point:hover {
-  border-color: rgba(255, 230, 120, 0.9);
-  background: rgba(255, 230, 120, 0.12);
-  box-shadow: 0 0 28px rgba(255, 230, 120, 0.95);
+.main-menu .btn{
+  width:100%;
 }
 
 /* =====================================================
-  ВИБІР ГЕРОЯ
+   НАВІГАЦІЯ
 ===================================================== */
 
-.hero-choice {
-  position: absolute;
-  width: 150px;
-  cursor: pointer;
+.back-btn{
+  position:absolute;
+  left:30px;
+  bottom:30px;
 }
 
-.hero-boy {
-  right: 24%;
-  top: 28%;
-}
+.center-bottom-btn{
+  position:absolute;
 
-.hero-girl {
-  right: 10%;
-  top: 28%;
-}
+  left:50%;
+  bottom:45px;
 
-.selected-preview {
-  position: absolute;
-  left: 43%;
-  bottom: 8%;
-  width: 220px;
-  max-height: 70vh;
-  object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(255, 213, 74, 0.8));
-}
-
-.hero-name-input {
-  position: absolute;
-  right: 8%;
-  bottom: 22%;
-  width: 330px;
-  padding: 14px 18px;
-  border-radius: 14px;
-  border: 2px solid #f5c85b;
-  background: rgba(6, 19, 41, 0.78);
-  color: white;
-  font-size: 18px;
-}
-
-.create-final-btn {
-  position: absolute;
-  right: 8%;
-  bottom: 13%;
-  width: 330px;
+  transform:translateX(-50%);
 }
 
 /* =====================================================
-  КНОПКИ ЗАВДАНЬ НА РІВНІ
+   КАРТА
 ===================================================== */
 
-.task-panel {
-  position: absolute;
-  left: 50%;
-  bottom: 32px;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
-  max-width: 90vw;
+.map-point{
+  position:absolute;
+
+  cursor:pointer;
+
+  border-radius:20px;
+
+  background:rgba(255,230,120,.02);
+
+  border:2px solid transparent;
+
+  transition:.25s;
 }
 
-.task-panel .btn {
-  font-size: 16px;
-  padding: 10px 18px;
+.map-point:hover{
+  border-color:#ffe678;
+
+  background:rgba(255,230,120,.15);
+
+  box-shadow:
+    0 0 20px rgba(255,230,120,.8);
 }
 
 /* =====================================================
-  КЛІК ПО НАСТАВНИКУ І НОТАТКАХ
+   ВИБІР ГЕРОЯ
 ===================================================== */
 
-.mentor-zone {
-  position: absolute;
-  right: 3%;
-  top: 9%;
-  width: 25%;
-  height: 40%;
-  cursor: pointer;
+.hero-choice{
+  position:absolute;
+  width:160px;
+  cursor:pointer;
 }
 
-.notes-zone {
-  position: absolute;
-  right: 4%;
-  bottom: 12%;
-  width: 25%;
-  height: 25%;
-  cursor: pointer;
+.hero-boy{
+  right:24%;
+  top:28%;
+}
+
+.hero-girl{
+  right:10%;
+  top:28%;
+}
+
+.selected-preview{
+  position:absolute;
+
+  left:43%;
+  bottom:8%;
+
+  width:240px;
+
+  max-height:75vh;
+
+  object-fit:contain;
+
+  filter:
+    drop-shadow(
+      0 0 20px
+      rgba(255,213,74,.85)
+    );
+}
+
+.hero-name-input{
+  position:absolute;
+
+  right:8%;
+  bottom:22%;
+
+  width:340px;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  border:2px solid #f5c85b;
+
+  background:rgba(6,19,41,.8);
+
+  color:white;
+
+  font-size:18px;
 }
 
 /* =====================================================
-  МОДАЛЬНІ ВІКНА
+   НАСТАВНИК
 ===================================================== */
 
-.modal-bg {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.level-mentor{
+  position:absolute;
+
+  left:50%;
+  bottom:15%;
+
+  transform:translateX(-50%);
+
+  width:260px;
+
+  max-height:55vh;
+
+  object-fit:contain;
+
+  cursor:pointer;
+
+  animation:mentorGlow 2s infinite;
 }
 
-.modal {
-  position: relative;
-  width: min(1000px, 88vw);
-  max-height: 88vh;
-  overflow: auto;
-  background: #fff3d8;
-  color: #211305;
-  border: 5px solid #d7a13d;
-  border-radius: 30px;
-  padding: 30px;
-  display: flex;
-  gap: 28px;
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.85);
-}
+@keyframes mentorGlow{
 
-.modal img {
-  width: 240px;
-  max-height: 360px;
-  object-fit: contain;
-}
-
-.modal-content {
-  flex: 1;
-  font-size: 20px;
-  line-height: 1.45;
-}
-
-.close-modal {
-  position: absolute;
-  right: 24px;
-  top: 14px;
-  font-size: 36px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.answer-btn {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  margin: 12px 0;
-  border-radius: 14px;
-  border: 2px solid #bd8429;
-  background: white;
-  color: #211305;
-  font-size: 19px;
-  cursor: pointer;
-  text-align: left;
-}
-
-.answer-btn:hover {
-  background: #ffe7a3;
-}
-
-#result {
-  font-weight: bold;
-  margin-top: 15px;
-}
-
-/* =====================================================
-  АДАПТАЦІЯ ДЛЯ МАЛИХ ЕКРАНІВ
-===================================================== */
-
-@media (max-width: 700px) {
-  .main-menu {
-    left: 50%;
-    top: auto;
-    bottom: 40px;
-    transform: translateX(-50%);
+  0%{
+    filter:drop-shadow(0 0 8px #fff4aa);
   }
 
-  .btn {
-    font-size: 15px;
-    padding: 10px 16px;
+  50%{
+    filter:drop-shadow(0 0 20px #fff4aa);
   }
 
-  .modal {
-    flex-direction: column;
-    padding: 22px;
+  100%{
+    filter:drop-shadow(0 0 8px #fff4aa);
   }
+}
 
-  .modal img {
-    width: 170px;
-    margin: 0 auto;
-  }
+.mentor-hint{
+  position:absolute;
 
-  .task-panel {
-    bottom: 20px;
-  }
+  left:50%;
+  bottom:10%;
+
+  transform:translateX(-50%);
+
+  background:rgba(6,19,41,.85);
+
+  border:2px solid #f5c85b;
+
+  border-radius:16px;
+
+  padding:10px 18px;
+
+  color:#ffe9a6;
+
+  font-weight:bold;
+}
+
+/* =====================================================
+   ПРОГРЕС КРИСТАЛА
+===================================================== */
+
+.level-progress{
+  position:absolute;
+
+  right:30px;
+  top:30px;
+
+  width:260px;
+
+  background:rgba(6,19,41,.82);
+
+  border:2px solid #f5c85b;
+
+  border-radius:18px;
+
+  padding:14px;
+}
+
+.progress-bar{
+  width:100%;
+  height:18px;
+
+  margin-top:10px;
+
+  background:rgba(255,255,255,.2);
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+
+  background:linear-gradient(
+    90deg,
+    #f5c85b,
+    #fff4aa
+  );
+
+  transition:.4s;
+}
+
+/* =====================================================
+   АРТЕФАКТИ
+===================================================== */
+
+.artifact-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(2,1fr);
+
+  gap:14px;
+
+  margin-top:20px;
+}
+
+.artifact-task{
+  border:2px solid #d7a13d;
+
+  border-radius:18px;
+
+  background:#fff7e7;
+
+  padding:14px;
+
+  text-align:center;
+
+  cursor:pointer;
+
+  transition:.25s;
+}
+
+.artifact-task:hover{
+  background:#ffe7a3;
+}
+
+.artifact-task img{
+  width:90px;
+  height:90px;
+
+  object-fit:contain;
+}
+
+/* =====================================================
+   МОДАЛЬНІ ВІКНА
+===================================================== */
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.75);
+
+  display:flex;
+
+  align-items:center;
+  justify-content:center;
+
+  z-index:200;
+}
+
+.modal{
+  width:min(1000px,88vw);
+
+  max-height:88vh;
+
+  overflow:auto;
+
+  background:#fff3d8;
+
+  color:#211305;
+
+  border:5px solid #d7a13d;
+
+  border-radius:30px;
+
+  padding:30px;
+
+  display:flex;
+  gap:25px;
+}
+
+.modal img{
+  width:240px;
+  max-height:360px;
+  object-fit:contain;
+}
+
+.modal-content{
+  flex:1;
+  line-height:1.5;
+}
+
+.close-modal{
+  position:absolute;
+
+  right:24px;
+  top:14px;
+
+  font-size:34px;
+
+  cursor:pointer;
+}
+
+.answer-btn{
+  width:100%;
+
+  margin:10px 0;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  border:2px solid #bd8429;
+
+  background:white;
+
+  cursor:pointer;
+
+  text-align:left;
+}
+
+.answer-btn:hover{
+  background:#ffe7a3;
+}
+
+#result{
+  margin-top:15px;
+  font-weight:bold;
 }

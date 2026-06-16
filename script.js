@@ -287,13 +287,25 @@ function showStartScreen(){
   app.innerHTML = `
     <section class="screen start-screen" ${bg(ASSETS.start)}>
 
- <div class="digital-rain">
-  ${Array.from({ length: 34 }, (_, i) => `
-    <span style="left:${i * 3}%; animation-delay:${(i % 8) * 0.35}s;">
-      1<br>0<br>1<br>0<br>🔒<br>1<br>0
-    </span>
-  `).join("")}
+<div class="storm-strip start-storm">
+  <div class="digital-rain">
+    <span style="left:3%; animation-delay:0s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:10%; animation-delay:1s;">0<br>1<br>0<br>🔒<br>1</span>
+    <span style="left:17%; animation-delay:2s;">1<br>1<br>0<br>1<br>0</span>
+    <span style="left:24%; animation-delay:0.5s;">0<br>1<br>🔒<br>0<br>1</span>
+    <span style="left:31%; animation-delay:1.5s;">1<br>0<br>1<br>1<br>0</span>
+    <span style="left:38%; animation-delay:2.5s;">0<br>🔒<br>1<br>0<br>1</span>
+    <span style="left:45%; animation-delay:0.8s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:52%; animation-delay:1.8s;">0<br>1<br>0<br>1<br>🔒</span>
+    <span style="left:59%; animation-delay:2.8s;">1<br>1<br>0<br>0<br>1</span>
+    <span style="left:66%; animation-delay:0.3s;">0<br>1<br>🔒<br>1<br>0</span>
+    <span style="left:73%; animation-delay:1.3s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:80%; animation-delay:2.3s;">0<br>1<br>0<br>🔒<br>1</span>
+    <span style="left:87%; animation-delay:0.6s;">1<br>0<br>1<br>1<br>0</span>
+    <span style="left:94%; animation-delay:1.6s;">0<br>🔒<br>1<br>0<br>1</span>
+  </div>
 </div>
+
 
 
       <div class="start-panel">
@@ -332,13 +344,25 @@ function showMap(){
         allDone
           ? ""
           : `
-           <div class="digital-rain">
-  ${Array.from({ length: 34 }, (_, i) => `
-    <span style="left:${i * 3}%; animation-delay:${(i % 8) * 0.35}s;">
-      1<br>0<br>1<br>0<br>🔒<br>1<br>0
-    </span>
-  `).join("")}
+           <div class="storm-strip start-storm">
+  <div class="digital-rain">
+    <span style="left:3%; animation-delay:0s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:10%; animation-delay:1s;">0<br>1<br>0<br>🔒<br>1</span>
+    <span style="left:17%; animation-delay:2s;">1<br>1<br>0<br>1<br>0</span>
+    <span style="left:24%; animation-delay:0.5s;">0<br>1<br>🔒<br>0<br>1</span>
+    <span style="left:31%; animation-delay:1.5s;">1<br>0<br>1<br>1<br>0</span>
+    <span style="left:38%; animation-delay:2.5s;">0<br>🔒<br>1<br>0<br>1</span>
+    <span style="left:45%; animation-delay:0.8s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:52%; animation-delay:1.8s;">0<br>1<br>0<br>1<br>🔒</span>
+    <span style="left:59%; animation-delay:2.8s;">1<br>1<br>0<br>0<br>1</span>
+    <span style="left:66%; animation-delay:0.3s;">0<br>1<br>🔒<br>1<br>0</span>
+    <span style="left:73%; animation-delay:1.3s;">1<br>0<br>1<br>0<br>1</span>
+    <span style="left:80%; animation-delay:2.3s;">0<br>1<br>0<br>🔒<br>1</span>
+    <span style="left:87%; animation-delay:0.6s;">1<br>0<br>1<br>1<br>0</span>
+    <span style="left:94%; animation-delay:1.6s;">0<br>🔒<br>1<br>0<br>1</span>
+  </div>
 </div>
+
 
           `
       }

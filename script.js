@@ -287,10 +287,14 @@ function showStartScreen(){
   app.innerHTML = `
     <section class="screen start-screen" ${bg(ASSETS.start)}>
 
-      <div class="storm-strip start-storm">
-        <div class="storm-rain">
-          0101 ⚡ 1010 🔒 0011 ⚡ 0110 ⚡ 1001 🔒 0101
-        </div>
+      <div class="digital-rain">
+  ${Array.from({ length: 34 }, (_, i) => `
+    <span style="left:${i * 3}%; animation-delay:${(i % 8) * 0.35}s;">
+      1<br>0<br>1<br>0<br>🔒<br>1<br>0
+    </span>
+  `).join("")}
+</div>
+
       </div>
 
       <div class="start-panel">

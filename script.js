@@ -286,21 +286,7 @@ const TASKS = {
 function showStartScreen(){
   app.innerHTML = `
     <section class="screen start-screen" ${bg(ASSETS.start)}>
-${
-  allDone
-    ? ""
-    : `
-      <div class="storm-strip map-storm">
-        <div class="digital-rain">
-          <span style="left:62%; animation-delay:0s;">1<br>0<br>1<br>0<br>🔒</span>
-          <span style="left:68%; animation-delay:1s;">0<br>1<br>0<br>1<br>0</span>
-          <span style="left:74%; animation-delay:2s;">1<br>🔒<br>0<br>1<br>0</span>
-          <span style="left:80%; animation-delay:0.5s;">0<br>1<br>1<br>0<br>1</span>
-          <span style="left:86%; animation-delay:1.5s;">1<br>0<br>🔒<br>1<br>0</span>
-        </div>
-      </div>
-    `
-}
+
 
 
 

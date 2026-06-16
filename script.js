@@ -332,11 +332,14 @@ function showMap(){
         allDone
           ? ""
           : `
-            <div class="storm-strip">
-              <div class="storm-rain">
-                0101 ⚡ 1010 🔒 0011 ⚡ 0110
-              </div>
-            </div>
+           <div class="digital-rain">
+  ${Array.from({ length: 34 }, (_, i) => `
+    <span style="left:${i * 3}%; animation-delay:${(i % 8) * 0.35}s;">
+      1<br>0<br>1<br>0<br>🔒<br>1<br>0
+    </span>
+  `).join("")}
+</div>
+
           `
       }
 

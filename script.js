@@ -285,7 +285,14 @@ const TASKS = {
 
 function showStartScreen(){
   app.innerHTML = `
-    <section class="screen" ${bg(ASSETS.start)}>
+    <section class="screen start-screen" ${bg(ASSETS.start)}>
+
+      <div class="storm-strip start-storm">
+        <div class="storm-rain">
+          0101 ⚡ 1010 🔒 0011 ⚡ 0110 ⚡ 1001 🔒 0101
+        </div>
+      </div>
+
       <div class="start-panel">
         <img class="start-logo" src="${ASSETS.logo}" alt="Cyber Legends">
 
@@ -299,9 +306,14 @@ function showStartScreen(){
           <button class="btn" onclick="openSettings()">Налаштування</button>
         </div>
       </div>
+
     </section>
   `;
 }
+
+
+
+
 
 /* =====================================================
    КАРТА

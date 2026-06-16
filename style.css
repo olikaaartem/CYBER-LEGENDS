@@ -1,206 +1,252 @@
 /* =====================================================
-   CYBER LEGENDS
+   CYBER LEGENDS — CSS CLEAN
    Таємниця П'яти Кристалів
 ===================================================== */
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
-body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  font-family:Arial,sans-serif;
-  background:#061329;
-  color:white;
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background: #061329;
+  color: white;
 }
 
-#app{
-  width:100vw;
-  height:100vh;
+#app {
+  width: 100vw;
+  height: 100vh;
 }
 
 /* =====================================================
    ЕКРАНИ
 ===================================================== */
 
-.screen{
-  width:100vw;
-  height:100vh;
-  position:relative;
-  overflow:hidden;
-  background-image:var(--bg);
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
+.screen {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  background-image: var(--bg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
 }
 
-.screen > *{
-  position:relative;
-  z-index:5;
+.map-screen {
+  background-size: cover;
+  background-position: center center;
 }
 
 /* =====================================================
    КНОПКИ
 ===================================================== */
 
-.btn{
-  padding:12px 24px;
-  border-radius:18px;
-  border:3px solid #f5c85b;
-  background:linear-gradient(#124985,#071d44);
-  color:#ffe9a6;
-  font-size:18px;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 20px rgba(0,0,0,.55);
-  transition:.25s;
+.btn {
+  padding: 12px 24px;
+  border-radius: 18px;
+  border: 3px solid #f5c85b;
+  background: linear-gradient(#124985, #071d44);
+  color: #ffe9a6;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.55);
+  transition: 0.2s;
 }
 
-.btn:hover{
-  transform:scale(1.05);
+.btn:hover {
+  transform: scale(1.04);
 }
 
-.back-btn{
-  position:absolute;
-  left:30px;
-  bottom:30px;
-}
-
-.center-bottom-btn{
-  position:absolute;
-  left:50%;
-  bottom:45px;
-  transform:translateX(-50%);
+.back-btn {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  z-index: 50;
 }
 
 /* =====================================================
-   СТАРТ
+   СТАРТОВИЙ ЕКРАН
 ===================================================== */
 
-.main-menu{
-  position:absolute;
-  left:8%;
-  top:50%;
-  width:280px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+.start-panel {
+  position: absolute;
+  left: 8%;
+  top: 48%;
+  transform: translateY(-50%);
+
+  width: 320px;
+  z-index: 30;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
 }
 
-.main-menu .btn{
-  width:100%;
+.start-logo {
+  width: 240px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.7));
 }
+
+.season-title {
+  width: 100%;
+  padding: 10px 16px;
+
+  border-radius: 18px;
+  border: 2px solid #f5c85b;
+
+  background: rgba(6, 19, 41, 0.78);
+  color: #ffe9a6;
+
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.start-buttons {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.start-buttons .btn {
+  width: 100%;
+}
+
+
 
 /* =====================================================
-   КАРТА
+   КАРТА / РІВНІ / КРИСТАЛИ
 ===================================================== */
 
-.map-screen{
-  background-size:cover;
-  background-position:center;
+.map-hero-button {
+  position: absolute;
+  right: 3%;
+  bottom: 4%;
+  z-index: 60;
 }
 
-.map-level{
-  position:absolute;
-  width:150px;
-  min-height:70px;
-  padding:10px;
-  border-radius:18px;
-  border:2px solid rgba(245,200,91,.9);
-  background:rgba(6,19,41,.78);
-  color:#ffe9a6;
-  text-align:center;
-  font-weight:bold;
-  cursor:pointer;
-  box-shadow:0 0 18px rgba(0,0,0,.55);
-  transition:.25s;
+.map-level {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 45;
+
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.map-level:hover{
-  transform:scale(1.06);
-  box-shadow:0 0 28px rgba(255,230,120,.9);
+.map-level.locked {
+  opacity: 0.65;
 }
 
-.map-level.locked{
-  opacity:.55;
-  filter:grayscale(.8);
+.map-crystal {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.65));
 }
 
-.map-level.done{
-  box-shadow:0 0 28px rgba(255,230,120,1);
+.map-level.completed .map-crystal {
+  animation: crystalPulse 1.5s infinite alternate;
 }
 
-.map-crystal{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 5px;
+.map-label {
+  padding: 5px 10px;
+  border-radius: 14px;
+  border: 2px solid #f5c85b;
+
+  background: rgba(6, 19, 41, 0.82);
+  color: #ffe9a6;
+
+  font-size: 14px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
-.map-level.done .map-crystal{
-  animation:crystalPulse 1.8s infinite;
+.map-check {
+  position: absolute;
+  top: -18px;
+  right: -12px;
+  font-size: 24px;
 }
 
-@keyframes crystalPulse{
-  0%{ filter:drop-shadow(0 0 6px white); }
-  50%{ filter:drop-shadow(0 0 22px white); }
-  100%{ filter:drop-shadow(0 0 6px white); }
-}
-
-.map-label{
-  font-size:14px;
-  line-height:1.15;
-}
-
-.map-hero-panel{
-  position:absolute;
-  left:50%;
-  bottom:30px;
-  transform:translateX(-50%);
-  min-width:320px;
-  padding:12px 20px;
-  border-radius:20px;
-  border:2px solid #f5c85b;
-  background:rgba(6,19,41,.85);
-  color:#ffe9a6;
-  text-align:center;
-  font-weight:bold;
-}
-
-/* цифрова гроза над Цитаделлю */
-.digital-storm{
-  position:absolute;
-  right:8%;
-  top:5%;
-  width:34%;
-  height:30%;
-  pointer-events:none;
-  opacity:.85;
-  background:
-    radial-gradient(circle, rgba(130,60,255,.35), transparent 55%),
-    repeating-linear-gradient(
-      90deg,
-      rgba(180,120,255,.18) 0 2px,
-      transparent 2px 18px
-    );
-  filter:blur(.3px);
-  animation:stormMove 2s infinite alternate;
-}
-
-@keyframes stormMove{
-  from{
-    transform:translateY(0);
-    opacity:.55;
+@keyframes crystalPulse {
+  from {
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.7));
   }
-  to{
-    transform:translateY(8px);
-    opacity:.9;
+
+  to {
+    filter: drop-shadow(0 0 24px rgba(255,255,255,1));
+  }
+}
+
+/* =====================================================
+   ЦИФРОВА ГРОЗА НАД КОРОЛІВСТВОМ
+===================================================== */
+
+.storm-strip {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 90px;
+
+  z-index: 35;
+  overflow: hidden;
+
+  background: linear-gradient(
+    rgba(7, 3, 25, 0.95),
+    rgba(40, 0, 70, 0.65),
+    rgba(40, 0, 70, 0)
+  );
+
+  box-shadow: 0 0 30px rgba(110, 0, 255, 0.6);
+}
+
+.storm-rain {
+  position: absolute;
+  left: 0;
+  top: 12px;
+
+  width: 200%;
+  color: #d8b4ff;
+
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 16px;
+
+  opacity: 0.8;
+
+  animation: stormMove 7s linear infinite;
+}
+
+@keyframes stormMove {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
   }
 }
 
@@ -208,363 +254,632 @@ body{
    ВИБІР ГЕРОЯ
 ===================================================== */
 
-.hero-title{
-  position:absolute;
-  left:50%;
-  top:7%;
-  transform:translateX(-50%);
-  padding:12px 28px;
-  border-radius:22px;
-  border:2px solid #f5c85b;
-  background:rgba(6,19,41,.82);
-  color:#ffe9a6;
-  font-size:24px;
-  font-weight:bold;
-  text-align:center;
-}
-
-.hero-choice{
-  position:absolute;
-  width:170px;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.hero-choice:hover{
-  transform:scale(1.06);
-}
-
-.hero-boy{
-  right:25%;
-  top:28%;
-}
-
-.hero-girl{
-  right:10%;
-  top:28%;
-}
-
-.selected-preview{
-  position:absolute;
-  left:43%;
-  bottom:9%;
-  width:240px;
-  max-height:75vh;
-  object-fit:contain;
-  filter:drop-shadow(0 0 20px rgba(255,213,74,.85));
-}
-
-.hero-form{
-  position:absolute;
-  right:7%;
-  bottom:13%;
-  width:350px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.hero-name-input{
-  width:100%;
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #f5c85b;
-  background:rgba(6,19,41,.85);
-  color:white;
-  font-size:18px;
-}
-
-.mentor-medals{
-  position:absolute;
-  left:30px;
-  top:18%;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.mentor-medal{
-  width:74px;
-  height:74px;
-  border-radius:50%;
-  border:2px solid #f5c85b;
-  background:rgba(6,19,41,.75);
-  object-fit:contain;
-  cursor:pointer;
-  padding:4px;
-  transition:.25s;
-}
-
-.mentor-medal:hover{
-  transform:scale(1.08);
-  box-shadow:0 0 20px rgba(255,230,120,.8);
+.hero-select-screen {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* =====================================================
-   РІВЕНЬ
+   ЛІВА КОЛОНКА З НАСТАВНИКАМИ
 ===================================================== */
 
-.level-mentor{
-  position:absolute;
-  left:50%;
-  bottom:17%;
-  transform:translateX(-50%);
-  width:260px;
-  max-height:55vh;
-  object-fit:contain;
-  cursor:pointer;
-  animation:mentorGlow 2s infinite;
+.mentor-side {
+  position: absolute;
+  left: 2%;
+  top: 8%;
+
+  width: 220px;
+  height: 84%;
+
+  z-index: 40;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
-@keyframes mentorGlow{
-  0%{ filter:drop-shadow(0 0 8px #fff4aa); }
-  50%{ filter:drop-shadow(0 0 22px #fff4aa); }
-  100%{ filter:drop-shadow(0 0 8px #fff4aa); }
+.mentor-side-title {
+  text-align: center;
+
+  font-size: 18px;
+  font-weight: bold;
+
+  color: #ffe9a6;
+
+  padding: 12px;
+
+  border-radius: 16px;
+
+  background: rgba(6, 19, 41, 0.75);
+  border: 2px solid #f5c85b;
 }
 
-.level-action{
-  position:absolute;
-  left:50%;
-  bottom:8%;
-  transform:translateX(-50%);
+.mentor-medal {
+  width: 95px;
+  height: 95px;
+
+  object-fit: contain;
+
+  cursor: pointer;
+
+  transition: 0.2s;
 }
 
-.mentor-hint{
-  padding:11px 22px;
-  background:rgba(6,19,41,.88);
-  border:2px solid #f5c85b;
-  border-radius:16px;
-  color:#ffe9a6;
-  font-weight:bold;
-  text-align:center;
+.mentor-medal:hover {
+  transform: scale(1.08);
 }
 
 /* =====================================================
-   ПРОГРЕС КРИСТАЛА
+   ПРАВА ШТОРА
 ===================================================== */
 
-.level-progress{
-  position:absolute;
-  right:30px;
-  top:30px;
-  width:280px;
-  background:rgba(6,19,41,.84);
-  border:2px solid var(--level-color,#f5c85b);
-  border-radius:18px;
-  padding:14px;
-  box-shadow:0 0 18px rgba(0,0,0,.5);
+.hero-curtain {
+  position: absolute;
+
+  right: 0;
+  top: 0;
+
+  width: 420px;
+  height: 100%;
+
+  z-index: 40;
+
+  background: rgba(5, 15, 35, 0.82);
+  backdrop-filter: blur(6px);
+
+  border-left: 4px solid #f5c85b;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 24px;
+
+  padding: 30px;
 }
 
-.level-progress b{
-  color:#fff4aa;
-}
+.hero-curtain h1 {
+  text-align: center;
 
-.progress-bar{
-  width:100%;
-  height:18px;
-  margin-top:10px;
-  background:rgba(255,255,255,.2);
-  border-radius:20px;
-  overflow:hidden;
-}
+  font-size: 28px;
+  line-height: 1.3;
 
-.progress-fill{
-  height:100%;
-  width:0%;
-  background:linear-gradient(90deg,var(--level-color,#f5c85b),#fff4aa);
-  transition:.4s;
-}
-
-.progress-fill.full{
-  animation:crystalPulse 1.5s infinite;
+  color: #ffe9a6;
 }
 
 /* =====================================================
-   ВИПРОБУВАННЯ
+   ГЕРОЇ
 ===================================================== */
 
-.artifact-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  margin-top:20px;
+.hero-pair {
+  display: flex;
+  gap: 25px;
 }
 
-.artifact-task{
-  border:2px solid #d7a13d;
-  border-radius:18px;
-  background:#fff7e7;
-  padding:14px;
-  text-align:center;
-  cursor:pointer;
-  transition:.25s;
+.hero-choice {
+  width: 150px;
+  height: auto;
+
+  cursor: pointer;
+
+  transition: 0.2s;
 }
 
-.artifact-task:hover{
-  background:#ffe7a3;
-  transform:scale(1.03);
+.hero-choice:hover {
+  transform: scale(1.05);
 }
 
-.artifact-task img{
-  width:90px;
-  height:90px;
-  object-fit:contain;
+.hero-choice.selected {
+  filter:
+    drop-shadow(0 0 18px #ffd54a)
+    drop-shadow(0 0 30px #ffd54a);
 }
+
+/* =====================================================
+   ІМ'Я ГЕРОЯ
+===================================================== */
+
+.hero-name-input {
+  width: 100%;
+
+  padding: 14px 18px;
+
+  border-radius: 16px;
+  border: 2px solid #f5c85b;
+
+  background: rgba(255,255,255,0.12);
+
+  color: white;
+  font-size: 18px;
+}
+
+.hero-name-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
 
 /* =====================================================
    МОДАЛЬНІ ВІКНА
 ===================================================== */
 
-.modal-bg{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.72);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:200;
+.modal-bg {
+  position: fixed;
+  inset: 0;
+
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.72);
 }
 
-.modal{
-  position:relative;
-  width:min(1000px,88vw);
-  max-height:88vh;
-  overflow:auto;
-  background:#fff3d8;
-  color:#211305;
-  border:5px solid #d7a13d;
-  border-radius:30px;
-  padding:30px;
-  display:flex;
-  gap:25px;
-  box-shadow:0 0 50px rgba(0,0,0,.85);
+.modal {
+  position: relative;
+
+  width: min(980px, 88vw);
+  max-height: 88vh;
+
+  overflow: auto;
+
+  padding: 30px;
+
+  display: flex;
+  gap: 28px;
+
+  border-radius: 30px;
+  border: 5px solid #d7a13d;
+
+  background: #fff3d8;
+  color: #211305;
+
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.85);
 }
 
-.modal img{
-  width:240px;
-  max-height:360px;
-  object-fit:contain;
+.modal img {
+  width: 230px;
+  max-height: 360px;
+  object-fit: contain;
 }
 
-.modal-content{
-  flex:1;
-  line-height:1.5;
-  font-size:18px;
+.modal-content {
+  flex: 1;
+  font-size: 19px;
+  line-height: 1.5;
 }
 
-.close-modal{
-  position:absolute;
-  right:18px;
-  top:12px;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  background:#fff3d8;
-  border:2px solid #d7a13d;
-  color:#211305;
-  font-size:30px;
-  line-height:32px;
-  text-align:center;
-  cursor:pointer;
-  z-index:999;
+.modal-content h2 {
+  margin-bottom: 12px;
 }
 
-.answer-btn{
-  width:100%;
-  margin:10px 0;
-  padding:14px;
-  border-radius:14px;
-  border:2px solid #bd8429;
-  background:white;
-  color:#211305;
-  cursor:pointer;
-  text-align:left;
-  font-size:16px;
-}
+.close-modal {
+  position: absolute;
+  right: 16px;
+  top: 12px;
 
-.answer-btn:hover{
-  background:#ffe7a3;
-}
+  width: 38px;
+  height: 38px;
 
-#result{
-  margin-top:15px;
-  font-weight:bold;
+  border-radius: 50%;
+  border: 2px solid #d7a13d;
+
+  background: #fff3d8;
+  color: #211305;
+
+  font-size: 30px;
+  line-height: 32px;
+  text-align: center;
+
+  cursor: pointer;
+  z-index: 999;
 }
 
 /* =====================================================
-   СУВІЙ ПЕРЕМОГИ
+   СУВІЙ
 ===================================================== */
 
-.scroll-modal{
-  position:relative;
-  width:min(760px,86vw);
-  min-height:430px;
-  padding:48px 58px;
-  background:linear-gradient(#fff1c4,#e7b96a);
-  color:#3b2308;
-  border:5px solid #b67822;
-  border-radius:34px;
-  box-shadow:0 0 60px rgba(0,0,0,.9);
-  text-align:center;
-  animation:scrollOpen .45s ease-out;
+.scroll-modal {
+  width: min(760px, 86vw);
+  min-height: 420px;
+
+  padding: 46px 56px;
+
+  border-radius: 34px;
+  border: 6px solid #bd8429;
+
+  background: linear-gradient(#fff1c9, #f6d99a);
+  color: #3a2207;
+
+  text-align: center;
+
+  box-shadow: 0 0 60px rgba(255, 213, 74, 0.65);
+
+  animation: scrollOpen 0.35s ease-out;
 }
 
-@keyframes scrollOpen{
-  from{
-    transform:scaleY(.2);
-    opacity:0;
+.scroll-modal img {
+  width: 120px;
+  height: 120px;
+
+  object-fit: contain;
+
+  margin-bottom: 14px;
+}
+
+.scroll-modal h2 {
+  font-size: 34px;
+  margin-bottom: 14px;
+}
+
+.scroll-modal p {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+@keyframes scrollOpen {
+  from {
+    transform: scaleY(0.25);
+    opacity: 0;
   }
-  to{
-    transform:scaleY(1);
-    opacity:1;
+
+  to {
+    transform: scaleY(1);
+    opacity: 1;
   }
-}
-
-.scroll-modal h2{
-  font-size:34px;
-  margin-bottom:16px;
-}
-
-.scroll-artifact{
-  width:110px;
-  height:110px;
-  object-fit:contain;
-  margin:16px auto;
-  display:block;
 }
 
 /* =====================================================
-   АДАПТАЦІЯ
+   ВІДПОВІДІ У ЗАВДАННЯХ
 ===================================================== */
 
-@media(max-width:800px){
-  .modal{
-    flex-direction:column;
-    padding:24px;
+.answer-btn {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px;
+  margin: 12px 0;
+
+  border-radius: 14px;
+  border: 2px solid #bd8429;
+
+  background: white;
+  color: #211305;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  text-align: left;
+}
+
+.answer-btn:hover {
+  background: #ffe7a3;
+}
+
+#result {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   ЕКРАН РІВНЯ
+===================================================== */
+
+.level-screen {
+  position: relative;
+}
+
+/* Прогрес кристала */
+.level-progress {
+  position: absolute;
+  right: 30px;
+  top: 28px;
+
+  width: 300px;
+
+  z-index: 40;
+
+  padding: 14px;
+
+  border-radius: 18px;
+  border: 2px solid #f5c85b;
+
+  background: rgba(6, 19, 41, 0.82);
+  color: #ffe9a6;
+
+  font-size: 16px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 16px;
+
+  margin-top: 10px;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.22);
+
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+
+  border-radius: 999px;
+
+  transition: 0.3s;
+}
+
+/* Наставник */
+.level-mentor {
+  position: absolute;
+
+  left: 50%;
+  top: 48%;
+
+  transform: translate(-50%, -50%);
+
+  max-width: 260px;
+  max-height: 58vh;
+
+  object-fit: contain;
+
+  z-index: 35;
+
+  cursor: pointer;
+
+  filter: drop-shadow(0 0 22px rgba(255, 213, 74, 0.8));
+}
+
+/* Кнопка під наставником */
+.level-action {
+  position: absolute;
+
+  left: 50%;
+  bottom: 42px;
+
+  transform: translateX(-50%);
+
+  z-index: 45;
+}
+
+/* =====================================================
+   ВИПРОБУВАННЯ / АРТЕФАКТИ
+===================================================== */
+
+.artifact-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 14px;
+
+  margin-top: 18px;
+}
+
+.artifact-task {
+  padding: 14px;
+
+  border-radius: 18px;
+  border: 2px solid #d7a13d;
+
+  background: rgba(255, 255, 255, 0.78);
+  color: #211305;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.artifact-task:hover {
+  background: #ffe7a3;
+  transform: scale(1.03);
+}
+
+.artifact-task img {
+  width: 70px;
+  height: 70px;
+
+  object-fit: contain;
+
+  margin-bottom: 8px;
+}
+
+
+/* =====================================================
+   ЕКРАН ПЕРЕМОГИ
+===================================================== */
+
+.victory-screen {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: min(760px, 90vw);
+
+  padding: 40px;
+
+  text-align: center;
+
+  border-radius: 30px;
+  border: 4px solid #f5c85b;
+
+  background: rgba(6, 19, 41, 0.88);
+
+  box-shadow: 0 0 40px rgba(255, 213, 74, 0.6);
+}
+
+.victory-screen h1 {
+  font-size: 48px;
+  color: #ffe9a6;
+
+  margin-bottom: 20px;
+}
+
+.victory-screen p {
+  font-size: 22px;
+  line-height: 1.6;
+
+  margin-bottom: 24px;
+}
+
+/* =====================================================
+   ЦИТАДЕЛЬ ХАОСУ
+===================================================== */
+
+.citadel {
+  z-index: 55;
+}
+
+.citadel .map-crystal {
+  width: 84px;
+  height: 84px;
+}
+
+.citadel.completed .map-crystal {
+  animation: citadelGlow 1.2s infinite alternate;
+}
+
+@keyframes citadelGlow {
+  from {
+    filter:
+      drop-shadow(0 0 10px #b95cff)
+      drop-shadow(0 0 20px #b95cff);
   }
 
-  .modal img{
-    width:170px;
-    margin:0 auto;
-  }
-
-  .level-progress{
-    width:230px;
-    right:15px;
-    top:15px;
-  }
-
-  .hero-form{
-    right:4%;
-    width:300px;
-  }
-
-  .mentor-medals{
-    left:14px;
-  }
-
-  .map-level{
-    width:125px;
-    font-size:13px;
+  to {
+    filter:
+      drop-shadow(0 0 22px #d98fff)
+      drop-shadow(0 0 40px #d98fff);
   }
 }
+
+/* =====================================================
+   ДРІБНІ ПОКРАЩЕННЯ
+===================================================== */
+
+.scroll-artifact {
+  width: 110px;
+  height: 110px;
+
+  object-fit: contain;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =====================================================
+   АДАПТАЦІЯ ПІД НОУТБУКИ
+===================================================== */
+
+@media (max-width: 1400px) {
+
+  .hero-curtain {
+    width: 360px;
+  }
+
+  .hero-choice {
+    width: 130px;
+  }
+
+  .mentor-medal {
+    width: 82px;
+    height: 82px;
+  }
+
+  .level-mentor {
+    max-width: 220px;
+  }
+}
+
+/* =====================================================
+   АДАПТАЦІЯ ПІД ПЛАНШЕТ
+===================================================== */
+
+@media (max-width: 1000px) {
+
+  .hero-curtain {
+    width: 320px;
+  }
+
+  .hero-curtain h1 {
+    font-size: 22px;
+  }
+
+  .hero-choice {
+    width: 110px;
+  }
+
+  .map-crystal {
+    width: 58px;
+    height: 58px;
+  }
+
+  .map-label {
+    font-size: 12px;
+  }
+
+  .level-progress {
+    width: 250px;
+  }
+}
+
+/* =====================================================
+   АДАПТАЦІЯ ПІД ТЕЛЕФОН
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .mentor-side {
+    display: none;
+  }
+
+  .hero-curtain {
+    width: 100%;
+  }
+
+  .hero-choice {
+    width: 100px;
+  }
+
+  .modal {
+    flex-direction: column;
+  }
+
+  .modal img {
+    width: 160px;
+    margin: 0 auto;
+  }
+
+  .scroll-modal {
+    padding: 24px;
+  }
+
+  .scroll-modal h2 {
+    font-size: 26px;
+  }
+
+  .victory-screen h1 {
+    font-size: 32px;
+  }
+
+  .victory-screen p {
+    font-size: 18px;
+  }
+}
+
+
+

@@ -1,15 +1,12 @@
 const app = document.getElementById("app");
 
-/* ======================================
-   ШЛЯХИ ДО ФАЙЛІВ GITHUB
-====================================== */
+/* =========================
+   КАРТИНКИ
+========================= */
 
 const ASSETS = {
-
-  /* ФОНИ */
-
   start: "fon/fon_start.png",
-  map: "fon/fon_karta_1.png",
+  map: "fon/NEW_FON_KARTA.png",
   heroSelect: "fon/fon_vubir_heroiv.png",
 
   level1: "fon/fon_book.png",
@@ -17,164 +14,141 @@ const ASSETS = {
   level3: "fon/fon_ozero.png",
   level4: "fon/fon_kajjian.png",
   level5: "fon/fon_vylkan.png",
-
-  mordor: "fon/Fon_mordor_1.png",
-
-  /* ГЕРОЇ */
+  citadel: "fon/Fon_mordor_1.png",
 
   boy: "geroi/boy.png",
   girl: "geroi/diva.png",
-
-  /* НАСТАВНИКИ */
 
   totus: "geroi/nastavnuk_sova.png",
   foxita: "geroi/nastavnuk_fox.png",
   nereus: "geroi/nastavnuk_som.png",
   anubisa: "geroi/nastavnuk_kajjian.png",
   tifon: "geroi/nastavnuk_drakon.png",
+  mordor: "geroi/mordor.png",
+  raif: "geroi/raif.png",
 
-  mordorHero: "geroi/mordor.png",
-  raifik: "geroi/raif.png",
+  book: "artefaktu/artefakt_knuga.png",
+  lupa: "artefaktu/artefakt_lupa.png",
+  mirror: "artefaktu/artefakt_dzerkalo.png",
+  sphere: "artefaktu/artefakt_sfera.png",
+  sword: "artefaktu/artefakt_mech.png",
 
-  /* КАРТКИ */
+  yellowCrystal: "artefaktu/yellow_kristal.png",
+  greenCrystal: "artefaktu/green_kristal.png",
+  blueCrystal: "artefaktu/blue_kristal.png",
+  pinkCrystal: "artefaktu/pink_kristal.png",
+  redCrystal: "artefaktu/red_kristal.png",
+  purpleCrystal: "artefaktu/purple_kristal.png",
 
-  cardTotus: "Kartka_nastavnuka/kartka_totus.png",
-  cardFoxita: "Kartka_nastavnuka/kartka_foxita.png",
-  cardNereus: "Kartka_nastavnuka/kartka_nereys.png",
-  cardAnubisa: "Kartka_nastavnuka/kartka_anybisa.png",
-  cardTifon: "Kartka_nastavnuka/kartka_tifon.png",
-
-  cardRaifik: "Kartka_nastavnuka/kartka_raif.png",
-  cardMordor: "Kartka_nastavnuka/kartka_mordor.png"
+  logo: "artefaktu/logo_game.png",
+  medalions: "artefaktu/medaliony.png"
 };
+
+/* =========================
+   СТАН ГРИ
+========================= */
 
 let selectedHero = "boy";
 let heroName = "";
+let theoryRead = {};
+let completedTasks = {};
+let completedLevels = [];
 
-/* ======================================
+/* =========================
    РІВНІ
-====================================== */
+========================= */
 
 const LEVELS = [
-{
-  id:1,
-  title:"Замок Паролів",
-  mentor:"Тотус",
-  bg:ASSETS.level1,
-  mentorImage:ASSETS.totus,
-  card:ASSETS.cardTotus,
-  crystal:"yellow"
-},
-{
-  id:2,
-  title:"Ліс Приманок",
-  mentor:"Фоксіта",
-  bg:ASSETS.level2,
-  mentorImage:ASSETS.foxita,
-  card:ASSETS.cardFoxita,
-  crystal:"green"
-},
-{
-  id:3,
-  title:"Озеро Фейків",
-  mentor:"Нереус",
-  bg:ASSETS.level3,
-  mentorImage:ASSETS.nereus,
-  card:ASSETS.cardNereus,
-  crystal:"blue"
-},
-{
-  id:4,
-  title:"Печера Даних",
-  mentor:"Анубіса",
-  bg:ASSETS.level4,
-  mentorImage:ASSETS.anubisa,
-  card:ASSETS.cardAnubisa,
-  crystal:"pink"
-},
-{
-  id:5,
-  title:"Фортеця Вірусів",
-  mentor:"Тіфон",
-  bg:ASSETS.level5,
-  mentorImage:ASSETS.tifon,
-  card:ASSETS.cardTifon,
-  crystal:"red"
-}
-];
-/* ======================================
-   АРТЕФАКТИ
-====================================== */
-
-ASSETS.book = "artefaktu/artefakt_knuga.png";
-ASSETS.lupa = "artefaktu/artefakt_lupa.png";
-ASSETS.mirror = "artefaktu/artefakt_dzerkalo.png";
-ASSETS.sphere = "artefaktu/artefakt_sfera.png";
-ASSETS.sword = "artefaktu/artefakt_mech.png";
-
-/* ======================================
-   СТАН ГРИ
-====================================== */
-
-const GAME = {
-  currentLevel: null,
-  completedLevels: [],
-  theoryRead: {},
-  tasksDone: {}
-};
-
-/* ======================================
-   ДОПОВНЮЄМО РІВНІ
-====================================== */
-
-LEVELS[0].artifact = ASSETS.book;
-LEVELS[0].artifactName = "Книга знань";
-LEVELS[0].theory = [
-  "Пароль — це ключ до твого цифрового замку.",
-  "Надійний пароль має бути довгим, складним і різним для різних сайтів.",
-  "Не використовуй дату народження, ім’я або прості комбінації.",
-  "Нікому не передавай свій пароль."
-];
-
-LEVELS[1].artifact = ASSETS.lupa;
-LEVELS[1].artifactName = "Лупа істини";
-LEVELS[1].theory = [
-  "Фішинг — це пастка, коли шахраї хочуть виманити пароль або дані.",
-  "Перед натисканням на посилання перевір адресу сайту.",
-  "Не довіряй повідомленням, які лякають або дуже поспішають.",
-  "Якщо сумніваєшся — запитай дорослого."
+  {
+    id: 1,
+    title: "Бібліотека Знань",
+    mentor: "Тотус",
+    bg: ASSETS.level1,
+    mentorImg: ASSETS.totus,
+    artifact: ASSETS.book,
+    artifactName: "Книга знань",
+    crystal: ASSETS.yellowCrystal,
+    color: "#ffd54a",
+    theory: [
+      "Пароль — це ключ до твого цифрового замку.",
+      "Надійний пароль має бути довгим, складним і різним для різних сайтів.",
+      "Не використовуй дату народження, ім’я або прості комбінації.",
+      "Нікому не передавай свій пароль."
+    ]
+  },
+  {
+    id: 2,
+    title: "Ліс Приманок",
+    mentor: "Фоксіта",
+    bg: ASSETS.level2,
+    mentorImg: ASSETS.foxita,
+    artifact: ASSETS.lupa,
+    artifactName: "Лупа істини",
+    crystal: ASSETS.greenCrystal,
+    color: "#4ee86b",
+    theory: [
+      "Фішинг — це пастка, коли шахраї хочуть виманити пароль або дані.",
+      "Перед натисканням на посилання перевір адресу сайту.",
+      "Не довіряй повідомленням, які лякають або дуже поспішають.",
+      "Якщо сумніваєшся — запитай дорослого."
+    ]
+  },
+  {
+    id: 3,
+    title: "Озеро Фейків",
+    mentor: "Нереус",
+    bg: ASSETS.level3,
+    mentorImg: ASSETS.nereus,
+    artifact: ASSETS.mirror,
+    artifactName: "Дзеркало правди",
+    crystal: ASSETS.blueCrystal,
+    color: "#39b7ff",
+    theory: [
+      "Фейк — це неправдива або перекручена інформація.",
+      "Не все, що написано в інтернеті, є правдою.",
+      "Перевіряй джерело, дату, автора та інші підтвердження.",
+      "Якщо новина дуже емоційна — спочатку перевір її."
+    ]
+  },
+  {
+    id: 4,
+    title: "Печера Даних",
+    mentor: "Анубіса",
+    bg: ASSETS.level4,
+    mentorImg: ASSETS.anubisa,
+    artifact: ASSETS.sphere,
+    artifactName: "Сфера даних",
+    crystal: ASSETS.pinkCrystal,
+    color: "#ff78d7",
+    theory: [
+      "Особисті дані — це інформація, за якою можна впізнати людину.",
+      "Адреса, номер телефону, паролі й фото документів треба берегти.",
+      "Не публікуй особисті дані у відкритому доступі.",
+      "Перед тим як щось відправити, подумай: хто це побачить."
+    ]
+  },
+  {
+    id: 5,
+    title: "Фортеця Захисту",
+    mentor: "Тіфон",
+    bg: ASSETS.level5,
+    mentorImg: ASSETS.tifon,
+    artifact: ASSETS.sword,
+    artifactName: "Меч захисту",
+    crystal: ASSETS.redCrystal,
+    color: "#ff4a35",
+    theory: [
+      "Віруси можуть потрапити на пристрій через підозрілі файли або посилання.",
+      "Не відкривай файли від незнайомих людей.",
+      "Оновлення допомагають захищати пристрій.",
+      "Якщо файл дивний — не відкривай його і звернись до дорослого."
+    ]
+  }
 ];
 
-LEVELS[2].artifact = ASSETS.mirror;
-LEVELS[2].artifactName = "Дзеркало правди";
-LEVELS[2].theory = [
-  "Фейк — це неправдива або перекручена інформація.",
-  "Не все, що написано в інтернеті, є правдою.",
-  "Перевіряй джерело, дату, автора та інші підтвердження.",
-  "Якщо новина дуже емоційна — спочатку перевір її."
-];
-
-LEVELS[3].artifact = ASSETS.sphere;
-LEVELS[3].artifactName = "Сфера даних";
-LEVELS[3].theory = [
-  "Особисті дані — це інформація, за якою можна впізнати людину.",
-  "Адреса, номер телефону, паролі й фото документів треба берегти.",
-  "Не публікуй особисті дані у відкритому доступі.",
-  "Перед тим як щось відправити, подумай: хто це побачить?"
-];
-
-LEVELS[4].artifact = ASSETS.sword;
-LEVELS[4].artifactName = "Меч захисту";
-LEVELS[4].theory = [
-  "Віруси можуть потрапити на пристрій через підозрілі файли або посилання.",
-  "Не відкривай файли від незнайомих людей.",
-  "Оновлення допомагають захищати пристрій.",
-  "Якщо файл дивний — не відкривай його і звернись до дорослого."
-];
-
-/* ======================================
+/* =========================
    ЗАВДАННЯ
-====================================== */
+========================= */
 
 const TASKS = {
   1: [
@@ -209,13 +183,30 @@ const TASKS = {
   ]
 };
 
-function screenStyle(img) {
+/* =========================
+   ДОПОМІЖНЕ
+========================= */
+
+function bg(img) {
   return `style="--bg:url('${img}')"`;
 }
 
+function getHeroImage() {
+  return selectedHero === "girl" ? ASSETS.girl : ASSETS.boy;
+}
+
+function closeModal() {
+  const modal = document.getElementById("modal");
+  if (modal) modal.remove();
+}
+
+/* =========================
+   СТАРТ
+========================= */
+
 function showStartScreen() {
   app.innerHTML = `
-    <section class="screen" ${screenStyle(ASSETS.start)}>
+    <section class="screen" ${bg(ASSETS.start)}>
       <div class="main-menu">
         <button class="btn" onclick="showMap()">Почати пригоду</button>
         <button class="btn" onclick="openGameStory()">Історія</button>
@@ -225,49 +216,102 @@ function showStartScreen() {
   `;
 }
 
+/* =========================
+   КАРТА
+========================= */
+
 function showMap() {
   app.innerHTML = `
-    <section class="screen" ${screenStyle(ASSETS.map)}>
-      <button class="btn back-btn" onclick="showStartScreen()">← Назад</button>
-      <button class="btn center-bottom-btn" onclick="showHeroSelect()">Створити героя</button>
+    <section class="screen map-screen" ${bg(ASSETS.map)}>
+      <img class="game-logo" src="${ASSETS.logo}" alt="Cyber Legends">
 
-      <div class="map-point" style="left:12%; bottom:18%; width:22%; height:9%;" onclick="showLevel(1)"></div>
-      <div class="map-point" style="left:43%; bottom:28%; width:22%; height:9%;" onclick="showLevel(2)"></div>
-      <div class="map-point" style="right:8%; bottom:36%; width:23%; height:9%;" onclick="showLevel(3)"></div>
-      <div class="map-point" style="left:8%; top:34%; width:24%; height:9%;" onclick="showLevel(4)"></div>
-      <div class="map-point" style="right:13%; top:34%; width:22%; height:9%;" onclick="showLevel(5)"></div>
-      <div class="map-point" style="right:12%; top:13%; width:12%; height:12%;" onclick="showMordor()"></div>
+      <button class="btn back-btn" onclick="showStartScreen()">← Назад</button>
+
+      <button class="btn hero-map-btn" onclick="showHeroSelect()">
+        ${heroName ? "Герой: " + heroName : "Створити героя"}
+      </button>
+
+      ${renderMapLevelButtons()}
+
+      ${completedLevels.length >= 5 ? "" : `<div class="digital-storm"></div>`}
     </section>
   `;
 }
 
+function renderMapLevelButtons() {
+  const positions = [
+    { cls: "library", id: 1 },
+    { cls: "forest", id: 2 },
+    { cls: "lake", id: 3 },
+    { cls: "cave", id: 4 },
+    { cls: "fortress", id: 5 }
+  ];
 
-/* ======================================
-   ВИБІР ГЕРОЯ
-====================================== */
+  let html = "";
+
+  positions.forEach(p => {
+    const level = LEVELS.find(l => l.id === p.id);
+    const done = completedLevels.includes(level.id);
+
+    html += `
+      <button class="map-level ${p.cls} ${done ? "done" : ""}" onclick="showLevel(${level.id})">
+        <img src="${level.crystal}" alt="${level.title}">
+        <span>${level.title}</span>
+        ${done ? "<b>✓</b>" : ""}
+      </button>
+    `;
+  });
+
+  const finalOpen = completedLevels.length >= 5;
+
+  html += `
+    <button class="map-level citadel ${finalOpen ? "done" : "locked"}" onclick="${finalOpen ? "showCitadel()" : "citadelLocked()"}">
+      <img src="${ASSETS.purpleCrystal}" alt="Цитадель">
+      <span>Цитадель</span>
+      ${finalOpen ? "<b>✓</b>" : "<b>🔒</b>"}
+    </button>
+  `;
+
+  return html;
+}
+
+/* =========================
+   ГЕРОЙ
+========================= */
 
 function showHeroSelect() {
-  const preview = selectedHero === "girl" ? ASSETS.girl : ASSETS.boy;
-
   app.innerHTML = `
-    <section class="screen" ${screenStyle(ASSETS.heroSelect)}>
+    <section class="screen hero-select-screen" ${bg(ASSETS.heroSelect)}>
       <button class="btn back-btn" onclick="showMap()">← Назад</button>
+
+      <h1 class="hero-title">Вибери героя для проходження пригоди</h1>
+
+      <div class="mentor-medals">
+        ${LEVELS.map(l => `
+          <button onclick="openMentorInfo(${l.id})">
+            <img src="${l.mentorImg}">
+          </button>
+        `).join("")}
+        <button onclick="openRaifInfo()">
+          <img src="${ASSETS.raif}">
+        </button>
+      </div>
 
       <img class="hero-choice hero-boy" src="${ASSETS.boy}" onclick="chooseHero('boy')">
       <img class="hero-choice hero-girl" src="${ASSETS.girl}" onclick="chooseHero('girl')">
 
-      <img class="selected-preview" id="heroPreview" src="${preview}">
+      <img class="selected-preview" id="heroPreview" src="${getHeroImage()}">
 
       <input id="heroNameInput" class="hero-name-input" placeholder="Введи ім’я героя" value="${heroName}">
 
-      <button class="btn center-bottom-btn" onclick="createHero()">Створити героя</button>
+      <button class="btn create-final-btn" onclick="createHero()">Створити героя</button>
     </section>
   `;
 }
 
 function chooseHero(type) {
   selectedHero = type;
-  document.getElementById("heroPreview").src = type === "girl" ? ASSETS.girl : ASSETS.boy;
+  document.getElementById("heroPreview").src = getHeroImage();
 }
 
 function createHero() {
@@ -279,37 +323,43 @@ function createHero() {
     return;
   }
 
-  openSimpleModal("Героя створено!", `${heroName} готовий / готова до пригоди.`);
+  const greeting = selectedHero === "girl"
+    ? `Вітаю тебе, красуне ${heroName}!`
+    : `Вітаю тебе, юначе ${heroName}!`;
+
+  openSimpleModal("Героя створено!", `${greeting}<br><br>Попереду велика пригода.`);
 }
 
-/* ======================================
+/* =========================
    РІВЕНЬ
-====================================== */
+========================= */
 
 function showLevel(levelId) {
   const level = LEVELS.find(l => l.id === levelId);
-  const done = GAME.tasksDone[levelId] || [];
+  const done = completedTasks[levelId] || [];
   const progress = done.length * 25;
+  const theoryDone = theoryRead[levelId];
 
   app.innerHTML = `
-    <section class="screen" ${screenStyle(level.bg)}>
+    <section class="screen level-screen" ${bg(level.bg)}>
       <button class="btn back-btn" onclick="showMap()">← До карти</button>
 
-      <div class="level-progress">
+      <div class="level-progress" style="--level-color:${level.color}">
         <b>${level.title}</b>
-        <div>Кристал заряджено: ${progress}%</div>
+        <span>Кристал заряджено: ${progress}%</span>
         <div class="progress-bar">
           <div class="progress-fill" style="width:${progress}%"></div>
         </div>
       </div>
 
-      <img class="level-mentor" src="${level.mentorImage}" onclick="openTheory(${levelId})">
-      <div class="mentor-hint">Натисни на наставника</div>
+      <img class="chosen-hero-small" src="${getHeroImage()}" alt="Герой">
+
+      <img class="level-mentor" src="${level.mentorImg}" onclick="openTheory(${levelId})">
 
       ${
-        GAME.theoryRead[levelId]
-          ? `<button class="btn center-bottom-btn" onclick="openChallenge(${levelId})">Почати випробування</button>`
-          : ""
+        theoryDone
+          ? `<button class="btn level-action-btn" onclick="openChallenge(${levelId})">Почати випробування</button>`
+          : `<button class="btn level-action-btn" onclick="openTheory(${levelId})">Натисни на наставника</button>`
       }
     </section>
   `;
@@ -321,8 +371,9 @@ function openTheory(levelId) {
   app.innerHTML += `
     <div class="modal-bg" id="modal">
       <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
-        <img src="${level.card}" alt="${level.mentor}">
+        <button class="close-modal" onclick="closeModal()">×</button>
+
+        <img class="modal-character" src="${level.mentorImg}" alt="${level.mentor}">
 
         <div class="modal-content">
           <h2>${level.mentor}: теорія</h2>
@@ -341,24 +392,25 @@ function openTheory(levelId) {
 }
 
 function finishTheory(levelId) {
-  GAME.theoryRead[levelId] = true;
+  theoryRead[levelId] = true;
   closeModal();
   showLevel(levelId);
 }
 
-/* ======================================
+/* =========================
    ВИПРОБУВАННЯ
-====================================== */
+========================= */
 
 function openChallenge(levelId) {
   const level = LEVELS.find(l => l.id === levelId);
-  const done = GAME.tasksDone[levelId] || [];
+  const done = completedTasks[levelId] || [];
 
   app.innerHTML += `
     <div class="modal-bg" id="modal">
       <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
-        <img src="${level.artifact}" alt="${level.artifactName}">
+        <button class="close-modal" onclick="closeModal()">×</button>
+
+        <img class="modal-artifact" src="${level.artifact}" alt="${level.artifactName}">
 
         <div class="modal-content">
           <h2>Випробування: ${level.artifactName}</h2>
@@ -366,11 +418,11 @@ function openChallenge(levelId) {
 
           <div class="artifact-grid">
             ${TASKS[levelId].map((task, index) => `
-              <div class="artifact-task" onclick="openTask(${levelId}, ${index})">
+              <button class="artifact-task" onclick="openTask(${levelId}, ${index})">
                 <img src="${level.artifact}">
                 <b>Завдання ${index + 1}</b>
-                <div>${done.includes(index) ? "✅ виконано" : "🔒 не виконано"}</div>
-              </div>
+                <span>${done.includes(index) ? "✅ виконано" : "почати"}</span>
+              </button>
             `).join("")}
           </div>
         </div>
@@ -388,8 +440,9 @@ function openTask(levelId, taskIndex) {
   app.innerHTML += `
     <div class="modal-bg" id="modal">
       <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
-        <img src="${level.artifact}" alt="${level.artifactName}">
+        <button class="close-modal" onclick="closeModal()">×</button>
+
+        <img class="modal-artifact" src="${level.artifact}" alt="${level.artifactName}">
 
         <div class="modal-content">
           <h2>${level.mentor}: завдання ${taskIndex + 1}</h2>
@@ -417,24 +470,21 @@ function checkAnswer(levelId, taskIndex, answerIndex) {
     return;
   }
 
-  if (!GAME.tasksDone[levelId]) GAME.tasksDone[levelId] = [];
+  if (!completedTasks[levelId]) completedTasks[levelId] = [];
 
-  if (!GAME.tasksDone[levelId].includes(taskIndex)) {
-    GAME.tasksDone[levelId].push(taskIndex);
+  if (!completedTasks[levelId].includes(taskIndex)) {
+    completedTasks[levelId].push(taskIndex);
   }
 
-  const progress = GAME.tasksDone[levelId].length * 25;
+  const progress = completedTasks[levelId].length * 25;
 
   if (progress >= 100) {
-    if (!GAME.completedLevels.includes(levelId)) {
-      GAME.completedLevels.push(levelId);
+    if (!completedLevels.includes(levelId)) {
+      completedLevels.push(levelId);
     }
 
-    document.getElementById("result").innerHTML = `
-      ✅ Кристал заряджено на 100%!<br><br>
-      Ти отримав артефакт: <b>${level.artifactName}</b>.<br><br>
-      <button class="btn" onclick="closeModal(); showMap();">Повернутися на карту</button>
-    `;
+    closeModal();
+    openVictoryScroll(levelId);
   } else {
     document.getElementById("result").innerHTML = `
       ✅ Правильно! Кристал заряджено на ${progress}%.<br><br>
@@ -445,15 +495,59 @@ function checkAnswer(levelId, taskIndex, answerIndex) {
   }
 }
 
-/* ======================================
-   МОРДЕР І ФІНАЛ
-====================================== */
+/* =========================
+   СУВІЙ ПЕРЕМОГИ
+========================= */
 
-function showMordor() {
+function openVictoryScroll(levelId) {
+  const level = LEVELS.find(l => l.id === levelId);
+
+  app.innerHTML += `
+    <div class="modal-bg" id="modal">
+      <div class="victory-scroll">
+        <h2>Вітаємо!</h2>
+
+        <p>
+          Ти успішно пройшов / пройшла випробування наставника
+          <b>${level.mentor}</b>.
+        </p>
+
+        <img src="${level.artifact}" alt="${level.artifactName}">
+
+        <p>
+          Ти здобув / здобула артефакт:
+          <br>
+          <b>${level.artifactName}</b>
+        </p>
+
+        <p>
+          Сила кристала повернулася до Королівства КіберЛегенд.
+        </p>
+
+        <button class="btn" onclick="closeModal(); showMap();">
+          Продовжити подорож
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+/* =========================
+   ФІНАЛ
+========================= */
+
+function citadelLocked() {
+  openSimpleModal(
+    "Цитадель ще закрита",
+    "Спочатку заряди всі 5 кристалів і збери артефакти наставників."
+  );
+}
+
+function showCitadel() {
   app.innerHTML = `
-    <section class="screen" ${screenStyle(ASSETS.mordor)}>
+    <section class="screen" ${bg(ASSETS.citadel)}>
       <button class="btn back-btn" onclick="showMap()">← До карти</button>
-      <button class="btn center-bottom-btn" onclick="openFinalBattle()">Визволити Райфіка</button>
+      <button class="btn level-action-btn" onclick="openFinalBattle()">Визволити Райфіка</button>
     </section>
   `;
 }
@@ -462,12 +556,13 @@ function openFinalBattle() {
   app.innerHTML += `
     <div class="modal-bg" id="modal">
       <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
-        <img src="${ASSETS.cardMordor}" alt="Мордер">
+        <button class="close-modal" onclick="closeModal()">×</button>
+
+        <img class="modal-character" src="${ASSETS.mordor}" alt="Мордер">
 
         <div class="modal-content">
           <h2>Фінальне випробування</h2>
-          <p>Мордер сховав Райфіка у Цитаделі Хаосу. Щоб зруйнувати Маску Обману, дай правильну відповідь.</p>
+          <p>Мордер сховав Райфіка. Щоб зруйнувати Маску Обману, дай правильну відповідь.</p>
 
           <p><b>Що робити, якщо отримав підозріле посилання?</b></p>
 
@@ -489,39 +584,55 @@ function wrongFinal() {
 function winGame() {
   document.getElementById("result").innerHTML = `
     ✅ Маску Обману зруйновано!<br><br>
-    Райфік вільний, а П'ять Кристалів знову захищають КіберКоролівство.<br><br>
-    <button class="btn" onclick="showVictoryScreen()">Завершити гру</button>
+    Райфік вільний, а цифрова гроза над Королівством зникає.<br><br>
+    <button class="btn" onclick="showMap()">Повернутися до Королівства</button>
   `;
 }
 
-function showVictoryScreen() {
-  app.innerHTML = `
-    <section class="screen" ${screenStyle(ASSETS.map)}>
-      <button class="btn center-bottom-btn" onclick="showStartScreen()">Нова пригода</button>
-    </section>
-  `;
+/* =========================
+   ІСТОРІЇ
+========================= */
+
+function openMentorInfo(levelId) {
+  const level = LEVELS.find(l => l.id === levelId);
+
+  openSimpleModal(
+    level.mentor,
+    `<img class="story-img" src="${level.mentorImg}">
+    <br><br>
+    Наставник локації <b>${level.title}</b> допомагає героям здобути артефакт:
+    <b>${level.artifactName}</b>.`
+  );
 }
 
-/* ======================================
-   ПРОСТІ МОДАЛКИ
-====================================== */
+function openRaifInfo() {
+  openSimpleModal(
+    "Райфік",
+    `<img class="story-img" src="${ASSETS.raif}">
+    <br><br>
+    Райфік — вірний кінь Королівства. Мордер хоче захопити його силу, але герой має врятувати Райфіка.`
+  );
+}
 
 function openGameStory() {
   openSimpleModal(
     "Cyber Legends: Таємниця П'яти Кристалів",
-    "Мордер викрав Райфіка та послабив захист КіберКоролівства. Щоб його врятувати, герой має пройти 5 локацій, отримати артефакти наставників і зарядити П'ять Кристалів."
+    "Мордер накрив Королівство цифровою грозою. Щоб її зупинити, герой має пройти 5 локацій, здобути артефакти наставників і зарядити кристали."
   );
 }
 
 function openSettings() {
-  openSimpleModal("Налаштування", "Тут пізніше можна буде додати музику, озвучку та підказки.");
+  openSimpleModal(
+    "Налаштування",
+    "Тут пізніше можна буде додати музику, озвучку та підказки."
+  );
 }
 
 function openSimpleModal(title, text) {
   app.innerHTML += `
     <div class="modal-bg" id="modal">
-      <div class="modal">
-        <div class="close-modal" onclick="closeModal()">×</div>
+      <div class="modal simple-modal">
+        <button class="close-modal" onclick="closeModal()">×</button>
         <div class="modal-content">
           <h2>${title}</h2>
           <p>${text}</p>
@@ -531,13 +642,8 @@ function openSimpleModal(title, text) {
   `;
 }
 
-function closeModal() {
-  const modal = document.getElementById("modal");
-  if (modal) modal.remove();
-}
-
-/* ======================================
-   ЗАПУСК ГРИ
-====================================== */
+/* =========================
+   ЗАПУСК
+========================= */
 
 showStartScreen();

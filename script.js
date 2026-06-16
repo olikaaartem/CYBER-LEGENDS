@@ -287,7 +287,7 @@ function showStartScreen(){
   app.innerHTML = `
     <section class="screen start-screen" ${bg(ASSETS.start)}>
 
-      <div class="digital-rain">
+ <div class="digital-rain">
   ${Array.from({ length: 34 }, (_, i) => `
     <span style="left:${i * 3}%; animation-delay:${(i % 8) * 0.35}s;">
       1<br>0<br>1<br>0<br>🔒<br>1<br>0
@@ -295,7 +295,6 @@ function showStartScreen(){
   `).join("")}
 </div>
 
-      </div>
 
       <div class="start-panel">
         <img class="start-logo" src="${ASSETS.logo}" alt="Cyber Legends">

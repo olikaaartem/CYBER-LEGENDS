@@ -93,10 +93,10 @@ body {
 }
 
 .start-logo {
-  width: 60px;
-  max-width: 9vw;
+  width: 680px;
+  max-width: 90vw;
   object-fit: contain;с чя
-  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9));
+  filter: drop-shadow(0 0 22px rgba(0, 0, 0, 0.9));
 }
 
 

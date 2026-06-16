@@ -93,11 +93,12 @@ body {
 }
 
 .start-logo {
-  width: 520px;
-  max-width: 100%;
+  width: 900px;
+  max-width: 95vw;
   object-fit: contain;
-  filter: drop-shadow(0 0 18px rgba(0, 0, 0, 0.85));
+  filter: drop-shadow(0 0 22px rgba(0, 0, 0, 0.9));
 }
+
 
 .season-title {
   width: 360%;
@@ -203,7 +204,12 @@ body {
 }
 
 /* =====================================================
-   ЦИФРОВА ГРОЗА НАД КОРОЛІВСТВОМ
+   ЦИФРОВА ГРОЗА НАД КОРОЛІВСТВОМ (зверху вниз)
+===================================================== */
+
+
+/* =====================================================
+   ЦИФРОВА ГРОЗА ЗВЕРХУ ВНИЗ
 ===================================================== */
 
 .storm-strip {
@@ -212,63 +218,81 @@ body {
   top: 0;
 
   width: 100%;
-  height: 145px;
+  height: 170px;
 
   z-index: 35;
+  pointer-events: none;
   overflow: hidden;
 
   background: linear-gradient(
-    rgba(12, 3, 35, 0.98),
-    rgba(70, 0, 110, 0.78),
-    rgba(115, 32, 170, 0.35)
+    to bottom,
+    rgba(18, 0, 45, 0.98),
+    rgba(70, 0, 120, 0.75),
+    rgba(130, 50, 190, 0.35),
+    transparent
   );
 
-  box-shadow: 0 0 30px rgba(110, 0, 255, 0.6);
+  box-shadow: 0 12px 35px rgba(120, 0, 255, 0.55);
 }
 
 .storm-rain {
   position: absolute;
   left: 0;
-  top: -120px;
+  top: 0;
 
   width: 100%;
-  height: 240px;
+  height: 100%;
+
+  font-size: 0;
+}
+
+.storm-rain::before,
+.storm-rain::after {
+  content: "⚡\A 0\A 1\A 🔒\A ⚡\A 1\A 0\A ⚡";
+  white-space: pre-line;
+
+  position: absolute;
+  top: -170px;
+
+  width: 80px;
 
   color: #d8b4ff;
-
-  font-size: 22px;
-  font-weight: bold;
-  letter-spacing: 12px;
-  line-height: 38px;
-
-  opacity: 0.85;
+  font-size: 24px;
+  line-height: 28px;
   text-align: center;
 
-  animation: stormFall 2.4s linear infinite;
+  text-shadow:
+    0 0 8px #b95cff,
+    0 0 18px #7c2cff;
+
+  animation: stormDrop 2.2s linear infinite;
 }
 
-@keyframes stormFall {
+.storm-rain::before {
+  left: 18%;
+}
+
+.storm-rain::after {
+  left: 72%;
+  animation-delay: 1.1s;
+}
+
+@keyframes stormDrop {
   from {
-    transform: translateY(-60px);
-    opacity: 0.25;
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
   }
 
   to {
-    transform: translateY(110px);
-    opacity: 0.9;
+    transform: translateY(260px);
+    opacity: 0;
   }
 }
 
-
-@keyframes stormMove {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
 
 /* =====================================================
    ВИБІР ГЕРОЯ

@@ -206,33 +206,9 @@ body {
 
 
 
-/* =====================================================
-   рамка над грозою і внизу бо порізало фон
-===================================================== */
 
 
-.top-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
-    background: linear-gradient(
-        to bottom,
-        #1b0b2e 0%,
-        rgba(27,11,46,0.8) 50%,
-        rgba(27,11,46,0) 100%
-    );
-    pointer-events: none;
-    z-index: 999;
-}
 
-.bottom-overlay {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 120px;
 
 /* =====================================================
    ЦИФРОВИЙ ДОЩ — ОКРЕМІ СТОВПЧИКИ
@@ -937,6 +913,11 @@ body {
   }
 }
 
+.map-storm {
+  left: 55%;
+  width: 45%;
+  height: 190px;
+}
 
 
 

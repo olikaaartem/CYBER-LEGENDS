@@ -145,8 +145,8 @@ const LEVELS = [
     crystalOff: ASSETS.yellowOff,
     crystalOn: ASSETS.yellowOn,
     color: "#ffd54a",
-    x: 34,
-    y: 70,
+    x: 36,
+    y: 78,
     theory: [
       "Пароль — це ключ до твого цифрового замку.",
       "Надійний пароль має бути довгим, складним і різним для різних сайтів.",
@@ -166,8 +166,8 @@ const LEVELS = [
     crystalOff: ASSETS.greenOff,
     crystalOn: ASSETS.greenOn,
     color: "#42e66f",
-    x: 29,
-    y: 55,
+    x: 25,
+    y: 66,
     theory: [
       "Фішинг — це пастка, коли шахраї хочуть виманити пароль або дані.",
       "Перед натисканням на посилання перевір адресу сайту.",
@@ -188,7 +188,7 @@ const LEVELS = [
     crystalOn: ASSETS.blueOn,
     color: "#39b7ff",
     x: 50,
-    y: 48,
+    y: 63,
     theory: [
       "Фейк — це неправдива або перекручена інформація.",
       "Не все, що написано в інтернеті, є правдою.",
@@ -208,8 +208,8 @@ const LEVELS = [
     crystalOff: ASSETS.pinkOff,
     crystalOn: ASSETS.pinkOn,
     color: "#ff78d7",
-    x: 46,
-    y: 34,
+    x: 43,
+    y: 50,
     theory: [
       "Особисті дані — це інформація, за якою можна впізнати людину.",
       "Адреса, номер телефону, паролі й фото документів треба берегти.",
@@ -230,7 +230,7 @@ const LEVELS = [
     crystalOn: ASSETS.redOn,
     color: "#ff4a35",
     x: 66,
-    y: 30,
+    y: 53,
     theory: [
       "Віруси можуть потрапити на пристрій через підозрілі файли або посилання.",
       "Не відкривай файли від незнайомих людей.",
@@ -286,25 +286,21 @@ const TASKS = {
 function showStartScreen(){
   app.innerHTML = `
     <section class="screen start-screen" ${bg(ASSETS.start)}>
-
-<div class="storm-strip start-storm">
-  <div class="digital-rain">
-    <span style="left:3%; animation-delay:0s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:10%; animation-delay:1s;">0<br>1<br>0<br>🔒<br>1</span>
-    <span style="left:17%; animation-delay:2s;">1<br>1<br>0<br>1<br>0</span>
-    <span style="left:24%; animation-delay:0.5s;">0<br>1<br>🔒<br>0<br>1</span>
-    <span style="left:31%; animation-delay:1.5s;">1<br>0<br>1<br>1<br>0</span>
-    <span style="left:38%; animation-delay:2.5s;">0<br>🔒<br>1<br>0<br>1</span>
-    <span style="left:45%; animation-delay:0.8s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:52%; animation-delay:1.8s;">0<br>1<br>0<br>1<br>🔒</span>
-    <span style="left:59%; animation-delay:2.8s;">1<br>1<br>0<br>0<br>1</span>
-    <span style="left:66%; animation-delay:0.3s;">0<br>1<br>🔒<br>1<br>0</span>
-    <span style="left:73%; animation-delay:1.3s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:80%; animation-delay:2.3s;">0<br>1<br>0<br>🔒<br>1</span>
-    <span style="left:87%; animation-delay:0.6s;">1<br>0<br>1<br>1<br>0</span>
-    <span style="left:94%; animation-delay:1.6s;">0<br>🔒<br>1<br>0<br>1</span>
-  </div>
-</div>
+${
+  allDone
+    ? ""
+    : `
+      <div class="storm-strip map-storm">
+        <div class="digital-rain">
+          <span style="left:62%; animation-delay:0s;">1<br>0<br>1<br>0<br>🔒</span>
+          <span style="left:68%; animation-delay:1s;">0<br>1<br>0<br>1<br>0</span>
+          <span style="left:74%; animation-delay:2s;">1<br>🔒<br>0<br>1<br>0</span>
+          <span style="left:80%; animation-delay:0.5s;">0<br>1<br>1<br>0<br>1</span>
+          <span style="left:86%; animation-delay:1.5s;">1<br>0<br>🔒<br>1<br>0</span>
+        </div>
+      </div>
+    `
+}
 
 
 
@@ -340,32 +336,22 @@ function showMap(){
   app.innerHTML = `
     <section class="screen map-screen" ${bg(ASSETS.map)}>
 
-      ${
-        allDone
-          ? ""
-          : `
-           <div class="storm-strip start-storm">
-  <div class="digital-rain">
-    <span style="left:3%; animation-delay:0s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:10%; animation-delay:1s;">0<br>1<br>0<br>🔒<br>1</span>
-    <span style="left:17%; animation-delay:2s;">1<br>1<br>0<br>1<br>0</span>
-    <span style="left:24%; animation-delay:0.5s;">0<br>1<br>🔒<br>0<br>1</span>
-    <span style="left:31%; animation-delay:1.5s;">1<br>0<br>1<br>1<br>0</span>
-    <span style="left:38%; animation-delay:2.5s;">0<br>🔒<br>1<br>0<br>1</span>
-    <span style="left:45%; animation-delay:0.8s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:52%; animation-delay:1.8s;">0<br>1<br>0<br>1<br>🔒</span>
-    <span style="left:59%; animation-delay:2.8s;">1<br>1<br>0<br>0<br>1</span>
-    <span style="left:66%; animation-delay:0.3s;">0<br>1<br>🔒<br>1<br>0</span>
-    <span style="left:73%; animation-delay:1.3s;">1<br>0<br>1<br>0<br>1</span>
-    <span style="left:80%; animation-delay:2.3s;">0<br>1<br>0<br>🔒<br>1</span>
-    <span style="left:87%; animation-delay:0.6s;">1<br>0<br>1<br>1<br>0</span>
-    <span style="left:94%; animation-delay:1.6s;">0<br>🔒<br>1<br>0<br>1</span>
-  </div>
-</div>
+ ${
+  allDone
+    ? ""
+    : `
+      <div class="storm-strip map-storm">
+        <div class="digital-rain">
+          <span style="left:62%; animation-delay:0s;">1<br>0<br>1<br>0<br>🔒</span>
+          <span style="left:68%; animation-delay:1s;">0<br>1<br>0<br>1<br>0</span>
+          <span style="left:74%; animation-delay:2s;">1<br>🔒<br>0<br>1<br>0</span>
+          <span style="left:80%; animation-delay:0.5s;">0<br>1<br>1<br>0<br>1</span>
+          <span style="left:86%; animation-delay:1.5s;">1<br>0<br>🔒<br>1<br>0</span>
+        </div>
+      </div>
+    `
+}
 
-
-          `
-      }
 
       <button class="btn back-btn" onclick="showStartScreen()">
         ← Назад
@@ -381,7 +367,7 @@ function showMap(){
 
       <button
         class="map-level citadel ${allDone ? "completed" : "locked"}"
-        style="left:57%; top:18%;"
+        style="left:73%; top:38%;"
         onclick="${allDone ? "showCitadel()" : "citadelLocked()"}"
       >
         <img

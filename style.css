@@ -939,3 +939,10 @@ body {
 
 
 
+/* ФІКС РОЗМІРУ ЛОГО НА СТАРТОВОМУ ЕКРАНІ */
+.start-panel .start-logo {
+  width: 680px !important;
+  max-width: 90vw !important;
+  height: auto !important;
+}
+

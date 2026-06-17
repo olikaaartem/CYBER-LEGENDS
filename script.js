@@ -84,12 +84,12 @@ const SOUNDS = {
   click: new Audio("music/click.mp3"),
   crystal: new Audio("music/crystal.mp3")
 
-  /*
+  
   correct: new Audio("music/correct.mp3"),
   wrong: new Audio("music/wrong.mp3"),
   final: new Audio("music/final.mp3"),
   storm: new Audio("music/storm.mp3")
-  */
+  
 };
 
 function playSound(name){
@@ -110,7 +110,10 @@ function startMusic(){
 
   SOUNDS.click.volume = 0.8;
   SOUNDS.crystal.volume = 1;
-
+  SOUNDS.correct.volume = 0.9;
+  SOUNDS.wrong.volume = 0.9;
+  SOUNDS.final.volume = 0.8;
+  SOUNDS.storm.volume = 0.25;
   SOUNDS.bg.play().catch(() => {});
 }
 
@@ -199,7 +202,8 @@ const KINGDOM_STORY = `
     <h3>Наставники Королівства</h3>
 
     <div class="story-mentors-row">
-      ${renderStoryMentorButtons()}
+     <div id="storyMentorsHere"></div>
+     
     </div>
 
   </div>
@@ -386,10 +390,14 @@ function openKingdomStory(){
 
   openModal(
     "Легенда Королівства КіберЛегенд",
-    KINGDOM_STORY,
+    KINGDOM_STORY.replace(
+      '<div id="storyMentorsHere"></div>',
+      renderStoryMentorButtons()
+    ),
     "story-modal"
   );
 }
+
 
 function openSettings(){
 

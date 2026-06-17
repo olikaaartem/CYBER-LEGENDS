@@ -173,12 +173,12 @@ const KINGDOM_STORY = `
     <div class="story-highlight">
       <p>
         Колись у Королівстві КіберЛегенд панували мир, знання та безпека.
-        У самому центрі королівства сяяв могутній Кристал Мудрості.
+        У самому центрі королівства сяяв могутній Кристал БЕЗПЕКИ.
       </p>
 
       <p>
         Він допомагав мешканцям відрізняти правду від брехні,
-        берегти особисті секрети та безпечно подорожувати цифровим світом.
+        берегти особисті секрети та безпечно подорожувати цифровими світами.
       </p>
     </div>
 
@@ -390,13 +390,15 @@ function openKingdomStory(){
 
   openModal(
     "Легенда Королівства КіберЛегенд",
-    KINGDOM_STORY.replace(
-      '<div id="storyMentorsHere"></div>',
-      renderStoryMentorButtons()
-    ),
-    "story-modal"
-  );
-}
+    KINGDOM_STORY,
+     "story-modal"
+     );
+   const box = document.getElrmrntById("storyMentorsHere");
+   if (box) {
+      box.innerHTML = renderStoryMentorButtons();
+      
+   }}
+  
 
 
 function openSettings(){

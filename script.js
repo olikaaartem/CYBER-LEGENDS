@@ -101,7 +101,7 @@ function startMusic(){
    ЗВУКИ  частково
 ===================================================== */
 const SOUNDS = {
-  bg: new Audio("music/bg_music.mp3"),
+  bg: new Audio("music/bg.mp3"),
   click: new Audio("music/click.mp3"),
   crystal: new Audio("music/crystal.mp3"),
  };

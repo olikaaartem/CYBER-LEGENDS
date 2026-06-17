@@ -82,7 +82,7 @@ const SOUNDS = {
 
   bg: new Audio("music/bg.mp3"),
   click: new Audio("music/click.mp3"),
-  crystal: new Audio("music/crystal.mp3")
+  crystal: new Audio("music/crystal.mp3"),
 
   
   correct: new Audio("music/correct.mp3"),

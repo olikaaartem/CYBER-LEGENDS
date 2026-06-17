@@ -11,7 +11,7 @@ const app = document.getElementById("app");
 
 const ASSETS = {
   start: "fon/fon_start.png",
-  map: "fon/NEW_FON_KARTAa.png?v=2",
+  newMap2026: "fon/NEW_FON_KARTAa.png?v=999999",
   heroSelect: "fon/fon_vubir_heroiv.png",
 
   level1: "fon/fon_book.png",
@@ -451,7 +451,7 @@ function showMap(){
 
     <section
       class="screen map-screen"
-      ${bg(ASSETS.map)}
+      ${bg(ASSETS.newMap2026)}
     >
 
       ${!allDone ? renderRain() : ""}

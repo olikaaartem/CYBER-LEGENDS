@@ -98,6 +98,32 @@ function startMusic(){
 */
 
 /* =====================================================
+   ЗВУКИ  частково
+===================================================== */
+const SOUNDS = {
+  bg: new Audio("music/bg_music.mp3"),
+  click: new Audio("music/click.mp3"),
+  crystal: new Audio("music/crystal.mp3"),
+ };
+function startMusic(){
+  SOUNDS.bg.loop = true;
+  SOUNDS.bg.volume = 0.25;
+  SOUNDS.bg.play().catch(() => {});
+}
+function playSound(name) {
+    const sound = SOUNDS[name];
+
+    if (!sound) return;
+
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+}
+
+document.addEventListener("click", () => {
+    startMusic();
+}, { once: true });
+
+/* =====================================================
    СТАН ГРИ
 ===================================================== */
 

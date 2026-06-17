@@ -107,7 +107,7 @@ const SOUNDS = {
  };
 function startMusic(){
   SOUNDS.bg.loop = true;
-  SOUNDS.bg.volume = 0.06;
+  SOUNDS.bg.volume = 0.04;
   SOUNDS.bg.play().catch(() => {});
 }
 function playSound(name) {

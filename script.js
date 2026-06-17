@@ -11,7 +11,7 @@ const app = document.getElementById("app");
 
 const ASSETS = {
   start: "fon/fon_start.png",
-  map: "fon/NEW_FON_KARTA.png",
+  map: "fon/NEW_FON_KARTAa.png",
   heroSelect: "fon/fon_vubir_heroiv.png",
 
   level1: "fon/fon_book.png",

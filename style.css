@@ -1428,5 +1428,39 @@ and (orientation: portrait) {
   }
 }
 
-
-
+/* =====================================================
+   історія продовження після натиску на медальйони появляться
+картки наставників та прокрутка додатково функція бо можливо не спрацювало
+===================================================== */
+.story-mentors-row{
+ display:flex;
+ gap:18px;
+ justify-content:center;
+ align-items:center;
+ flex-wrap:wrap;
+ margin-top:20px;
+ padding-bottom:20px;
+}
+.story-mentor-card{
+ width:130px;
+ min-height:150px;
+ border:2px solid #d8a744;
+ border-radius:18px;
+ background:rgba(255, 248, 225, 0.95);
+ cursor:pointer;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ gap:8px;
+ font-weight:700;
+}
+.story-mentor-card img{
+ width:80px;
+ height:80px;
+ object-fit:contain;
+}
+.story-modal .modal-content{
+ max-height:70vh;
+ overflow-y:auto;
+}

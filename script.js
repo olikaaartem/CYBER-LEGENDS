@@ -198,12 +198,8 @@ const KINGDOM_STORY = `
     </p>
 
     <h3>Наставники Королівства</h3>
-
-    <div class="story-mentors-row">
-     <div id="storyMentorsHere"></div>
-     
-    </div>
-
+ <div id="storyMentorsHere">
+  </div>
   </div>
 `;
 
@@ -387,15 +383,25 @@ function openModal(title, content, extraClass = ""){
 function openKingdomStory(){
 
   openModal(
+
     "Легенда Королівства КіберЛегенд",
-    KINGDOM_STORY,
-     "story-modal"
-     );
-   const box = document.getElrmrntById("storyMentorsHere");
-   if (box) {
-      box.innerHTML = renderStoryMentorButtons();
-      
-   }}
+
+    `
+
+      ${KINGDOM_STORY}
+<div class="story-mentors-row">
+
+        ${renderStoryMentorButtons()}
+</div>
+
+    `,
+
+    "story-modal"
+
+  );
+
+}
+ 
   
 
 

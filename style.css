@@ -1464,3 +1464,11 @@ and (orientation: portrait) {
  max-height:70vh;
  overflow-y:auto;
 }
+
+.start-screen .start-logo {
+ width: 520px !important;
+ max-width: 95vw !important;
+ height: auto !important;
+ transform: scale(1.15);
+ transform-origin: center;
+}

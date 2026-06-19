@@ -355,7 +355,7 @@ function showStartScreen(){
 
       </div>
 
-      <img class="start-raifik" src="${ASSETS.raifik}" alt="Райфик">
+      
 
     </section>
   `;

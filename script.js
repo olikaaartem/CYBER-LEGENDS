@@ -105,6 +105,7 @@ function playSound(name){
 function startMusic(){
 
   SOUNDS.bg.loop = true;
+   
   SOUNDS.bg.volume = 0.03;
 
   SOUNDS.click.volume = 0.8;
@@ -114,6 +115,9 @@ function startMusic(){
   SOUNDS.final.volume = 0.8;
   SOUNDS.storm.volume = 0.25;
   SOUNDS.bg.play().catch(() => {});
+  SOUNDS.storm.loop = true;
+  SOUNDS.storm.play().catch(() => {});
+   
 }
 
 document.addEventListener(
@@ -1352,7 +1356,7 @@ function checkAnswer(levelId, taskIndex, answerIndex){
 
   if(answerIndex !== task.correct){
 
-    // playSound("wrong");
+     playSound("wrong");
 
     resultBox.innerHTML =
       "❌ Спробуй ще раз. Подумай уважніше.";
@@ -1360,7 +1364,7 @@ function checkAnswer(levelId, taskIndex, answerIndex){
     return;
   }
 
-  // playSound("correct");
+   playSound("correct");
 
   if(!completedTasks[levelId]){
     completedTasks[levelId] = [];
@@ -1560,7 +1564,7 @@ function finalWrong(){
 
 function winGame(){
 
-  // playSound("final");
+   playSound("final");
 
   const resultBox = document.getElementById("result");
 

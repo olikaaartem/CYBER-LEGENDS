@@ -1472,3 +1472,43 @@ and (orientation: portrait) {
  transform: scale(1.15);
  transform-origin: center;
 }
+/* ===== КАРТА: кнопки та панель кристалів ===== */
+.map-screen .back-btn {
+ top: auto !important;
+ bottom: 28px !important;
+ left: 32px !important;
+}
+.crystal-panel {
+ top: 85px !important;
+ left: 32px !important;
+ width: 250px !important;
+}
+.crystal-panel-title {
+ margin-bottom: 8px;
+}
+.crystal-total {
+ font-size: 14px;
+ font-weight: 700;
+ margin-bottom: 12px;
+ color: #ffe28a;
+}
+.crystal-row {
+ gap: 8px;
+ padding: 7px 8px;
+}
+.crystal-row img {
+ width: 26px;
+ height: 26px;
+}
+.crystal-row span {
+ font-size: 13px;
+}
+.crystal-percent {
+ margin-left: auto;
+ font-size: 12px;
+ font-weight: 700;
+ color: #ffe28a;
+}
+.crystal-check {
+ font-size: 14px;
+}

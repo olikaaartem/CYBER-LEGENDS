@@ -145,12 +145,13 @@ function bg(image){
 
 function closeModal(){
 
-  const modal =
-    document.getElementById("modal");
+  const modals =
+    document.querySelectorAll(".modal-bg");
 
-  if(modal){
-    modal.remove();
+  if(modals.length > 0){
+    modals[modals.length - 1].remove();
   }
+
 }
 
 function getHeroImage(){

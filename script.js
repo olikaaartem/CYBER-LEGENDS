@@ -634,40 +634,45 @@ function renderCitadelButton(allDone){
 ===================================================== */
 
 function renderCrystalPanel(){
-
-  const rows = LEVELS.map(level => {
-    const done = completedLevels.includes(level.id);
-
-    return `
-      <div class="crystal-row ${done ? "active" : ""}" style="color:${level.color}">
-        <img
-          src="${done ? level.crystalOn : level.crystalOff}"
-          alt="${level.title}"
-        >
-        <span>${level.title}</span>
-      </div>
-    `;
-  }).join("");
-
-  const allDone = completedLevels.length >= 5;
-
-  return `
-    <div class="crystal-panel">
-      <div class="crystal-panel-title">
-        Зарядження кристалів
-      </div>
-
-      ${rows}
-
-      <div class="crystal-row ${allDone ? "active" : ""}" style="color:#b95cff">
-        <img
-          src="${allDone ? ASSETS.purpleOn : ASSETS.purpleOff}"
-          alt="Цитадель Хаосу"
-        >
-        <span>Цитадель Хаосу</span>
-      </div>
-    </div>
-  `;
+ const completedCount = completedLevels.length;
+ const totalPercent = completedCount * 20;
+ const rows = LEVELS.map(level => {
+   const doneTasks = completedTasks[level.id] || [];
+   const percent = doneTasks.length * 25;
+   const done = completedLevels.includes(level.id);
+   return `
+<div class="crystal-row ${done ? "active" : ""}" style="color:${level.color}">
+<span class="crystal-check">${done ? "✅" : "🔒"}</span>
+<img
+         src="${done ? level.crystalOn : level.crystalOff}"
+         alt="${level.title}"
+>
+<span>${level.title}</span>
+<span class="crystal-percent">${percent}%</span>
+</div>
+   `;
+ }).join("");
+ const allDone = completedLevels.length >= 5;
+ return `
+<div class="crystal-panel">
+<div class="crystal-panel-title">
+       Зарядження кристалів
+</div>
+<div class="crystal-total">
+       ${completedCount} / 5 відновлено • ${totalPercent}%
+</div>
+     ${rows}
+<div class="crystal-row ${allDone ? "active" : ""}" style="color:#b95cff">
+<span class="crystal-check">${allDone ? "✅" : "🔒"}</span>
+<img
+         src="${allDone ? ASSETS.purpleOn : ASSETS.purpleOff}"
+         alt="Цитадель Хаосу"
+>
+<span>Цитадель Хаосу</span>
+<span class="crystal-percent">${allDone ? "100%" : "0%"}</span>
+</div>
+</div>
+ `;
 }
 
 

@@ -52,6 +52,7 @@ const ASSETS = {
   medalNereus: "artefaktu/medaliony_3.png",
   medalAnubisa: "artefaktu/medaliony_4.png",
   medalTifon: "artefaktu/medaliony_5.png",
+  medalMordor: "artefaktu/maska_medaliony.png",
 
   /* КРИСТАЛИ */
 

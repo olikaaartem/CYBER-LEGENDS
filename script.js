@@ -545,7 +545,7 @@ const CITADEL = {
   crystalOn: ASSETS.purpleOn,
   medal: ASSETS.medalMordor,
   x: 70,
-  y: 7
+  y: 10
 };
 
 /* =====================================================

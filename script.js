@@ -486,7 +486,7 @@ const LEVELS = [
     crystalOff: ASSETS.yellowOff,
     crystalOn: ASSETS.yellowOn,
     color: "#ffd54a",
-    x: 38,
+    x: 36,
     y: 75
   },
   {
@@ -498,8 +498,8 @@ const LEVELS = [
     crystalOff: ASSETS.greenOff,
     crystalOn: ASSETS.greenOn,
     color: "#42e66f",
-    x: 42,
-    y: 52
+    x: 44,
+    y: 56
   },
   {
     id: 3,
@@ -511,7 +511,7 @@ const LEVELS = [
     crystalOn: ASSETS.blueOn,
     color: "#39b7ff",
     x: 62,
-    y: 66
+    y: 69
   },
   {
     id: 4,
@@ -522,8 +522,8 @@ const LEVELS = [
     crystalOff: ASSETS.pinkOff,
     crystalOn: ASSETS.pinkOn,
     color: "#ff78d7",
-    x: 58,
-    y: 39
+    x: 54,
+    y: 36
   },
   {
     id: 5,
@@ -534,8 +534,8 @@ const LEVELS = [
     crystalOff: ASSETS.redOff,
     crystalOn: ASSETS.redOn,
     color: "#ff4a35",
-    x: 72,
-    y: 57
+    x: 74,
+    y: 53
   }
 ];
 
@@ -544,8 +544,8 @@ const CITADEL = {
   crystalOff: ASSETS.purpleOff,
   crystalOn: ASSETS.purpleOn,
   medal: ASSETS.medalMordor,
-  x: 76,
-  y: 33
+  x: 67,
+  y: 25
 };
 
 /* =====================================================

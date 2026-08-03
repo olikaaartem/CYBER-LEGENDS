@@ -1637,7 +1637,7 @@ function checkBuiltPassword(levelId, taskIndex) {
 
 
 /* =====================================================
-   2. ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
+   МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
 ===================================================== */
 
 let selectedWeakPasswords = [];
@@ -1650,7 +1650,6 @@ const WEAK_PASSWORDS = [
 ];
 
 function openWeakPasswordHunter(levelId, taskIndex) {
-
   selectedWeakPasswords = [];
 
   const passwords = [
@@ -1672,22 +1671,34 @@ function openWeakPasswordHunter(levelId, taskIndex) {
 
         <br><br>
 
-        Натисни тільки на слабкі паролі, щоб знищити їх.
-        Сильні паролі чіпати не можна!
+        Обери всі слабкі паролі.
+        Можна вибрати декілька варіантів.
+
+        <br><br>
+
+        Коли завершиш вибір, натисни
+        <b>«Перевірити вибір»</b>.
       </div>
 
       <div class="challenge-grid weak-password-grid">
 
         ${passwords.map(password => `
           <button
+            type="button"
             class="challenge-card password-target"
             data-password="${password}"
-            onclick="toggleWeakPassword('${password}', this)"
+            onclick="toggleWeakPassword(this)"
           >
-            🔐
+            <div class="password-status">
+              🔐
+            </div>
 
             <div class="challenge-card-title">
               ${password}
+            </div>
+
+            <div class="password-choice-text">
+              Натисни, щоб обрати
             </div>
           </button>
         `).join("")}
@@ -1695,6 +1706,7 @@ function openWeakPasswordHunter(levelId, taskIndex) {
       </div>
 
       <button
+        type="button"
         class="btn"
         onclick="checkWeakPasswords(${levelId}, ${taskIndex})"
       >
@@ -1706,44 +1718,101 @@ function openWeakPasswordHunter(levelId, taskIndex) {
   );
 }
 
-function toggleWeakPassword(password, button) {
 
-  const index = selectedWeakPasswords.indexOf(password);
+function toggleWeakPassword(button) {
+  const password = button.dataset.password;
+  const status = button.querySelector(".password-status");
+  const text = button.querySelector(".password-choice-text");
 
-  if (index === -1) {
+  const passwordIndex =
+    selectedWeakPasswords.indexOf(password);
+
+  if (passwordIndex === -1) {
     selectedWeakPasswords.push(password);
-    button.classList.add("selected-answer");
-  } else {
-    selectedWeakPasswords.splice(index, 1);
-    button.classList.remove("selected-answer");
-  }
-}
 
-function checkWeakPasswords(levelId, taskIndex) {
+    button.classList.add("selected-answer");
+
+    if (status) {
+      status.textContent = "✅";
+    }
+
+    if (text) {
+      text.textContent = "Обрано";
+    }
+
+  } else {
+    selectedWeakPasswords.splice(passwordIndex, 1);
+
+    button.classList.remove("selected-answer");
+
+    if (status) {
+      status.textContent = "🔐";
+    }
+
+    if (text) {
+      text.textContent = "Натисни, щоб обрати";
+    }
+  }
 
   const resultBox = document.getElementById("result");
 
-  const selectedSorted = [...selectedWeakPasswords].sort();
-  const correctSorted = [...WEAK_PASSWORDS].sort();
+  if (resultBox) {
+    resultBox.innerHTML = `
+      Обрано паролів: ${selectedWeakPasswords.length}
+    `;
+  }
+}
 
-  const correct =
-    selectedSorted.length === correctSorted.length &&
-    selectedSorted.every(
-      (item, index) => item === correctSorted[index]
-    );
 
-  if (!correct) {
+function checkWeakPasswords(levelId, taskIndex) {
+  const resultBox = document.getElementById("result");
 
+  if (selectedWeakPasswords.length === 0) {
     playSound("wrong");
 
     resultBox.innerHTML = `
-      ❌ Не всі слабкі паролі знайдені.
+      ❌ Спочатку обери хоча б один пароль.
+    `;
+
+    return;
+  }
+
+  const selectedPasswords =
+    [...selectedWeakPasswords].sort();
+
+  const correctPasswords =
+    [...WEAK_PASSWORDS].sort();
+
+  const isCorrect =
+    selectedPasswords.length === correctPasswords.length &&
+    selectedPasswords.every(
+      (password, index) =>
+        password === correctPasswords[index]
+    );
+
+  if (!isCorrect) {
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      ❌ Серед обраних паролів є помилка.
 
       <br><br>
 
-      Підказка: слабкими часто є прості числа,
-      популярні слова, послідовності клавіш,
-      ім’я або рік народження.
+      Підказка Тотуса: слабкими часто бувають:
+
+      <br>
+
+      • прості числа;
+      <br>
+      • популярні слова;
+      <br>
+      • послідовності клавіш;
+      <br>
+      • ім’я та рік народження.
+
+      <br><br>
+
+      Зміни вибір і спробуй ще раз.
     `;
 
     return;
@@ -1755,6 +1824,7 @@ function checkWeakPasswords(levelId, taskIndex) {
     "Усі слабкі паролі Мордора знищено!"
   );
 }
+
 
 
 /* =====================================================

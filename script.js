@@ -28,7 +28,13 @@ const ASSETS = {
   /* ЛОГО */
 
   logo: "artefaktu/logo_game.png",
-
+   
+/* АРТЕФАКТИ НАСТАВНИКІВ */
+artifactBook: "artefaktu/artefakt_knuga.png",
+artifactMagnifier: "artefaktu/artefakt_lupa.png",
+artifactMirror: "artefaktu/artefakt_dzerkalo.png",
+artifactSphere: "artefaktu/artefakt_sfera.png",
+artifactSword: "artefaktu/artefakt_mech.png",
   /* ГЕРОЇ */
 
   boy: "geroi/boy.png",
@@ -477,66 +483,71 @@ function openMentorInfo(mentorId){
 ===================================================== */
 
 const LEVELS = [
-  {
-    id: 1,
-    title: "Замок Паролів",
-    mentorId: 1,
-    bg: ASSETS.level1,
-    medal: ASSETS.medalTotus,
-    crystalOff: ASSETS.yellowOff,
-    crystalOn: ASSETS.yellowOn,
-    color: "#ffd54a",
-    x: 37,
-    y: 75
-  },
-  {
-    id: 2,
-    title: "Ліс Приманок",
-    mentorId: 2,
-    bg: ASSETS.level2,
-    medal: ASSETS.medalFoxita,
-    crystalOff: ASSETS.greenOff,
-    crystalOn: ASSETS.greenOn,
-    color: "#42e66f",
-    x: 48,
-    y: 54
-  },
-  {
-    id: 3,
-    title: "Озеро Фейків",
-    mentorId: 3,
-    bg: ASSETS.level3,
-    medal: ASSETS.medalNereus,
-    crystalOff: ASSETS.blueOff,
-    crystalOn: ASSETS.blueOn,
-    color: "#39b7ff",
-    x: 64,
-    y: 61
-  },
-  {
-    id: 4,
-    title: "Печера Даних",
-    mentorId: 4,
-    bg: ASSETS.level4,
-    medal: ASSETS.medalAnubisa,
-    crystalOff: ASSETS.pinkOff,
-    crystalOn: ASSETS.pinkOn,
-    color: "#ff78d7",
-    x: 64,
-    y: 36
-  },
-  {
-    id: 5,
-    title: "Фортеця Захисту",
-    mentorId: 5,
-    bg: ASSETS.level5,
-    medal: ASSETS.medalTifon,
-    crystalOff: ASSETS.redOff,
-    crystalOn: ASSETS.redOn,
-    color: "#ff4a35",
-    x: 77,
-    y: 50
-  }
+ {
+   id: 1,
+   title: "Замок Паролів",
+   mentorId: 1,
+   bg: ASSETS.level1,
+   medal: ASSETS.medalTotus,
+   artifact: ASSETS.artifactBook,
+   crystalOff: ASSETS.yellowOff,
+   crystalOn: ASSETS.yellowOn,
+   color: "#ffd54a",
+   x: 37,
+   y: 75
+ },
+ {
+   id: 2,
+   title: "Ліс Приманок",
+   mentorId: 2,
+   bg: ASSETS.level2,
+   medal: ASSETS.medalFoxita,
+   artifact: ASSETS.artifactMagnifier,
+   crystalOff: ASSETS.greenOff,
+   crystalOn: ASSETS.greenOn,
+   color: "#42e66f",
+   x: 48,
+   y: 54
+ },
+ {
+   id: 3,
+   title: "Озеро Фейків",
+   mentorId: 3,
+   bg: ASSETS.level3,
+   medal: ASSETS.medalNereus,
+   artifact: ASSETS.artifactMirror,
+   crystalOff: ASSETS.blueOff,
+   crystalOn: ASSETS.blueOn,
+   color: "#39b7ff",
+   x: 64,
+   y: 61
+ },
+ {
+   id: 4,
+   title: "Печера Даних",
+   mentorId: 4,
+   bg: ASSETS.level4,
+   medal: ASSETS.medalAnubisa,
+   artifact: ASSETS.artifactSphere,
+   crystalOff: ASSETS.pinkOff,
+   crystalOn: ASSETS.pinkOn,
+   color: "#ff78d7",
+   x: 64,
+   y: 36
+ },
+ {
+   id: 5,
+   title: "Фортеця Захисту",
+   mentorId: 5,
+   bg: ASSETS.level5,
+   medal: ASSETS.medalTifon,
+   artifact: ASSETS.artifactSword,
+   crystalOff: ASSETS.redOff,
+   crystalOn: ASSETS.redOn,
+   color: "#ff4a35",
+   x: 77,
+   y: 50
+ }
 ];
 
 const CITADEL = {
@@ -1042,53 +1053,34 @@ function openLevelTheory(levelId){
    ЗАВДАННЯ РІВНІВ
 ===================================================== */
 
+
+/* =====================================================
+Рівень 1 - наставник ТОТУС
+===================================================== */
+
 const CHALLENGES = {
-  1: [
-    {
-      title: "Знайди сильний пароль",
-      icon: ASSETS.yellowOn,
-      question: "Який пароль найнадійніший?",
-      answers: [
-        "123456",
-        "qwerty",
-        "Kiber!2026_Legend"
-      ],
-      correct: 2
-    },
-    {
-      title: "Парольний секрет",
-      icon: ASSETS.yellowOn,
-      question: "Чи можна ділитися паролем з другом?",
-      answers: [
-        "Так",
-        "Ні",
-        "Тільки один раз"
-      ],
-      correct: 1
-    },
-    {
-      title: "Додатковий щит",
-      icon: ASSETS.yellowOn,
-      question: "Що краще захищає акаунт?",
-      answers: [
-        "Один пароль для всіх сайтів",
-        "Двофакторна автентифікація",
-        "Пароль у нотатках"
-      ],
-      correct: 1
-    },
-    {
-      title: "Слабке місце",
-      icon: ASSETS.yellowOn,
-      question: "Що не варто використовувати як пароль?",
-      answers: [
-        "Ім’я і дату народження",
-        "Довгу фразу",
-        "Символи та цифри"
-      ],
-      correct: 0
-    }
-  ],
+ 1: [
+ {
+   type: "password-builder",
+   title: "Будівельник сейфу"
+ },
+ {
+   type: "weak-password-hunter",
+   title: "Полювальник за слабкостями"
+ },
+ {
+   type: "password-manager",
+   title: "Менеджер ключів"
+ },
+ {
+   type: "two-factor",
+   title: "Синхронний ключ"
+ }
+],
+
+/* =====================================================
+Рівень 2 - наставник ФОКСІТА
+===================================================== */
 
   2: [
     {
@@ -1283,70 +1275,90 @@ const CHALLENGES = {
    ВІДКРИТИ ВИПРОБУВАННЯ
 ===================================================== */
 
-function openChallenge(levelId){
-
-  const level = LEVELS.find(item => item.id === levelId);
-  const tasks = CHALLENGES[levelId];
-  const done = completedTasks[levelId] || [];
-
-  openModal(
-    "Випробування: " + level.title,
-    `
-      <div class="task-instruction">
-        Виконай 4 завдання, щоб зарядити кристал на 100%.
-      </div>
-
-      <div class="challenge-grid">
-        ${tasks.map((task, index) => `
-          <button
-            class="challenge-card"
-            onclick="playSound('click'); openTask(${levelId}, ${index})"
-          >
-            <img src="${task.icon}" alt="${task.title}">
-
-            <div class="challenge-card-title">
-              ${task.title}
-            </div>
-
-            <div class="challenge-card-status">
-              ${done.includes(index) ? "✅ виконано" : "почати"}
-            </div>
-          </button>
-        `).join("")}
-      </div>
-    `
-  );
+function openChallenge(levelId) {
+ const level = LEVELS.find(item => item.id === levelId);
+ const tasks = CHALLENGES[levelId];
+ const done = completedTasks[levelId] || [];
+ if (!level || !tasks) {
+   openModal(
+     "Помилка",
+     "<p>Не вдалося відкрити випробування цього рівня.</p>"
+   );
+   return;
+ }
+ openModal(
+   "Випробування: " + level.title,
+   `
+<div class="task-instruction">
+       Виконай 4 завдання, щоб зарядити кристал на 100%.
+</div>
+<div class="challenge-grid">
+       ${tasks.map((task, index) => `
+<button
+           class="challenge-card"
+           onclick="playSound('click'); openTask(${levelId}, ${index})"
+>
+<img
+             src="${level.artifact}"
+             alt="Артефакт рівня ${level.title}"
+>
+<div class="challenge-card-title">
+             ${task.title}
+</div>
+<div class="challenge-card-status">
+             ${done.includes(index) ? "✅ виконано" : "почати"}
+</div>
+</button>
+       `).join("")}
+</div>
+   `
+ );
 }
 
 /* =====================================================
    ВІДКРИТИ ЗАВДАННЯ
 ===================================================== */
 
-function openTask(levelId, taskIndex){
-
-  const task = CHALLENGES[levelId][taskIndex];
-
-  closeModal();
-
-  openModal(
-    task.title,
-    `
-      <p class="task-instruction">
-        ${task.question}
-      </p>
-
-      ${task.answers.map((answer, index) => `
-        <button
-          class="answer-btn"
-          onclick="checkAnswer(${levelId}, ${taskIndex}, ${index})"
-        >
-          ${answer}
-        </button>
-      `).join("")}
-
-      <div class="result-box" id="result"></div>
-    `
-  );
+function openTask(levelId, taskIndex) {
+ const task = CHALLENGES[levelId][taskIndex];
+ if (!task) return;
+ closeModal();
+ if (levelId === 1) {
+   if (task.type === "password-builder") {
+     openPasswordBuilder(levelId, taskIndex);
+     return;
+   }
+   if (task.type === "weak-password-hunter") {
+     openWeakPasswordHunter(levelId, taskIndex);
+     return;
+   }
+   if (task.type === "password-manager") {
+     openPasswordManager(levelId, taskIndex);
+     return;
+   }
+   if (task.type === "two-factor") {
+     openTwoFactorTask(levelId, taskIndex);
+     return;
+   }
+ }
+ /* Старий формат для інших рівнів */
+ openModal(
+   task.title,
+   `
+<p class="task-instruction">
+       ${task.question}
+</p>
+     ${task.answers.map((answer, index) => `
+<button
+         class="answer-btn"
+         onclick="checkAnswer(${levelId}, ${taskIndex}, ${index})"
+>
+         ${answer}
+</button>
+     `).join("")}
+<div class="result-box" id="result"></div>
+   `
+ );
 }
 
 /* =====================================================

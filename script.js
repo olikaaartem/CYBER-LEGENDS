@@ -1360,6 +1360,750 @@ function openTask(levelId, taskIndex) {
    `
  );
 }
+/* =====================================================
+   МІНІІГРИ: ЗАМОК ПАРОЛІВ
+===================================================== */
+
+
+/* =====================================================
+   ЗАВЕРШЕННЯ МІНІІГРИ
+===================================================== */
+
+function completeMiniGame(levelId, taskIndex, message) {
+
+  if (!completedTasks[levelId]) {
+    completedTasks[levelId] = [];
+  }
+
+  if (!completedTasks[levelId].includes(taskIndex)) {
+    completedTasks[levelId].push(taskIndex);
+  }
+
+  const progress = completedTasks[levelId].length * 25;
+
+  playSound("correct");
+
+  if (progress >= 100) {
+
+    if (!completedLevels.includes(levelId)) {
+      completedLevels.push(levelId);
+    }
+
+    playSound("crystal");
+
+    closeModal();
+    openLevelReward(levelId);
+
+    return;
+  }
+
+  const resultBox = document.getElementById("result");
+
+  if (!resultBox) return;
+
+  resultBox.innerHTML = `
+    <div class="story-highlight">
+      <p>✅ ${message}</p>
+      <p>Жовтий кристал заряджено на ${progress}%.</p>
+    </div>
+
+    <button
+      class="btn"
+      onclick="playSound('click'); closeModal(); openChallenge(${levelId})"
+    >
+      До наступного завдання
+    </button>
+  `;
+}
+
+
+/* =====================================================
+   1. БУДІВЕЛЬНИК СЕЙФУ
+===================================================== */
+
+let passwordBuilderParts = {
+  word: "",
+  number: "",
+  symbol: ""
+};
+
+function openPasswordBuilder(levelId, taskIndex) {
+
+  passwordBuilderParts = {
+    word: "",
+    number: "",
+    symbol: ""
+  };
+
+  openModal(
+    "Будівельник сейфу",
+    `
+      <div class="task-instruction">
+        Створи надійний пароль для сейфу Тотуса.
+        Обери одну частину з кожної категорії.
+      </div>
+
+      <div class="password-preview">
+        <strong>Твій пароль:</strong>
+
+        <div
+          id="builtPassword"
+          style="
+            margin-top:12px;
+            font-size:24px;
+            font-weight:800;
+            letter-spacing:2px;
+          "
+        >
+          Пароль ще не створено
+        </div>
+      </div>
+
+      <h3>1. Обери слово</h3>
+
+      <div class="answer-grid">
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('word', 'Cat', this)"
+        >
+          Cat
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('word', 'CyberLegend', this)"
+        >
+          CyberLegend
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('word', 'Olga', this)"
+        >
+          Olga
+        </button>
+      </div>
+
+      <h3>2. Обери цифри</h3>
+
+      <div class="answer-grid">
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('number', '123', this)"
+        >
+          123
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('number', '4827', this)"
+        >
+          4827
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('number', '2026', this)"
+        >
+          2026
+        </button>
+      </div>
+
+      <h3>3. Обери спеціальні символи</h3>
+
+      <div class="answer-grid">
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('symbol', '', this)"
+        >
+          Без символів
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('symbol', '!', this)"
+        >
+          !
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="selectPasswordPart('symbol', '#!', this)"
+        >
+          #!
+        </button>
+      </div>
+
+      <button
+        class="btn"
+        onclick="checkBuiltPassword(${levelId}, ${taskIndex})"
+      >
+        Перевірити пароль
+      </button>
+
+      <div class="result-box" id="result"></div>
+    `
+  );
+}
+
+function selectPasswordPart(category, value, button) {
+
+  passwordBuilderParts[category] = value;
+
+  const buttons = button.parentElement.querySelectorAll(".answer-btn");
+
+  buttons.forEach(item => {
+    item.classList.remove("selected-answer");
+  });
+
+  button.classList.add("selected-answer");
+
+  const password =
+    passwordBuilderParts.word +
+    passwordBuilderParts.number +
+    passwordBuilderParts.symbol;
+
+  const preview = document.getElementById("builtPassword");
+
+  if (preview) {
+    preview.textContent =
+      password || "Пароль ще не створено";
+  }
+}
+
+function checkBuiltPassword(levelId, taskIndex) {
+
+  const password =
+    passwordBuilderParts.word +
+    passwordBuilderParts.number +
+    passwordBuilderParts.symbol;
+
+  const resultBox = document.getElementById("result");
+
+  const isLongEnough = password.length >= 12;
+  const hasLetters = /[a-zA-Z]/.test(password);
+  const hasNumbers = /[0-9]/.test(password);
+  const hasSymbols = /[^a-zA-Z0-9]/.test(password);
+
+  if (
+    !passwordBuilderParts.word ||
+    !passwordBuilderParts.number ||
+    passwordBuilderParts.symbol === ""
+  ) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML =
+      "❌ Обери слово, цифри та спеціальні символи.";
+
+    return;
+  }
+
+  if (
+    !isLongEnough ||
+    !hasLetters ||
+    !hasNumbers ||
+    !hasSymbols
+  ) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      ❌ Пароль недостатньо сильний.
+
+      <br><br>
+
+      Спробуй створити пароль довжиною не менше 12 символів,
+      додати цифри та спеціальні символи.
+    `;
+
+    return;
+  }
+
+  completeMiniGame(
+    levelId,
+    taskIndex,
+    "Сейф замкнено на надійний пароль!"
+  );
+}
+
+
+/* =====================================================
+   2. ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
+===================================================== */
+
+let selectedWeakPasswords = [];
+
+const WEAK_PASSWORDS = [
+  "12345678",
+  "password",
+  "qwerty",
+  "katya2014"
+];
+
+function openWeakPasswordHunter(levelId, taskIndex) {
+
+  selectedWeakPasswords = [];
+
+  const passwords = [
+    "12345678",
+    "K7#mP9!xL",
+    "password",
+    "R0bLox_P4ss!",
+    "qwerty",
+    "S3cur3_Safe#49",
+    "katya2014",
+    "BlueDragon!827"
+  ];
+
+  openModal(
+    "Полювальник за слабкостями",
+    `
+      <div class="task-instruction">
+        Мордор випустив слабкі паролі.
+
+        <br><br>
+
+        Натисни тільки на слабкі паролі, щоб знищити їх.
+        Сильні паролі чіпати не можна!
+      </div>
+
+      <div class="challenge-grid weak-password-grid">
+
+        ${passwords.map(password => `
+          <button
+            class="challenge-card password-target"
+            data-password="${password}"
+            onclick="toggleWeakPassword('${password}', this)"
+          >
+            🔐
+
+            <div class="challenge-card-title">
+              ${password}
+            </div>
+          </button>
+        `).join("")}
+
+      </div>
+
+      <button
+        class="btn"
+        onclick="checkWeakPasswords(${levelId}, ${taskIndex})"
+      >
+        Перевірити вибір
+      </button>
+
+      <div class="result-box" id="result"></div>
+    `
+  );
+}
+
+function toggleWeakPassword(password, button) {
+
+  const index = selectedWeakPasswords.indexOf(password);
+
+  if (index === -1) {
+    selectedWeakPasswords.push(password);
+    button.classList.add("selected-answer");
+  } else {
+    selectedWeakPasswords.splice(index, 1);
+    button.classList.remove("selected-answer");
+  }
+}
+
+function checkWeakPasswords(levelId, taskIndex) {
+
+  const resultBox = document.getElementById("result");
+
+  const selectedSorted = [...selectedWeakPasswords].sort();
+  const correctSorted = [...WEAK_PASSWORDS].sort();
+
+  const correct =
+    selectedSorted.length === correctSorted.length &&
+    selectedSorted.every(
+      (item, index) => item === correctSorted[index]
+    );
+
+  if (!correct) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      ❌ Не всі слабкі паролі знайдені.
+
+      <br><br>
+
+      Підказка: слабкими часто є прості числа,
+      популярні слова, послідовності клавіш,
+      ім’я або рік народження.
+    `;
+
+    return;
+  }
+
+  completeMiniGame(
+    levelId,
+    taskIndex,
+    "Усі слабкі паролі Мордора знищено!"
+  );
+}
+
+
+/* =====================================================
+   3. МЕНЕДЖЕР КЛЮЧІВ
+===================================================== */
+
+let accountPasswords = {
+  roblox: "",
+  tiktok: "",
+  personal: ""
+};
+
+let selectedAccount = null;
+
+function openPasswordManager(levelId, taskIndex) {
+
+  accountPasswords = {
+    roblox: "",
+    tiktok: "",
+    personal: ""
+  };
+
+  selectedAccount = null;
+
+  openModal(
+    "Менеджер ключів",
+    `
+      <div class="task-instruction">
+        Розподіли різні сильні паролі між трьома акаунтами.
+
+        <br><br>
+
+        Спочатку натисни на акаунт, а потім обери для нього пароль.
+        Один пароль не можна використовувати всюди.
+      </div>
+
+      <div class="account-list">
+
+        <button
+          id="account-roblox"
+          class="answer-btn"
+          onclick="selectAccount('roblox', this)"
+        >
+          🎮 Roblox:
+          <span id="password-roblox">пароль не обрано</span>
+        </button>
+
+        <button
+          id="account-tiktok"
+          class="answer-btn"
+          onclick="selectAccount('tiktok', this)"
+        >
+          🎵 TikTok:
+          <span id="password-tiktok">пароль не обрано</span>
+        </button>
+
+        <button
+          id="account-personal"
+          class="answer-btn"
+          onclick="selectAccount('personal', this)"
+        >
+          👤 Особистий акаунт:
+          <span id="password-personal">пароль не обрано</span>
+        </button>
+
+      </div>
+
+      <h3>Ключі-паролі</h3>
+
+      <div class="answer-grid">
+
+        <button
+          class="answer-btn"
+          onclick="assignPassword('SuperNinja!2026')"
+        >
+          SuperNinja!2026
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="assignPassword('F0xita#Green77')"
+        >
+          F0xita#Green77
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="assignPassword('Lake_Truth!482')"
+        >
+          Lake_Truth!482
+        </button>
+
+        <button
+          class="answer-btn"
+          onclick="assignPassword('12345678')"
+        >
+          12345678
+        </button>
+
+      </div>
+
+      <button
+        class="btn"
+        onclick="checkPasswordManager(${levelId}, ${taskIndex})"
+      >
+        Перевірити ключі
+      </button>
+
+      <div class="result-box" id="result"></div>
+    `
+  );
+}
+
+function selectAccount(account, button) {
+
+  selectedAccount = account;
+
+  document
+    .querySelectorAll(".account-list .answer-btn")
+    .forEach(item => {
+      item.classList.remove("selected-answer");
+    });
+
+  button.classList.add("selected-answer");
+}
+
+function assignPassword(password) {
+
+  const resultBox = document.getElementById("result");
+
+  if (!selectedAccount) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML =
+      "Спочатку обери акаунт.";
+
+    return;
+  }
+
+  accountPasswords[selectedAccount] = password;
+
+  const passwordText =
+    document.getElementById(
+      "password-" + selectedAccount
+    );
+
+  if (passwordText) {
+    passwordText.textContent = password;
+  }
+
+  resultBox.innerHTML =
+    "Ключ додано до обраного акаунта.";
+}
+
+function checkPasswordManager(levelId, taskIndex) {
+
+  const resultBox = document.getElementById("result");
+
+  const passwords = Object.values(accountPasswords);
+
+  const allSelected =
+    passwords.every(password => password !== "");
+
+  if (!allSelected) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML =
+      "❌ Додай пароль до кожного акаунта.";
+
+    return;
+  }
+
+  if (passwords.includes("12345678")) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML =
+      "❌ Слабкий пароль 12345678 не можна використовувати.";
+
+    return;
+  }
+
+  const uniquePasswords = new Set(passwords);
+
+  if (uniquePasswords.size !== passwords.length) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      ❌ Для різних акаунтів потрібно використовувати різні паролі.
+    `;
+
+    return;
+  }
+
+  completeMiniGame(
+    levelId,
+    taskIndex,
+    "Усі акаунти отримали різні надійні ключі!"
+  );
+}
+
+
+/* =====================================================
+   4. СИНХРОННИЙ КЛЮЧ — 2FA
+===================================================== */
+
+let currentTwoFactorCode = "";
+let twoFactorStagePassed = false;
+
+function generateTwoFactorCode() {
+
+  return String(
+    Math.floor(100000 + Math.random() * 900000)
+  );
+}
+
+function openTwoFactorTask(levelId, taskIndex) {
+
+  currentTwoFactorCode = generateTwoFactorCode();
+  twoFactorStagePassed = false;
+
+  openModal(
+    "Синхронний ключ",
+    `
+      <div class="task-instruction">
+        Мордор намагається увійти до акаунта героя.
+
+        <br><br>
+
+        На смартфон надійшло сповіщення:
+      </div>
+
+      <div class="story-highlight">
+        <p>
+          🔔 Вхід із міста Готем
+        </p>
+
+        <p>
+          Пристрій: невідомий комп’ютер
+        </p>
+
+        <p>
+          Це ви?
+        </p>
+      </div>
+
+      <button
+        class="answer-btn"
+        onclick="acceptUnknownLogin()"
+      >
+        ✅ Так, дозволити вхід
+      </button>
+
+      <button
+        class="answer-btn"
+        onclick="rejectUnknownLogin(${levelId}, ${taskIndex})"
+      >
+        ❌ Ні, заблокувати
+      </button>
+
+      <div class="result-box" id="result"></div>
+    `
+  );
+}
+
+function acceptUnknownLogin() {
+
+  const resultBox = document.getElementById("result");
+
+  playSound("wrong");
+
+  resultBox.innerHTML = `
+    ❌ Це був Мордор!
+
+    <br><br>
+
+    Не підтверджуй вхід, якщо ти його не здійснював.
+  `;
+}
+
+function rejectUnknownLogin(levelId, taskIndex) {
+
+  twoFactorStagePassed = true;
+
+  const resultBox = document.getElementById("result");
+
+  playSound("correct");
+
+  resultBox.innerHTML = `
+    ✅ Невідомий вхід заблоковано!
+
+    <br><br>
+
+    Для завершення захисту введи одноразовий код:
+
+    <div
+      style="
+        margin:18px 0;
+        font-size:30px;
+        font-weight:900;
+        letter-spacing:6px;
+      "
+    >
+      ${currentTwoFactorCode}
+    </div>
+
+    <input
+      id="twoFactorInput"
+      class="hero-name-input"
+      maxlength="6"
+      inputmode="numeric"
+      placeholder="Введи 6 цифр"
+    >
+
+    <br><br>
+
+    <button
+      class="btn"
+      onclick="checkTwoFactorCode(${levelId}, ${taskIndex})"
+    >
+      Підтвердити код
+    </button>
+  `;
+}
+
+function checkTwoFactorCode(levelId, taskIndex) {
+
+  const input =
+    document.getElementById("twoFactorInput");
+
+  const resultBox =
+    document.getElementById("result");
+
+  if (!twoFactorStagePassed || !input) return;
+
+  if (input.value.trim() !== currentTwoFactorCode) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML += `
+      <p>
+        ❌ Код неправильний. Перевір цифри та спробуй ще раз.
+      </p>
+    `;
+
+    return;
+  }
+
+  completeMiniGame(
+    levelId,
+    taskIndex,
+    "Двофакторний захист активовано!"
+  );
+}
 
 /* =====================================================
    ПЕРЕВІРКА ВІДПОВІДІ

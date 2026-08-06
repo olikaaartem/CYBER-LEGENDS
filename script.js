@@ -24,6 +24,11 @@ const ASSETS = {
   level5: "fon/fon_vylkan.png",
 
   citadel: "fon/Fon_mordor_1.png",
+   
+  /*міні гра 1 рівень 1 БУДІВЕЛЬНИК СЕЙФУ */
+   
+   safeBuilderBg: "fon/fon_safe_builder.png",
+   safeBuilderSafe: "artefaktu/safe_builder.png",
 
   /* ЛОГО */
 
@@ -1428,212 +1433,764 @@ function completeMiniGame(levelId, taskIndex, message) {
 /* =====================================================
    1. БУДІВЕЛЬНИК СЕЙФУ
 ===================================================== */
+/* =====================================================
+   МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ
+===================================================== */
 
-let passwordBuilderParts = {
+let passwordBuilderState = {
   word: "",
-  number: "",
-  symbol: ""
+  symbol: "",
+  length: "",
+  letterCase: ""
 };
+
+
+/* =====================================================
+   ВІДКРИТТЯ МІНІГРИ
+===================================================== */
 
 function openPasswordBuilder(levelId, taskIndex) {
 
-  passwordBuilderParts = {
+  closeModal();
+
+  passwordBuilderState = {
     word: "",
-    number: "",
-    symbol: ""
+    symbol: "",
+    length: "",
+    letterCase: ""
   };
 
-  openModal(
-    "Будівельник сейфу",
-    `
-      <div class="task-instruction">
-        Створи надійний пароль для сейфу Тотуса.
-        Обери одну частину з кожної категорії.
-      </div>
-
-      <div class="password-preview">
-        <strong>Твій пароль:</strong>
-
-        <div
-          id="builtPassword"
-          style="
-            margin-top:12px;
-            font-size:24px;
-            font-weight:800;
-            letter-spacing:2px;
-          "
-        >
-          Пароль ще не створено
-        </div>
-      </div>
-
-      <h3>1. Обери слово</h3>
-
-      <div class="answer-grid">
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('word', 'Cat', this)"
-        >
-          Cat
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('word', 'CyberLegend', this)"
-        >
-          CyberLegend
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('word', 'Olga', this)"
-        >
-          Olga
-        </button>
-      </div>
-
-      <h3>2. Обери цифри</h3>
-
-      <div class="answer-grid">
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('number', '123', this)"
-        >
-          123
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('number', '4827', this)"
-        >
-          4827
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('number', '2026', this)"
-        >
-          2026
-        </button>
-      </div>
-
-      <h3>3. Обери спеціальні символи</h3>
-
-      <div class="answer-grid">
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('symbol', '', this)"
-        >
-          Без символів
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('symbol', '!', this)"
-        >
-          !
-        </button>
-
-        <button
-          class="answer-btn"
-          onclick="selectPasswordPart('symbol', '#!', this)"
-        >
-          #!
-        </button>
-      </div>
+  app.innerHTML = `
+    <section
+      class="screen safe-builder-screen"
+      ${bg(ASSETS.safeBuilderBg)}
+    >
 
       <button
-        class="btn"
-        onclick="checkBuiltPassword(${levelId}, ${taskIndex})"
+        class="btn safe-builder-back"
+        onclick="
+          playSound('click');
+          showLevel(${levelId});
+          openChallenge(${levelId});
+        "
       >
-        Перевірити пароль
+        ← До випробувань
       </button>
 
-      <div class="result-box" id="result"></div>
-    `
-  );
+      <div class="safe-builder-header">
+
+        <h1>
+          Будівельник сейфу
+        </h1>
+
+        <p>
+          Обери по одному елементу з кожної категорії
+          та створи пароль, який Мордор не зламає.
+        </p>
+
+      </div>
+
+      <div class="safe-builder-layout">
+
+        <div class="safe-builder-left-panel">
+
+          ${renderPasswordCategory(
+            "word",
+            "1. Основа пароля",
+            [
+              {
+                value: "Cat",
+                label: "Cat",
+                hint: "Коротке просте слово"
+              },
+              {
+                value: "MyDog2015",
+                label: "MyDog2015",
+                hint: "Ім’я та рік"
+              },
+              {
+                value: "P1zz4_S3cr3t",
+                label: "P1zz4_S3cr3t",
+                hint: "Складна фраза"
+              }
+            ]
+          )}
+
+          ${renderPasswordCategory(
+            "symbol",
+            "2. Спеціальний символ",
+            [
+              {
+                value: "none",
+                label: "Без символів",
+                hint: "Не додавати"
+              },
+              {
+                value: "#",
+                label: "#",
+                hint: "Решітка"
+              },
+              {
+                value: "@",
+                label: "@",
+                hint: "Символ @"
+              },
+              {
+                value: "!",
+                label: "!",
+                hint: "Знак оклику"
+              }
+            ]
+          )}
+
+        </div>
+
+        <div class="safe-builder-center">
+
+          <div
+            id="safeVisual"
+            class="safe-builder-safe-wrap"
+          >
+            <div
+              id="safeRedFlash"
+              class="safe-red-flash"
+            ></div>
+
+            <div
+              id="safeGoldenFlash"
+              class="safe-golden-flash"
+            ></div>
+
+            <img
+              id="safeImage"
+              class="safe-builder-safe"
+              src="${ASSETS.safeBuilderSafe}"
+              alt="Магічний сейф"
+            >
+
+            <div
+              id="safeCrackText"
+              class="safe-crack-text"
+            >
+              ЗЛАМАНО!
+            </div>
+          </div>
+
+          <div class="safe-password-display">
+
+            <div class="safe-password-label">
+              Створений пароль
+            </div>
+
+            <div
+              id="passwordPreview"
+              class="safe-password-value"
+            >
+              Обери елементи
+            </div>
+
+          </div>
+
+          <div class="safe-strength-panel">
+
+            <div class="safe-strength-top">
+
+              <span>
+                Міцність захисту
+              </span>
+
+              <strong id="strengthPercent">
+                0%
+              </strong>
+
+            </div>
+
+            <div class="safe-strength-track">
+
+              <div
+                id="strengthFill"
+                class="safe-strength-fill"
+                style="width:0%;"
+              ></div>
+
+            </div>
+
+            <div
+              id="strengthLabel"
+              class="safe-strength-label strength-empty"
+            >
+              Захист ще не створено
+            </div>
+
+          </div>
+
+          <button
+            id="lockSafeButton"
+            class="btn safe-lock-button"
+            onclick="checkSafePassword(${levelId}, ${taskIndex})"
+          >
+            🔐 Замкнути сейф
+          </button>
+
+          <div
+            id="safeBuilderResult"
+            class="safe-builder-result"
+          ></div>
+
+        </div>
+
+        <div class="safe-builder-right-panel">
+
+          ${renderPasswordCategory(
+            "length",
+            "3. Довжина пароля",
+            [
+              {
+                value: "4",
+                label: "4 символи",
+                hint: "Короткий"
+              },
+              {
+                value: "8",
+                label: "8 символів",
+                hint: "Середній"
+              },
+              {
+                value: "12",
+                label: "12+ символів",
+                hint: "Довгий"
+              }
+            ]
+          )}
+
+          ${renderPasswordCategory(
+            "letterCase",
+            "4. Регістр",
+            [
+              {
+                value: "lower",
+                label: "abc",
+                hint: "Лише малі"
+              },
+              {
+                value: "upper",
+                label: "ABC",
+                hint: "Лише великі"
+              },
+              {
+                value: "mixed",
+                label: "aBc",
+                hint: "Великі та малі"
+              }
+            ]
+          )}
+
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+  updateSafeBuilder();
 }
 
-function selectPasswordPart(category, value, button) {
 
-  passwordBuilderParts[category] = value;
+/* =====================================================
+   СТВОРЕННЯ КАТЕГОРІЙ
+===================================================== */
 
-  const buttons = button.parentElement.querySelectorAll(".answer-btn");
+function renderPasswordCategory(category, title, options) {
 
-  buttons.forEach(item => {
-    item.classList.remove("selected-answer");
-  });
+  return `
+    <div class="safe-option-group">
 
-  button.classList.add("selected-answer");
+      <h3>
+        ${title}
+      </h3>
 
-  const password =
-    passwordBuilderParts.word +
-    passwordBuilderParts.number +
-    passwordBuilderParts.symbol;
+      <div class="safe-option-list">
 
-  const preview = document.getElementById("builtPassword");
+        ${options.map(option => `
+          <button
+            type="button"
+            class="safe-option-card"
+            data-category="${category}"
+            data-value="${option.value}"
+            onclick="
+              selectSafeOption(
+                '${category}',
+                '${option.value}',
+                this
+              )
+            "
+          >
+            <strong>
+              ${option.label}
+            </strong>
 
-  if (preview) {
-    preview.textContent =
-      password || "Пароль ще не створено";
+            <span>
+              ${option.hint}
+            </span>
+          </button>
+        `).join("")}
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =====================================================
+   ВИБІР ЕЛЕМЕНТА
+===================================================== */
+
+function selectSafeOption(category, value, button) {
+
+  passwordBuilderState[category] = value;
+
+  document
+    .querySelectorAll(
+      `.safe-option-card[data-category="${category}"]`
+    )
+    .forEach(item => {
+      item.classList.remove("selected");
+    });
+
+  button.classList.add("selected");
+
+  playSound("click");
+
+  updateSafeBuilder();
+}
+
+
+/* =====================================================
+   СТВОРЕННЯ ПАРОЛЯ
+===================================================== */
+
+function buildSafePassword() {
+
+  let word = passwordBuilderState.word || "";
+
+  if (passwordBuilderState.letterCase === "upper") {
+    word = word.toUpperCase();
   }
-}
 
-function checkBuiltPassword(levelId, taskIndex) {
+  if (passwordBuilderState.letterCase === "lower") {
+    word = word.toLowerCase();
+  }
 
-  const password =
-    passwordBuilderParts.word +
-    passwordBuilderParts.number +
-    passwordBuilderParts.symbol;
+  if (passwordBuilderState.letterCase === "mixed") {
 
-  const resultBox = document.getElementById("result");
+    word = word
+      .split("")
+      .map((letter, index) => {
 
-  const isLongEnough = password.length >= 12;
-  const hasLetters = /[a-zA-Z]/.test(password);
-  const hasNumbers = /[0-9]/.test(password);
-  const hasSymbols = /[^a-zA-Z0-9]/.test(password);
+        if (!/[a-zA-Z]/.test(letter)) {
+          return letter;
+        }
 
-  if (
-    !passwordBuilderParts.word ||
-    !passwordBuilderParts.number ||
-    passwordBuilderParts.symbol === ""
+        return index % 2 === 0
+          ? letter.toUpperCase()
+          : letter.toLowerCase();
+      })
+      .join("");
+  }
+
+  const symbol =
+    passwordBuilderState.symbol === "none"
+      ? ""
+      : passwordBuilderState.symbol;
+
+  let password = word + symbol;
+
+  const targetLength =
+    Number(passwordBuilderState.length || 0);
+
+  const numberParts = ["27", "84", "2026", "531"];
+
+  let numberIndex = 0;
+
+  while (
+    targetLength > 0 &&
+    password.length < targetLength
   ) {
 
-    playSound("wrong");
+    password += numberParts[numberIndex];
 
-    resultBox.innerHTML =
-      "❌ Обери слово, цифри та спеціальні символи.";
+    numberIndex =
+      (numberIndex + 1) % numberParts.length;
+  }
+
+  return password;
+}
+
+
+/* =====================================================
+   РОЗРАХУНОК МІЦНОСТІ
+===================================================== */
+
+function calculateSafeStrength() {
+
+  let score = 0;
+
+  if (passwordBuilderState.word === "Cat") {
+    score += 5;
+  }
+
+  if (passwordBuilderState.word === "MyDog2015") {
+    score += 15;
+  }
+
+  if (passwordBuilderState.word === "P1zz4_S3cr3t") {
+    score += 30;
+  }
+
+  if (
+    passwordBuilderState.symbol &&
+    passwordBuilderState.symbol !== "none"
+  ) {
+    score += 20;
+  }
+
+  if (passwordBuilderState.length === "4") {
+    score += 5;
+  }
+
+  if (passwordBuilderState.length === "8") {
+    score += 15;
+  }
+
+  if (passwordBuilderState.length === "12") {
+    score += 30;
+  }
+
+  if (passwordBuilderState.letterCase === "lower") {
+    score += 5;
+  }
+
+  if (passwordBuilderState.letterCase === "upper") {
+    score += 8;
+  }
+
+  if (passwordBuilderState.letterCase === "mixed") {
+    score += 20;
+  }
+
+  return Math.min(score, 100);
+}
+
+
+/* =====================================================
+   ОНОВЛЕННЯ ІНТЕРФЕЙСУ
+===================================================== */
+
+function updateSafeBuilder() {
+
+  const preview =
+    document.getElementById("passwordPreview");
+
+  const percentElement =
+    document.getElementById("strengthPercent");
+
+  const strengthFill =
+    document.getElementById("strengthFill");
+
+  const strengthLabel =
+    document.getElementById("strengthLabel");
+
+  if (
+    !preview ||
+    !percentElement ||
+    !strengthFill ||
+    !strengthLabel
+  ) {
+    return;
+  }
+
+  const password = buildSafePassword();
+
+  const selectedCount =
+    Object.values(passwordBuilderState)
+      .filter(value => value !== "").length;
+
+  const strength = calculateSafeStrength();
+
+  preview.textContent =
+    selectedCount === 0
+      ? "Обери елементи"
+      : password || "Пароль без символів";
+
+  percentElement.textContent =
+    `${strength}%`;
+
+  strengthFill.style.width =
+    `${strength}%`;
+
+  strengthFill.classList.remove(
+    "weak",
+    "medium",
+    "strong"
+  );
+
+  strengthLabel.classList.remove(
+    "strength-empty",
+    "strength-weak",
+    "strength-medium",
+    "strength-strong"
+  );
+
+  if (selectedCount < 4) {
+
+    strengthLabel.textContent =
+      `Обрано категорій: ${selectedCount} з 4`;
+
+    strengthLabel.classList.add(
+      "strength-empty"
+    );
 
     return;
   }
 
-  if (
-    !isLongEnough ||
-    !hasLetters ||
-    !hasNumbers ||
-    !hasSymbols
-  ) {
+  if (strength < 50) {
+
+    strengthFill.classList.add("weak");
+
+    strengthLabel.textContent =
+      "Слабкий пароль";
+
+    strengthLabel.classList.add(
+      "strength-weak"
+    );
+
+    return;
+  }
+
+  if (strength < 85) {
+
+    strengthFill.classList.add("medium");
+
+    strengthLabel.textContent =
+      "Середній захист";
+
+    strengthLabel.classList.add(
+      "strength-medium"
+    );
+
+    return;
+  }
+
+  strengthFill.classList.add("strong");
+
+  strengthLabel.textContent =
+    "Надійний пароль";
+
+  strengthLabel.classList.add(
+    "strength-strong"
+  );
+}
+
+
+/* =====================================================
+   ПЕРЕВІРКА ПАРОЛЯ
+===================================================== */
+
+function checkSafePassword(levelId, taskIndex) {
+
+  const resultBox =
+    document.getElementById("safeBuilderResult");
+
+  const selectedCount =
+    Object.values(passwordBuilderState)
+      .filter(value => value !== "").length;
+
+  if (selectedCount < 4) {
 
     playSound("wrong");
 
     resultBox.innerHTML = `
-      ❌ Пароль недостатньо сильний.
-
-      <br><br>
-
-      Спробуй створити пароль довжиною не менше 12 символів,
-      додати цифри та спеціальні символи.
+      ❌ Обери по одному елементу
+      з усіх чотирьох категорій.
     `;
+
+    shakeSafe("light");
 
     return;
   }
 
-  completeMiniGame(
-    levelId,
-    taskIndex,
-    "Сейф замкнено на надійний пароль!"
-  );
+  const strength = calculateSafeStrength();
+
+  if (strength < 50) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      <strong>
+        ❌ Зламано за 1 секунду!
+      </strong>
+
+      <br>
+
+      Мордор легко підібрав цей пароль.
+      Додай довжину, різний регістр
+      і спеціальний символ.
+    `;
+
+    shakeSafe("strong");
+
+    return;
+  }
+
+  if (strength < 85) {
+
+    playSound("wrong");
+
+    resultBox.innerHTML = `
+      ⚠️ Непогано, але сейф ще недостатньо захищений.
+
+      <br>
+
+      Спробуй використати складнішу основу,
+      12+ символів, різний регістр
+      і спеціальний символ.
+    `;
+
+    shakeSafe("medium");
+
+    return;
+  }
+
+  completeSafeBuilder(levelId, taskIndex);
 }
+
+
+/* =====================================================
+   ТРЯСКА СЕЙФА
+===================================================== */
+
+function shakeSafe(power = "light") {
+
+  const safeVisual =
+    document.getElementById("safeVisual");
+
+  const redFlash =
+    document.getElementById("safeRedFlash");
+
+  const crackText =
+    document.getElementById("safeCrackText");
+
+  if (!safeVisual) return;
+
+  safeVisual.classList.remove(
+    "safe-shake-light",
+    "safe-shake-medium",
+    "safe-shake-strong"
+  );
+
+  void safeVisual.offsetWidth;
+
+  safeVisual.classList.add(
+    `safe-shake-${power}`
+  );
+
+  if (redFlash) {
+    redFlash.classList.add("active");
+  }
+
+  if (
+    power === "strong" &&
+    crackText
+  ) {
+    crackText.classList.add("active");
+  }
+
+  window.setTimeout(() => {
+
+    safeVisual.classList.remove(
+      "safe-shake-light",
+      "safe-shake-medium",
+      "safe-shake-strong"
+    );
+
+    if (redFlash) {
+      redFlash.classList.remove("active");
+    }
+
+    if (crackText) {
+      crackText.classList.remove("active");
+    }
+
+  }, 900);
+}
+
+
+/* =====================================================
+   УСПІШНЕ ЗАВЕРШЕННЯ
+===================================================== */
+
+function completeSafeBuilder(levelId, taskIndex) {
+
+  const safeVisual =
+    document.getElementById("safeVisual");
+
+  const safeImage =
+    document.getElementById("safeImage");
+
+  const goldenFlash =
+    document.getElementById("safeGoldenFlash");
+
+  const resultBox =
+    document.getElementById("safeBuilderResult");
+
+  const lockButton =
+    document.getElementById("lockSafeButton");
+
+  playSound("correct");
+
+  if (lockButton) {
+    lockButton.disabled = true;
+  }
+
+  if (safeVisual) {
+    safeVisual.classList.add(
+      "safe-success"
+    );
+  }
+
+  if (safeImage) {
+    safeImage.classList.add(
+      "safe-lock-animation"
+    );
+  }
+
+  if (goldenFlash) {
+    goldenFlash.classList.add("active");
+  }
+
+  resultBox.innerHTML = `
+    <strong>
+      ✅ Надійний пароль створено!
+    </strong>
+
+    <br>
+
+    Сейф замкнено, а Мордор
+    не зміг зламати захист.
+  `;
+
+  window.setTimeout(() => {
+
+    completeMiniGame(
+      levelId,
+      taskIndex,
+      "Сейф захищено надійним паролем!"
+    );
+
+  }, 1800);
+}
+
 
 
 /* =====================================================

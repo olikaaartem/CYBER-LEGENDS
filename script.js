@@ -2196,192 +2196,1250 @@ function completeSafeBuilder(levelId, taskIndex) {
 /* =====================================================
    МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
 ===================================================== */
+/* =====================================================
+   МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
+===================================================== */
 
-let selectedWeakPasswords = [];
+const WEAK_HUNTER_CONFIG = {
+  duration: 30,
+  targetScore: 15,
+  maxLives: 3,
+  maxPasswordsOnScreen: 7,
+  spawnInterval: 720
+};
 
-const WEAK_PASSWORDS = [
-  "12345678",
-  "password",
-  "qwerty",
-  "katya2014"
+
+const WEAK_HUNTER_PASSWORDS = [
+  {
+    value: "12345678",
+    weak: true
+  },
+  {
+    value: "password",
+    weak: true
+  },
+  {
+    value: "qwerty",
+    weak: true
+  },
+  {
+    value: "katya2014",
+    weak: true
+  },
+  {
+    value: "iloveyou",
+    weak: true
+  },
+  {
+    value: "123456789",
+    weak: true
+  },
+  {
+    value: "admin123",
+    weak: true
+  },
+  {
+    value: "11111111",
+    weak: true
+  },
+  {
+    value: "football",
+    weak: true
+  },
+  {
+    value: "princess",
+    weak: true
+  },
+
+  {
+    value: "K7#mP9!xL",
+    weak: false
+  },
+  {
+    value: "R0bL0x_P4ss!",
+    weak: false
+  },
+  {
+    value: "S3cur3_S4fe#9",
+    weak: false
+  },
+  {
+    value: "BlueDragon1827!",
+    weak: false
+  },
+  {
+    value: "M0on#River_84",
+    weak: false
+  },
+  {
+    value: "Cyb3r!Castle#27",
+    weak: false
+  }
 ];
 
+
+let weakHunterState = {
+  levelId: null,
+  taskIndex: null,
+
+  timeLeft: WEAK_HUNTER_CONFIG.duration,
+  score: 0,
+  lives: WEAK_HUNTER_CONFIG.maxLives,
+
+  running: false,
+  finished: false,
+
+  timerId: null,
+  spawnId: null,
+
+  passwordTimeouts: []
+};
+
+
+/* =====================================================
+   ВІДКРИТТЯ МІНІГРИ
+===================================================== */
+
 function openWeakPasswordHunter(levelId, taskIndex) {
-  selectedWeakPasswords = [];
 
-  const passwords = [
-    "12345678",
-    "K7#mP9!xL",
-    "password",
-    "R0bLox_P4ss!",
-    "qwerty",
-    "S3cur3_Safe#49",
-    "katya2014",
-    "BlueDragon!827"
-  ];
+  closeModal();
 
-  openModal(
-    "Полювальник за слабкостями",
-    `
-      <div class="task-instruction">
-        Мордор випустив слабкі паролі.
+  cleanupWeakHunter();
 
-        <br><br>
+  weakHunterState = {
+    levelId,
+    taskIndex,
 
-        Обери всі слабкі паролі.
-        Можна вибрати декілька варіантів.
+    timeLeft: WEAK_HUNTER_CONFIG.duration,
+    score: 0,
+    lives: WEAK_HUNTER_CONFIG.maxLives,
 
-        <br><br>
+    running: false,
+    finished: false,
 
-        Коли завершиш вибір, натисни
-        <b>«Перевірити вибір»</b>.
-      </div>
+    timerId: null,
+    spawnId: null,
 
-      <div class="challenge-grid weak-password-grid">
+    passwordTimeouts: []
+  };
 
-        ${passwords.map(password => `
-          <button
-            type="button"
-            class="challenge-card password-target"
-            data-password="${password}"
-            onclick="toggleWeakPassword(this)"
-          >
-            <div class="password-status">
-              🔐
-            </div>
-
-            <div class="challenge-card-title">
-              ${password}
-            </div>
-
-            <div class="password-choice-text">
-              Натисни, щоб обрати
-            </div>
-          </button>
-        `).join("")}
-
-      </div>
+  app.innerHTML = `
+    <section
+      class="screen weak-hunter-screen"
+      ${bg(ASSETS.weakHunterBg)}
+    >
 
       <button
         type="button"
-        class="btn"
-        onclick="checkWeakPasswords(${levelId}, ${taskIndex})"
+        class="btn weak-hunter-back"
+        onclick="leaveWeakHunter()"
       >
-        Перевірити вибір
+        ← До випробувань
       </button>
 
-      <div class="result-box" id="result"></div>
-    `
+      <div class="weak-hunter-dark-overlay"></div>
+
+      <div
+        id="weakHunterGameArea"
+        class="weak-hunter-game-area"
+      ></div>
+
+      <div
+        id="weakHunterMentorStage"
+        class="weak-hunter-mentor-stage"
+      >
+
+        <button
+          type="button"
+          class="weak-hunter-mentor-button"
+          onclick="showWeakHunterInstructions()"
+          aria-label="Натисни на наставника Тотуса"
+        >
+          <img
+            class="weak-hunter-mentor"
+            src="${ASSETS.totus}"
+            alt="Наставник Тотус"
+          >
+        </button>
+
+        <div class="weak-hunter-mentor-hint">
+          Натисни на наставника
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+  playSound("click");
+}
+
+
+/* =====================================================
+   ПОЯСНЕННЯ ТОТУСА
+===================================================== */
+
+function showWeakHunterInstructions() {
+
+  playSound("click");
+
+  const mentorStage =
+    document.getElementById("weakHunterMentorStage");
+
+  if (!mentorStage) return;
+
+  mentorStage.innerHTML = `
+    <div class="weak-hunter-dialog-scene">
+
+      <img
+        class="weak-hunter-dialog-mentor"
+        src="${ASSETS.totus}"
+        alt="Наставник Тотус"
+      >
+
+      <div class="weak-hunter-dialog">
+
+        <h2>
+          Полювання за слабкостями
+        </h2>
+
+        <p>
+          Мордор випустив у Замок слабкі паролі.
+        </p>
+
+        <p>
+          Натискай лише на
+          <strong>слабкі паролі</strong>,
+          щоб знищити їх.
+        </p>
+
+        <p>
+          <strong>Сильні паролі не чіпай!</strong>
+          За помилку згасне один кристал життя.
+        </p>
+
+        <div class="weak-hunter-rules">
+
+          <span>
+            ⏱️ 30 секунд
+          </span>
+
+          <span>
+            🎯 15 слабких паролів
+          </span>
+
+          <span>
+            💎 3 життя
+          </span>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn weak-hunter-start-button"
+          onclick="startWeakHunterGame()"
+        >
+          Розпочати полювання
+        </button>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =====================================================
+   ЗАПУСК ГРИ
+===================================================== */
+
+function startWeakHunterGame() {
+
+  cleanupWeakHunter();
+
+  weakHunterState.timeLeft =
+    WEAK_HUNTER_CONFIG.duration;
+
+  weakHunterState.score = 0;
+
+  weakHunterState.lives =
+    WEAK_HUNTER_CONFIG.maxLives;
+
+  weakHunterState.running = true;
+  weakHunterState.finished = false;
+
+  const gameArea =
+    document.getElementById("weakHunterGameArea");
+
+  const mentorStage =
+    document.getElementById("weakHunterMentorStage");
+
+  if (!gameArea || !mentorStage) return;
+
+  mentorStage.classList.add("hidden");
+
+  gameArea.innerHTML = `
+    <div class="weak-hunter-hud">
+
+      <div class="weak-hunter-hud-box">
+
+        <span class="weak-hunter-hud-label">
+          Час
+        </span>
+
+        <strong id="weakHunterTimer">
+          00:30
+        </strong>
+
+      </div>
+
+      <div class="weak-hunter-hud-box">
+
+        <span class="weak-hunter-hud-label">
+          Знищено
+        </span>
+
+        <strong id="weakHunterScore">
+          0 / ${WEAK_HUNTER_CONFIG.targetScore}
+        </strong>
+
+      </div>
+
+      <div class="weak-hunter-hud-box weak-hunter-lives-box">
+
+        <span class="weak-hunter-hud-label">
+          Життя
+        </span>
+
+        <div
+          id="weakHunterLives"
+          class="weak-hunter-lives"
+        >
+          ${renderWeakHunterLives()}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div
+      id="weakHunterPasswords"
+      class="weak-hunter-password-zone"
+    ></div>
+
+    <div class="weak-hunter-center-crystal-wrap">
+
+      <div
+        id="weakHunterCrystalGlow"
+        class="weak-hunter-crystal-glow"
+      ></div>
+
+      <img
+        id="weakHunterCenterCrystal"
+        class="weak-hunter-center-crystal"
+        src="${ASSETS.yellowCrystal}"
+        alt="Кристал Замку Паролів"
+      >
+
+    </div>
+
+    <div
+      id="weakHunterMessage"
+      class="weak-hunter-message"
+    ></div>
+  `;
+
+  updateWeakHunterHud();
+
+  playSound("click");
+
+  for (let index = 0; index < 5; index += 1) {
+
+    window.setTimeout(() => {
+
+      if (weakHunterState.running) {
+        spawnWeakHunterPassword();
+      }
+
+    }, index * 180);
+  }
+
+  weakHunterState.spawnId =
+    window.setInterval(() => {
+
+      spawnWeakHunterPassword();
+
+    }, WEAK_HUNTER_CONFIG.spawnInterval);
+
+  weakHunterState.timerId =
+    window.setInterval(() => {
+
+      weakHunterState.timeLeft -= 1;
+
+      updateWeakHunterHud();
+
+      if (weakHunterState.timeLeft <= 0) {
+
+        failWeakHunter(
+          "Час завершився. Спробуй ще раз!"
+        );
+      }
+
+    }, 1000);
+}
+
+
+/* =====================================================
+   ВІДОБРАЖЕННЯ ЖИТТІВ
+===================================================== */
+
+function renderWeakHunterLives() {
+
+  return Array
+    .from(
+      {
+        length: WEAK_HUNTER_CONFIG.maxLives
+      },
+      (_, index) => `
+        <img
+          class="
+            weak-hunter-life-crystal
+            ${index < weakHunterState.lives
+              ? "active"
+              : "inactive"}
+          "
+          src="${ASSETS.yellowCrystal}"
+          alt=""
+        >
+      `
+    )
+    .join("");
+}
+
+
+/* =====================================================
+   СТВОРЕННЯ ЛІТАЮЧОГО ПАРОЛЯ
+===================================================== */
+
+function spawnWeakHunterPassword() {
+
+  if (
+    !weakHunterState.running ||
+    weakHunterState.finished
+  ) {
+    return;
+  }
+
+  const passwordZone =
+    document.getElementById(
+      "weakHunterPasswords"
+    );
+
+  if (!passwordZone) return;
+
+  const currentPasswords =
+    passwordZone.querySelectorAll(
+      ".weak-hunter-password"
+    );
+
+  if (
+    currentPasswords.length >=
+    WEAK_HUNTER_CONFIG.maxPasswordsOnScreen
+  ) {
+    return;
+  }
+
+  const passwordData =
+    getRandomWeakHunterPassword();
+
+  const passwordElement =
+    document.createElement("button");
+
+  passwordElement.type = "button";
+
+  passwordElement.className =
+    `weak-hunter-password ${
+      passwordData.weak
+        ? "weak-password"
+        : "strong-password"
+    }`;
+
+  passwordElement.textContent =
+    passwordData.value;
+
+  passwordElement.dataset.weak =
+    String(passwordData.weak);
+
+  const startX =
+    randomWeakHunterNumber(8, 78);
+
+  const startY =
+    randomWeakHunterNumber(17, 75);
+
+  const moveX =
+    randomWeakHunterNumber(-120, 120);
+
+  const moveY =
+    randomWeakHunterNumber(-80, 80);
+
+  const rotation =
+    randomWeakHunterNumber(-10, 10);
+
+  const lifetime =
+    randomWeakHunterNumber(4800, 6800);
+
+  passwordElement.style.left =
+    `${startX}%`;
+
+  passwordElement.style.top =
+    `${startY}%`;
+
+  passwordElement.style.setProperty(
+    "--weak-hunter-move-x",
+    `${moveX}px`
+  );
+
+  passwordElement.style.setProperty(
+    "--weak-hunter-move-y",
+    `${moveY}px`
+  );
+
+  passwordElement.style.setProperty(
+    "--weak-hunter-rotation",
+    `${rotation}deg`
+  );
+
+  passwordElement.style.setProperty(
+    "--weak-hunter-duration",
+    `${lifetime}ms`
+  );
+
+  passwordElement.addEventListener(
+    "click",
+    () => {
+
+      handleWeakHunterPassword(
+        passwordElement,
+        passwordData
+      );
+    }
+  );
+
+  passwordZone.appendChild(passwordElement);
+
+  const timeoutId =
+    window.setTimeout(() => {
+
+      expireWeakHunterPassword(
+        passwordElement,
+        passwordData
+      );
+
+    }, lifetime);
+
+  weakHunterState.passwordTimeouts.push(
+    timeoutId
   );
 }
 
 
-function toggleWeakPassword(button) {
-  const password = button.dataset.password;
-  const status = button.querySelector(".password-status");
-  const text = button.querySelector(".password-choice-text");
+/* =====================================================
+   ВИПАДКОВИЙ ПАРОЛЬ
+===================================================== */
 
-  const passwordIndex =
-    selectedWeakPasswords.indexOf(password);
+function getRandomWeakHunterPassword() {
 
-  if (passwordIndex === -1) {
-    selectedWeakPasswords.push(password);
+  /*
+    Приблизно 65% паролів будуть слабкими,
+    щоб дитина встигла набрати 15 балів.
+  */
 
-    button.classList.add("selected-answer");
+  const shouldBeWeak =
+    Math.random() < 0.65;
 
-    if (status) {
-      status.textContent = "✅";
-    }
+  const availablePasswords =
+    WEAK_HUNTER_PASSWORDS.filter(
+      item => item.weak === shouldBeWeak
+    );
 
-    if (text) {
-      text.textContent = "Обрано";
+  return availablePasswords[
+    Math.floor(
+      Math.random() *
+      availablePasswords.length
+    )
+  ];
+}
+
+
+/* =====================================================
+   КЛІК ПО ПАРОЛЮ
+===================================================== */
+
+function handleWeakHunterPassword(
+  passwordElement,
+  passwordData
+) {
+
+  if (
+    !weakHunterState.running ||
+    weakHunterState.finished ||
+    passwordElement.classList.contains(
+      "destroyed"
+    )
+  ) {
+    return;
+  }
+
+  passwordElement.classList.add(
+    "destroyed"
+  );
+
+  passwordElement.disabled = true;
+
+  if (passwordData.weak) {
+
+    playSound("correct");
+
+    weakHunterState.score += 1;
+
+    passwordElement.classList.add(
+      "correct-hit"
+    );
+
+    createWeakHunterParticles(
+      passwordElement,
+      "gold"
+    );
+
+    showWeakHunterMessage(
+      "+1",
+      "success"
+    );
+
+    pulseWeakHunterCrystal("success");
+
+    updateWeakHunterHud();
+
+    if (
+      weakHunterState.score >=
+      WEAK_HUNTER_CONFIG.targetScore
+    ) {
+
+      window.setTimeout(() => {
+
+        completeWeakHunter();
+
+      }, 260);
     }
 
   } else {
-    selectedWeakPasswords.splice(passwordIndex, 1);
 
-    button.classList.remove("selected-answer");
-
-    if (status) {
-      status.textContent = "🔐";
-    }
-
-    if (text) {
-      text.textContent = "Натисни, щоб обрати";
-    }
-  }
-
-  const resultBox = document.getElementById("result");
-
-  if (resultBox) {
-    resultBox.innerHTML = `
-      Обрано паролів: ${selectedWeakPasswords.length}
-    `;
-  }
-}
-
-
-function checkWeakPasswords(levelId, taskIndex) {
-  const resultBox = document.getElementById("result");
-
-  if (selectedWeakPasswords.length === 0) {
     playSound("wrong");
 
-    resultBox.innerHTML = `
-      ❌ Спочатку обери хоча б один пароль.
-    `;
-
-    return;
-  }
-
-  const selectedPasswords =
-    [...selectedWeakPasswords].sort();
-
-  const correctPasswords =
-    [...WEAK_PASSWORDS].sort();
-
-  const isCorrect =
-    selectedPasswords.length === correctPasswords.length &&
-    selectedPasswords.every(
-      (password, index) =>
-        password === correctPasswords[index]
+    passwordElement.classList.add(
+      "wrong-hit"
     );
 
-  if (!isCorrect) {
-    playSound("wrong");
+    createWeakHunterParticles(
+      passwordElement,
+      "red"
+    );
 
-    resultBox.innerHTML = `
-      ❌ Серед обраних паролів є помилка.
+    showWeakHunterMessage(
+      "Сильний пароль! Не чіпай його",
+      "error"
+    );
 
-      <br><br>
+    loseWeakHunterLife();
+  }
 
-      Підказка Тотуса: слабкими часто бувають:
+  window.setTimeout(() => {
 
-      <br>
+    passwordElement.remove();
 
-      • прості числа;
-      <br>
-      • популярні слова;
-      <br>
-      • послідовності клавіш;
-      <br>
-      • ім’я та рік народження.
+  }, 430);
+}
 
-      <br><br>
 
-      Зміни вибір і спробуй ще раз.
-    `;
+/* =====================================================
+   ПАРОЛЬ ЗНИК ІЗ ЕКРАНА
+===================================================== */
 
+function expireWeakHunterPassword(
+  passwordElement,
+  passwordData
+) {
+
+  if (
+    !passwordElement ||
+    !passwordElement.isConnected ||
+    passwordElement.classList.contains(
+      "destroyed"
+    )
+  ) {
     return;
   }
 
-  completeMiniGame(
-    levelId,
-    taskIndex,
-    "Усі слабкі паролі Мордора знищено!"
+  passwordElement.classList.add(
+    "expired"
   );
+
+  /*
+    Якщо слабкий пароль не натиснули,
+    життя поки не забираємо.
+
+    Це робить мінігру зрозумілішою:
+    життя втрачається лише за помилковий
+    клік на сильний пароль.
+  */
+
+  window.setTimeout(() => {
+
+    passwordElement.remove();
+
+  }, 300);
 }
 
+
+/* =====================================================
+   ВТРАТА ЖИТТЯ
+===================================================== */
+
+function loseWeakHunterLife() {
+
+  if (
+    !weakHunterState.running ||
+    weakHunterState.finished
+  ) {
+    return;
+  }
+
+  weakHunterState.lives -= 1;
+
+  updateWeakHunterHud();
+
+  pulseWeakHunterCrystal("damage");
+
+  const lifeCrystals =
+    document.querySelectorAll(
+      ".weak-hunter-life-crystal"
+    );
+
+  const lostCrystal =
+    lifeCrystals[
+      weakHunterState.lives
+    ];
+
+  if (lostCrystal) {
+
+    lostCrystal.classList.add(
+      "just-lost"
+    );
+  }
+
+  if (weakHunterState.lives <= 0) {
+
+    window.setTimeout(() => {
+
+      failWeakHunter(
+        "Усі кристали життя згасли."
+      );
+
+    }, 450);
+  }
+}
+
+
+/* =====================================================
+   ОНОВЛЕННЯ HUD
+===================================================== */
+
+function updateWeakHunterHud() {
+
+  const timer =
+    document.getElementById(
+      "weakHunterTimer"
+    );
+
+  const score =
+    document.getElementById(
+      "weakHunterScore"
+    );
+
+  const lives =
+    document.getElementById(
+      "weakHunterLives"
+    );
+
+  if (timer) {
+
+    timer.textContent =
+      `00:${String(
+        Math.max(
+          weakHunterState.timeLeft,
+          0
+        )
+      ).padStart(2, "0")}`;
+
+    timer.classList.toggle(
+      "danger",
+      weakHunterState.timeLeft <= 7
+    );
+  }
+
+  if (score) {
+
+    score.textContent =
+      `${weakHunterState.score} / ${
+        WEAK_HUNTER_CONFIG.targetScore
+      }`;
+  }
+
+  if (lives) {
+
+    lives.innerHTML =
+      renderWeakHunterLives();
+  }
+}
+
+
+/* =====================================================
+   РЕАКЦІЯ ЦЕНТРАЛЬНОГО КРИСТАЛА
+===================================================== */
+
+function pulseWeakHunterCrystal(type) {
+
+  const crystal =
+    document.getElementById(
+      "weakHunterCenterCrystal"
+    );
+
+  if (!crystal) return;
+
+  crystal.classList.remove(
+    "weak-hunter-crystal-success-hit",
+    "weak-hunter-crystal-damage-hit"
+  );
+
+  void crystal.offsetWidth;
+
+  if (type === "damage") {
+
+    crystal.classList.add(
+      "weak-hunter-crystal-damage-hit"
+    );
+
+  } else {
+
+    crystal.classList.add(
+      "weak-hunter-crystal-success-hit"
+    );
+  }
+}
+
+
+/* =====================================================
+   КОРОТКЕ ПОВІДОМЛЕННЯ
+===================================================== */
+
+function showWeakHunterMessage(
+  text,
+  type = "success"
+) {
+
+  const message =
+    document.getElementById(
+      "weakHunterMessage"
+    );
+
+  if (!message) return;
+
+  message.textContent = text;
+
+  message.className =
+    `weak-hunter-message ${type} active`;
+
+  window.setTimeout(() => {
+
+    if (message) {
+
+      message.classList.remove("active");
+    }
+
+  }, 850);
+}
+
+
+/* =====================================================
+   ЧАСТИНКИ ПІСЛЯ КЛІКУ
+===================================================== */
+
+function createWeakHunterParticles(
+  target,
+  type = "gold"
+) {
+
+  const gameArea =
+    document.getElementById(
+      "weakHunterGameArea"
+    );
+
+  if (!gameArea || !target) return;
+
+  const targetRect =
+    target.getBoundingClientRect();
+
+  const areaRect =
+    gameArea.getBoundingClientRect();
+
+  const centerX =
+    targetRect.left -
+    areaRect.left +
+    targetRect.width / 2;
+
+  const centerY =
+    targetRect.top -
+    areaRect.top +
+    targetRect.height / 2;
+
+  for (let index = 0; index < 9; index += 1) {
+
+    const particle =
+      document.createElement("span");
+
+    particle.className =
+      `weak-hunter-particle ${type}`;
+
+    particle.style.left =
+      `${centerX}px`;
+
+    particle.style.top =
+      `${centerY}px`;
+
+    particle.style.setProperty(
+      "--particle-x",
+      `${randomWeakHunterNumber(
+        -70,
+        70
+      )}px`
+    );
+
+    particle.style.setProperty(
+      "--particle-y",
+      `${randomWeakHunterNumber(
+        -70,
+        70
+      )}px`
+    );
+
+    gameArea.appendChild(particle);
+
+    window.setTimeout(() => {
+
+      particle.remove();
+
+    }, 700);
+  }
+}
+
+
+/* =====================================================
+   ПЕРЕМОГА
+===================================================== */
+
+function completeWeakHunter() {
+
+  if (weakHunterState.finished) return;
+
+  weakHunterState.finished = true;
+  weakHunterState.running = false;
+
+  stopWeakHunterTimers();
+
+  removeWeakHunterPasswords();
+
+  playSound("correct");
+
+  const crystal =
+    document.getElementById(
+      "weakHunterCenterCrystal"
+    );
+
+  const crystalGlow =
+    document.getElementById(
+      "weakHunterCrystalGlow"
+    );
+
+  if (crystal) {
+
+    crystal.classList.add(
+      "weak-hunter-final-crystal"
+    );
+  }
+
+  if (crystalGlow) {
+
+    crystalGlow.classList.add(
+      "active"
+    );
+  }
+
+  showWeakHunterEndOverlay({
+    success: true,
+    title: "Випробування пройдено!",
+    text:
+      "Ти знищив усі слабкі паролі та захистив Замок."
+  });
+
+  window.setTimeout(() => {
+
+    completeMiniGame(
+      weakHunterState.levelId,
+      weakHunterState.taskIndex,
+      "Слабкі паролі знищено!"
+    );
+
+  }, 2100);
+}
+
+
+/* =====================================================
+   ПОРАЗКА
+===================================================== */
+
+function failWeakHunter(message) {
+
+  if (weakHunterState.finished) return;
+
+  weakHunterState.finished = true;
+  weakHunterState.running = false;
+
+  stopWeakHunterTimers();
+
+  removeWeakHunterPasswords();
+
+  playSound("wrong");
+
+  const crystal =
+    document.getElementById(
+      "weakHunterCenterCrystal"
+    );
+
+  if (crystal) {
+
+    crystal.classList.add(
+      "weak-hunter-failed-crystal"
+    );
+  }
+
+  showWeakHunterEndOverlay({
+    success: false,
+    title: "Спробуй ще раз",
+    text:
+      message ||
+      "Цього разу Мордор виявився швидшим."
+  });
+}
+
+
+/* =====================================================
+   ФІНАЛЬНЕ ВІКНО
+===================================================== */
+
+function showWeakHunterEndOverlay({
+  success,
+  title,
+  text
+}) {
+
+  const gameArea =
+    document.getElementById(
+      "weakHunterGameArea"
+    );
+
+  if (!gameArea) return;
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.className =
+    `weak-hunter-end-overlay ${
+      success
+        ? "success"
+        : "failure"
+    }`;
+
+  overlay.innerHTML = `
+    <div class="weak-hunter-end-card">
+
+      <div class="weak-hunter-end-icon">
+        ${success ? "✨" : "💫"}
+      </div>
+
+      <h2>
+        ${title}
+      </h2>
+
+      <p>
+        ${text}
+      </p>
+
+      ${
+        success
+          ? `
+            <div class="weak-hunter-fanfare">
+              Кристал Паролів сяє!
+            </div>
+          `
+          : `
+            <button
+              type="button"
+              class="btn weak-hunter-restart-button"
+              onclick="restartWeakHunter()"
+            >
+              Почати заново
+            </button>
+
+            <button
+              type="button"
+              class="btn weak-hunter-challenges-button"
+              onclick="leaveWeakHunter()"
+            >
+              До випробувань
+            </button>
+          `
+      }
+
+    </div>
+  `;
+
+  gameArea.appendChild(overlay);
+}
+
+
+/* =====================================================
+   ПЕРЕЗАПУСК
+===================================================== */
+
+function restartWeakHunter() {
+
+  playSound("click");
+
+  startWeakHunterGame();
+}
+
+
+/* =====================================================
+   ВИХІД ДО ЧОТИРЬОХ КНИГ
+===================================================== */
+
+function leaveWeakHunter() {
+
+  const levelId =
+    weakHunterState.levelId;
+
+  cleanupWeakHunter();
+
+  playSound("click");
+
+  showLevel(levelId);
+
+  openChallenge(levelId);
+}
+
+
+/* =====================================================
+   ЗУПИНКА ТАЙМЕРІВ
+===================================================== */
+
+function stopWeakHunterTimers() {
+
+  if (weakHunterState.timerId) {
+
+    window.clearInterval(
+      weakHunterState.timerId
+    );
+
+    weakHunterState.timerId = null;
+  }
+
+  if (weakHunterState.spawnId) {
+
+    window.clearInterval(
+      weakHunterState.spawnId
+    );
+
+    weakHunterState.spawnId = null;
+  }
+
+  weakHunterState.passwordTimeouts
+    .forEach(timeoutId => {
+
+      window.clearTimeout(timeoutId);
+    });
+
+  weakHunterState.passwordTimeouts = [];
+}
+
+
+/* =====================================================
+   ПРИБИРАННЯ ПАРОЛІВ
+===================================================== */
+
+function removeWeakHunterPasswords() {
+
+  document
+    .querySelectorAll(
+      ".weak-hunter-password"
+    )
+    .forEach(password => {
+
+      password.classList.add("expired");
+
+      window.setTimeout(() => {
+
+        password.remove();
+
+      }, 250);
+    });
+}
+
+
+/* =====================================================
+   ПОВНЕ ОЧИЩЕННЯ МІНІГРИ
+===================================================== */
+
+function cleanupWeakHunter() {
+
+  stopWeakHunterTimers();
+
+  weakHunterState.running = false;
+
+  document
+    .querySelectorAll(
+      ".weak-hunter-password"
+    )
+    .forEach(password => {
+
+      password.remove();
+    });
+}
+
+
+/* =====================================================
+   ВИПАДКОВЕ ЧИСЛО
+===================================================== */
+
+function randomWeakHunterNumber(
+  min,
+  max
+) {
+
+  return Math.floor(
+    Math.random() *
+    (max - min + 1)
+  ) + min;
+}
 
 
 /* =====================================================

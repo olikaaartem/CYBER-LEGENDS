@@ -6,7 +6,6 @@ const app = document.getElementById("app");
 ===================================================== */
 
 
-
 /* =====================================================
    КАРТИНКИ
 ===================================================== */
@@ -26,22 +25,24 @@ const ASSETS = {
   level5: "fon/fon_vylkan.png",
 
   citadel: "fon/Fon_mordor_1.png",
-   
-  /*міні гра 1 рівень 1 БУДІВЕЛЬНИК СЕЙФУ */
-   
-   safeBuilderBg: "fon/fon_safe_builder.png",
-   safeBuilderSafe: "artefaktu/safe_builder.png",
+
+  /* МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ */
+
+  safeBuilderBg: "fon/fon_safe_builder.png",
+  safeBuilderSafe: "artefaktu/safe_builder.png",
 
   /* ЛОГО */
 
   logo: "artefaktu/logo_game.png",
-   
-/* АРТЕФАКТИ НАСТАВНИКІВ */
-artifactBook: "artefaktu/artefakt_knuga.png",
-artifactMagnifier: "artefaktu/artefakt_lupa.png",
-artifactMirror: "artefaktu/artefakt_dzerkalo.png",
-artifactSphere: "artefaktu/artefakt_sfera.png",
-artifactSword: "artefaktu/artefakt_mech.png",
+
+  /* АРТЕФАКТИ НАСТАВНИКІВ */
+
+  artifactBook: "artefaktu/artefakt_knuga.png",
+  artifactMagnifier: "artefaktu/artefakt_lupa.png",
+  artifactMirror: "artefaktu/artefakt_dzerkalo.png",
+  artifactSphere: "artefaktu/artefakt_sfera.png",
+  artifactSword: "artefaktu/artefakt_mech.png",
+
   /* ГЕРОЇ */
 
   boy: "geroi/boy.png",
@@ -88,6 +89,7 @@ artifactSword: "artefaktu/artefakt_mech.png",
   purpleOn: "artefaktu/purple_kristal_2.png"
 };
 
+
 /* =====================================================
    ЗВУКИ
 ===================================================== */
@@ -101,24 +103,25 @@ const SOUNDS = {
   wrong: new Audio("music/wrong.mp3"),
   final: new Audio("music/final.mp3"),
   storm: new Audio("music/storm.mp3")
-  
+
 };
 
-function playSound(name){
+
+function playSound(name) {
 
   const sound = SOUNDS[name];
 
-  if(!sound) return;
+  if (!sound) return;
 
   sound.currentTime = 0;
 
   sound.play().catch(() => {});
 }
 
-function startMusic(){
+
+function startMusic() {
 
   SOUNDS.bg.loop = true;
-   
   SOUNDS.bg.volume = 0.03;
 
   SOUNDS.click.volume = 0.8;
@@ -127,17 +130,20 @@ function startMusic(){
   SOUNDS.wrong.volume = 0.9;
   SOUNDS.final.volume = 0.8;
   SOUNDS.storm.volume = 0.25;
+
   SOUNDS.bg.play().catch(() => {});
+
   SOUNDS.storm.loop = true;
   SOUNDS.storm.play().catch(() => {});
-   
 }
+
 
 document.addEventListener(
   "click",
   startMusic,
-  { once:true }
+  { once: true }
 );
+
 
 /* =====================================================
    СТАН ГРИ
@@ -147,32 +153,32 @@ let selectedHero = "boy";
 let heroName = "";
 
 let completedLevels = [];
-
 let completedTasks = {};
-
 let theoryRead = {};
+
 
 /* =====================================================
    ДОПОМІЖНІ ФУНКЦІЇ
 ===================================================== */
 
-function bg(image){
+function bg(image) {
 
   return `style="--bg:url('${image}')"`;
 }
 
-function closeModal(){
+
+function closeModal() {
 
   const modals =
     document.querySelectorAll(".modal-bg");
 
-  if(modals.length > 0){
+  if (modals.length > 0) {
     modals[modals.length - 1].remove();
   }
-
 }
 
-function getHeroImage(){
+
+function getHeroImage() {
 
   return selectedHero === "girl"
     ? ASSETS.girl
@@ -188,45 +194,57 @@ const KINGDOM_STORY = `
   <div class="kingdom-story">
 
     <div class="story-highlight">
+
       <p>
-        Колись у Королівстві КіберЛегенд панували мир, знання та безпека.
-        У самому центрі королівства сяяв могутній Кристал БЕЗПЕКИ.
+        Колись у Королівстві КіберЛегенд панували мир,
+        знання та безпека.
+        У самому центрі королівства сяяв могутній
+        Кристал БЕЗПЕКИ.
       </p>
 
       <p>
-        Він допомагав мешканцям відрізняти правду від брехні,
-        берегти особисті секрети та безпечно подорожувати цифровими світами.
+        Він допомагав мешканцям відрізняти правду
+        від брехні, берегти особисті секрети
+        та безпечно подорожувати цифровими світами.
       </p>
+
     </div>
 
     <p>
       Кристал охороняли п'ять великих наставників:
       Тотус, Фоксіта, Нереус, Анубіса та Тіфон.
-      Разом із ними жив вірний друг королівства — кіберкінь Райфик.
+      Разом із ними жив вірний друг королівства —
+      кіберкінь Райфик.
     </p>
 
     <p>
-      Але колишній хранитель Мордор захотів отримати всю силу знань лише для себе.
-      Він викрав Райфика, накрив королівство цифровою грозою
-      та розколов Кристал Мудрості на п'ять частин.
+      Але колишній хранитель Мордор захотів отримати
+      всю силу знань лише для себе.
+      Він викрав Райфика, накрив королівство цифровою
+      грозою та розколов Кристал Мудрості
+      на п'ять частин.
     </p>
 
     <p>
-      Тепер новий герой має пройти всі локації, зарядити п'ять кристалів,
+      Тепер новий герой має пройти всі локації,
+      зарядити п'ять кристалів,
       звільнити Райфика та зупинити Мордора.
     </p>
 
     <h3>Наставники Королівства</h3>
- <div id="storyMentorsHere">
-  </div>
+
+    <div id="storyMentorsHere"></div>
+
   </div>
 `;
+
 
 /* =====================================================
    НАСТАВНИКИ
 ===================================================== */
 
 const MENTORS = [
+
   {
     id: 1,
     name: "Тотус",
@@ -234,15 +252,18 @@ const MENTORS = [
     img: ASSETS.totus,
     medal: ASSETS.medalTotus,
     artifact: "Книга знань",
+
     story: `
       Тотус є найстарішим наставником Королівства КіберЛегенд.
       Його велика бібліотека містить знання про всі паролі світу.
-      Він навчає мешканців створювати надійні секретні коди та нікому їх не розповідати.
+      Він навчає мешканців створювати надійні секретні коди
+      та нікому їх не розповідати.
       Кажуть, що жоден злий чаклун не зміг відкрити двері його замку.
       Тотус вірить, що сильний пароль — це перший щит будь-якого героя.
       Саме він зберігає Жовтий Кристал Мудрості.
     `
   },
+
   {
     id: 2,
     name: "Фоксіта",
@@ -250,14 +271,20 @@ const MENTORS = [
     img: ASSETS.foxita,
     medal: ASSETS.medalFoxita,
     artifact: "Лупа істини",
+
     story: `
-      Фоксіта живе серед чарівного лісу, де ховаються підступні пастки та фальшиві повідомлення.
-      Вона має надзвичайно гострий зір і помічає навіть найменший обман.
-      Фоксіта навчає дітей перевіряти посилання, адреси сайтів та підозрілі листи.
-      Завдяки її уважності жодна приманка не може довго залишатися прихованою.
+      Фоксіта живе серед чарівного лісу,
+      де ховаються підступні пастки та фальшиві повідомлення.
+      Вона має надзвичайно гострий зір
+      і помічає навіть найменший обман.
+      Фоксіта навчає дітей перевіряти посилання,
+      адреси сайтів та підозрілі листи.
+      Завдяки її уважності жодна приманка
+      не може довго залишатися прихованою.
       Вона охороняє Зелений Кристал Пильності.
     `
   },
+
   {
     id: 3,
     name: "Нереус",
@@ -265,15 +292,19 @@ const MENTORS = [
     img: ASSETS.nereus,
     medal: ASSETS.medalNereus,
     artifact: "Дзеркало правди",
+
     story: `
       У глибинах чарівного озера мешкає мудрий Нереус.
-      Його дзеркало показує правду навіть тоді, коли навколо панує брехня.
-      Він навчає героїв перевіряти інформацію та не довіряти всьому,
+      Його дзеркало показує правду навіть тоді,
+      коли навколо панує брехня.
+      Він навчає героїв перевіряти інформацію
+      та не довіряти всьому,
       що вони бачать в Інтернеті.
       Нереус знає, що правда іноді ховається дуже глибоко.
       Під його захистом знаходиться Блакитний Кристал Правди.
     `
   },
+
   {
     id: 4,
     name: "Анубіса",
@@ -281,14 +312,19 @@ const MENTORS = [
     img: ASSETS.anubisa,
     medal: ASSETS.medalAnubisa,
     artifact: "Сфера даних",
+
     story: `
       Анубіса охороняє найцінніші секрети королівства.
-      Вона живе у сяючій печері кристалів, де зберігаються особисті дані мешканців.
-      Її магічна сфера попереджає про небезпеку, коли хтось намагається викрасти чужу інформацію.
-      Анубіса навчає ніколи не розповідати свої паролі, адреси чи особисті таємниці незнайомцям.
+      Вона живе у сяючій печері кристалів,
+      де зберігаються особисті дані мешканців.
+      Її магічна сфера попереджає про небезпеку,
+      коли хтось намагається викрасти чужу інформацію.
+      Анубіса навчає ніколи не розповідати свої паролі,
+      адреси чи особисті таємниці незнайомцям.
       Вона є хранителькою Рожевого Кристала Таємниць.
     `
   },
+
   {
     id: 5,
     name: "Тіфон",
@@ -296,43 +332,69 @@ const MENTORS = [
     img: ASSETS.tifon,
     medal: ASSETS.medalTifon,
     artifact: "Меч захисту",
+
     story: `
       Тіфон охороняє могутню Фортецю Захисту біля Вогняних Гір.
-      Його вогняний меч знищує небезпечні віруси та шкідливі програми.
-      Він навчає героїв оновлювати пристрої та бути обережними з невідомими файлами.
-      Тіфон знає, що навіть маленька помилка може відкрити двері великій небезпеці.
+      Його вогняний меч знищує небезпечні віруси
+      та шкідливі програми.
+      Він навчає героїв оновлювати пристрої
+      та бути обережними з невідомими файлами.
+      Тіфон знає, що навіть маленька помилка
+      може відкрити двері великій небезпеці.
       Саме тому він завжди стоїть на варті безпеки.
       Під його захистом знаходиться Червоний Кристал Сили.
     `
   }
+
 ];
 
-function renderStoryMentorButtons(){
+
+function renderStoryMentorButtons() {
 
   return MENTORS.map(mentor => `
-    <button class="story-mentor-card" onclick="openMentorInfo(${mentor.id})">
-      <img src="${mentor.medal}" alt="${mentor.name}">
-      <span>${mentor.name}</span>
+
+    <button
+      class="story-mentor-card"
+      onclick="openMentorInfo(${mentor.id})"
+    >
+
+      <img
+        src="${mentor.medal}"
+        alt="${mentor.name}"
+      >
+
+      <span>
+        ${mentor.name}
+      </span>
+
     </button>
+
   `).join("");
 }
+
 
 /* =====================================================
    ЦИФРОВА ГРОЗА
 ===================================================== */
 
-function renderDigitalStorm(){
+function renderDigitalStorm() {
 
   const columns = [];
 
-  for(let i = 0; i < 16; i++){
+  for (let i = 0; i < 16; i++) {
+
     columns.push(`
+
       <span
         class="rain-column"
-        style="left:${4 + i * 6}%; animation-delay:${(i % 6) * 0.7}s;"
+        style="
+          left:${4 + i * 6}%;
+          animation-delay:${(i % 6) * 0.7}s;
+        "
       >
         1<br>0<br>1<br>🔒<br>0<br>1
       </span>
+
     `);
   }
 
@@ -343,34 +405,60 @@ function renderDigitalStorm(){
   `;
 }
 
+
 /* =====================================================
    СТАРТОВИЙ ЕКРАН
 ===================================================== */
 
-function showStartScreen(){
+function showStartScreen() {
 
   app.innerHTML = `
-    <section class="screen start-screen" ${bg(ASSETS.start)}>
+
+    <section
+      class="screen start-screen"
+      ${bg(ASSETS.start)}
+    >
 
       ${renderDigitalStorm()}
 
       <div class="start-panel">
 
-        <img class="start-logo" src="${ASSETS.logo}" alt="Cyber Legends">
+        <img
+          class="start-logo"
+          src="${ASSETS.logo}"
+          alt="Cyber Legends"
+        >
 
         <div class="season-title">
           Таємниця П'яти Кристалів
         </div>
 
         <div class="start-buttons">
-          <button class="btn" onclick="playSound('click'); showMap()">Почати пригоду</button>
-          <button class="btn" onclick="playSound('click'); openKingdomStory()">Історія</button>
-          <button class="btn" onclick="playSound('click'); openSettings()">Налаштування</button>
+
+          <button
+            class="btn"
+            onclick="playSound('click'); showMap()"
+          >
+            Почати пригоду
+          </button>
+
+          <button
+            class="btn"
+            onclick="playSound('click'); openKingdomStory()"
+          >
+            Історія
+          </button>
+
+          <button
+            class="btn"
+            onclick="playSound('click'); openSettings()"
+          >
+            Налаштування
+          </button>
+
         </div>
 
       </div>
-
-      
 
     </section>
   `;
@@ -381,55 +469,76 @@ function showStartScreen(){
    МОДАЛЬНІ ВІКНА
 ===================================================== */
 
-function openModal(title, content, extraClass = ""){
+function openModal(
+  title,
+  content,
+  extraClass = ""
+) {
 
   app.innerHTML += `
-    <div class="modal-bg" id="modal">
+
+    <div
+      class="modal-bg"
+      id="modal"
+    >
+
       <div class="modal ${extraClass}">
 
-        <button class="close-modal" onclick="closeModal()">×</button>
+        <button
+          class="close-modal"
+          onclick="closeModal()"
+        >
+          ×
+        </button>
 
         <div class="modal-content">
-          <h2>${title}</h2>
+
+          <h2>
+            ${title}
+          </h2>
+
           ${content}
+
         </div>
 
       </div>
+
     </div>
   `;
 }
 
-function openKingdomStory(){
+
+function openKingdomStory() {
 
   openModal(
 
     "Легенда Королівства КіберЛегенд",
 
     `
-
       ${KINGDOM_STORY}
-<div class="story-mentors-row">
 
+      <div class="story-mentors-row">
         ${renderStoryMentorButtons()}
-</div>
-
+      </div>
     `,
 
     "story-modal"
 
   );
-
 }
- 
-  
 
 
-function openSettings(){
+function openSettings() {
 
   openModal(
+
     "Налаштування",
+
     `
-      <p>Тут пізніше можна буде керувати музикою, підказками та озвучкою.</p>
+      <p>
+        Тут пізніше можна буде керувати
+        музикою, підказками та озвучкою.
+      </p>
 
       <ul>
         <li>фонова музика;</li>
@@ -442,18 +551,22 @@ function openSettings(){
   );
 }
 
+
 /* =====================================================
    КАРТКА НАСТАВНИКА
 ===================================================== */
 
-function openMentorInfo(mentorId){
+function openMentorInfo(mentorId) {
 
-  const mentor = MENTORS.find(item => item.id === mentorId);
+  const mentor =
+    MENTORS.find(item => item.id === mentorId);
 
-  if(!mentor) return;
+  if (!mentor) return;
 
   openModal(
+
     mentor.name,
+
     `
       <div class="mentor-modal-layout">
 
@@ -464,19 +577,24 @@ function openMentorInfo(mentorId){
         >
 
         <div class="mentor-modal-text">
-          <h2>${mentor.name}</h2>
+
+          <h2>
+            ${mentor.name}
+          </h2>
 
           <div class="mentor-role">
             ${mentor.role}
           </div>
 
           <p>
-            <b>Артефакт:</b> ${mentor.artifact}
+            <b>Артефакт:</b>
+            ${mentor.artifact}
           </p>
 
           <p>
             ${mentor.story}
           </p>
+
         </div>
 
       </div>
@@ -490,112 +608,157 @@ function openMentorInfo(mentorId){
 ===================================================== */
 
 const LEVELS = [
- {
-   id: 1,
-   title: "Замок Паролів",
-   mentorId: 1,
-   bg: ASSETS.level1,
-   medal: ASSETS.medalTotus,
-   artifact: ASSETS.artifactBook,
-   crystalOff: ASSETS.yellowOff,
-   crystalOn: ASSETS.yellowOn,
-   color: "#ffd54a",
-   x: 37,
-   y: 75
- },
- {
-   id: 2,
-   title: "Ліс Приманок",
-   mentorId: 2,
-   bg: ASSETS.level2,
-   medal: ASSETS.medalFoxita,
-   artifact: ASSETS.artifactMagnifier,
-   crystalOff: ASSETS.greenOff,
-   crystalOn: ASSETS.greenOn,
-   color: "#42e66f",
-   x: 48,
-   y: 54
- },
- {
-   id: 3,
-   title: "Озеро Фейків",
-   mentorId: 3,
-   bg: ASSETS.level3,
-   medal: ASSETS.medalNereus,
-   artifact: ASSETS.artifactMirror,
-   crystalOff: ASSETS.blueOff,
-   crystalOn: ASSETS.blueOn,
-   color: "#39b7ff",
-   x: 64,
-   y: 61
- },
- {
-   id: 4,
-   title: "Печера Даних",
-   mentorId: 4,
-   bg: ASSETS.level4,
-   medal: ASSETS.medalAnubisa,
-   artifact: ASSETS.artifactSphere,
-   crystalOff: ASSETS.pinkOff,
-   crystalOn: ASSETS.pinkOn,
-   color: "#ff78d7",
-   x: 64,
-   y: 36
- },
- {
-   id: 5,
-   title: "Фортеця Захисту",
-   mentorId: 5,
-   bg: ASSETS.level5,
-   medal: ASSETS.medalTifon,
-   artifact: ASSETS.artifactSword,
-   crystalOff: ASSETS.redOff,
-   crystalOn: ASSETS.redOn,
-   color: "#ff4a35",
-   x: 77,
-   y: 50
- }
+
+  {
+    id: 1,
+    title: "Замок Паролів",
+    mentorId: 1,
+    bg: ASSETS.level1,
+    medal: ASSETS.medalTotus,
+    artifact: ASSETS.artifactBook,
+    crystalOff: ASSETS.yellowOff,
+    crystalOn: ASSETS.yellowOn,
+    color: "#ffd54a",
+    x: 37,
+    y: 75
+  },
+
+  {
+    id: 2,
+    title: "Ліс Приманок",
+    mentorId: 2,
+    bg: ASSETS.level2,
+    medal: ASSETS.medalFoxita,
+    artifact: ASSETS.artifactMagnifier,
+    crystalOff: ASSETS.greenOff,
+    crystalOn: ASSETS.greenOn,
+    color: "#42e66f",
+    x: 48,
+    y: 54
+  },
+
+  {
+    id: 3,
+    title: "Озеро Фейків",
+    mentorId: 3,
+    bg: ASSETS.level3,
+    medal: ASSETS.medalNereus,
+    artifact: ASSETS.artifactMirror,
+    crystalOff: ASSETS.blueOff,
+    crystalOn: ASSETS.blueOn,
+    color: "#39b7ff",
+    x: 64,
+    y: 61
+  },
+
+  {
+    id: 4,
+    title: "Печера Даних",
+    mentorId: 4,
+    bg: ASSETS.level4,
+    medal: ASSETS.medalAnubisa,
+    artifact: ASSETS.artifactSphere,
+    crystalOff: ASSETS.pinkOff,
+    crystalOn: ASSETS.pinkOn,
+    color: "#ff78d7",
+    x: 64,
+    y: 36
+  },
+
+  {
+    id: 5,
+    title: "Фортеця Захисту",
+    mentorId: 5,
+    bg: ASSETS.level5,
+    medal: ASSETS.medalTifon,
+    artifact: ASSETS.artifactSword,
+    crystalOff: ASSETS.redOff,
+    crystalOn: ASSETS.redOn,
+    color: "#ff4a35",
+    x: 77,
+    y: 50
+  }
+
 ];
 
+
 const CITADEL = {
+
   title: "Цитадель Хаосу",
+
   crystalOff: ASSETS.purpleOff,
   crystalOn: ASSETS.purpleOn,
+
   medal: ASSETS.medalMordor,
+
   x: 70,
   y: 10
 };
+
 
 /* =====================================================
    КАРТА
 ===================================================== */
 
-function showMap(){
+function showMap() {
 
-  const allDone = completedLevels.length >= 5;
+  const allDone =
+    completedLevels.length >= 5;
 
   app.innerHTML = `
-    <section class="screen map-screen" ${bg(ASSETS.map)}>
+
+    <section
+      class="screen map-screen"
+      ${bg(ASSETS.map)}
+    >
 
       ${!allDone ? renderDigitalStorm() : ""}
 
-      <button class="btn back-btn" onclick="playSound('click'); showStartScreen()">
+      <button
+        class="btn back-btn"
+        onclick="
+          playSound('click');
+          showStartScreen();
+        "
+      >
         ← Назад
       </button>
 
-      <button class="btn map-story-button" onclick="playSound('click'); openKingdomStory()">
+      <button
+        class="btn map-story-button"
+        onclick="
+          playSound('click');
+          openKingdomStory();
+        "
+      >
         Історія
       </button>
 
       <div class="map-hero-button">
-        <button class="btn" onclick="playSound('click'); showHeroSelect()">
-          ${heroName ? "Герой: " + heroName : "Створити героя"}
+
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            showHeroSelect();
+          "
+        >
+          ${
+            heroName
+              ? "Герой: " + heroName
+              : "Створити героя"
+          }
         </button>
+
       </div>
 
       ${renderCrystalPanel()}
 
-      ${LEVELS.map(level => renderMapLevel(level)).join("")}
+      ${
+        LEVELS
+          .map(level => renderMapLevel(level))
+          .join("")
+      }
 
       ${renderCitadelButton(allDone)}
 
@@ -603,16 +766,23 @@ function showMap(){
   `;
 }
 
-function renderMapLevel(level){
 
-  const done = completedLevels.includes(level.id);
+function renderMapLevel(level) {
 
   return `
+
     <button
       class="map-level"
-      style="left:${level.x}%; top:${level.y}%;"
-      onclick="playSound('click'); showLevel(${level.id})"
+      style="
+        left:${level.x}%;
+        top:${level.y}%;
+      "
+      onclick="
+        playSound('click');
+        showLevel(${level.id});
+      "
     >
+
       <img
         class="map-level-medal"
         src="${level.medal}"
@@ -622,75 +792,165 @@ function renderMapLevel(level){
       <div class="map-level-title">
         ${level.title}
       </div>
+
     </button>
   `;
 }
 
-function renderCitadelButton(allDone){
+
+function renderCitadelButton(allDone) {
 
   return `
+
     <button
       class="map-level"
-      style="left:${CITADEL.x}%; top:${CITADEL.y}%;"
-      onclick="playSound('click'); ${allDone ? "showCitadel()" : "citadelLocked()"}"
+      style="
+        left:${CITADEL.x}%;
+        top:${CITADEL.y}%;
+      "
+      onclick="
+        playSound('click');
+        ${
+          allDone
+            ? "showCitadel()"
+            : "citadelLocked()"
+        }
+      "
     >
+
       <img
         class="map-level-medal"
-        src="${allDone ? CITADEL.crystalOn : CITADEL.crystalOff}"
+        src="${
+          allDone
+            ? CITADEL.crystalOn
+            : CITADEL.crystalOff
+        }"
         alt="Цитадель Хаосу"
       >
 
       <div class="map-level-title">
         ${CITADEL.title}
       </div>
+
     </button>
   `;
 }
 
+
 /* =====================================================
-   ЛІВА ПАНЕЛЬ ЗАРЯДЖЕННЯ КРИСТАЛІВ
+   ЛІВА ПАНЕЛЬ КРИСТАЛІВ
 ===================================================== */
 
-function renderCrystalPanel(){
- const completedCount = completedLevels.length;
- const totalPercent = completedCount * 20;
- const rows = LEVELS.map(level => {
-   const doneTasks = completedTasks[level.id] || [];
-   const percent = doneTasks.length * 25;
-   const done = completedLevels.includes(level.id);
-   return `
-<div class="crystal-row ${done ? "active" : ""}" style="color:${level.color}">
-<span class="crystal-check">${done ? "✅" : "🔒"}</span>
-<img
-         src="${done ? level.crystalOn : level.crystalOff}"
-         alt="${level.title}"
->
-<span>${level.title}</span>
-<span class="crystal-percent">${percent}%</span>
-</div>
-   `;
- }).join("");
- const allDone = completedLevels.length >= 5;
- return `
-<div class="crystal-panel">
-<div class="crystal-panel-title">
-       Зарядження кристалів
-</div>
-<div class="crystal-total">
-       ${completedCount} / 5 відновлено • ${totalPercent}%
-</div>
-     ${rows}
-<div class="crystal-row ${allDone ? "active" : ""}" style="color:#b95cff">
-<span class="crystal-check">${allDone ? "✅" : "🔒"}</span>
-<img
-         src="${allDone ? ASSETS.purpleOn : ASSETS.purpleOff}"
-         alt="Цитадель Хаосу"
->
-<span>Цитадель Хаосу</span>
-<span class="crystal-percent">${allDone ? "100%" : "0%"}</span>
-</div>
-</div>
- `;
+function renderCrystalPanel() {
+
+  const completedCount =
+    completedLevels.length;
+
+  const totalPercent =
+    completedCount * 20;
+
+
+  const rows =
+    LEVELS.map(level => {
+
+      const doneTasks =
+        completedTasks[level.id] || [];
+
+      const percent =
+        doneTasks.length * 25;
+
+      const done =
+        completedLevels.includes(level.id);
+
+
+      return `
+
+        <div
+          class="
+            crystal-row
+            ${done ? "active" : ""}
+          "
+          style="color:${level.color}"
+        >
+
+          <span class="crystal-check">
+            ${done ? "✅" : "🔒"}
+          </span>
+
+          <img
+            src="${
+              done
+                ? level.crystalOn
+                : level.crystalOff
+            }"
+            alt="${level.title}"
+          >
+
+          <span>
+            ${level.title}
+          </span>
+
+          <span class="crystal-percent">
+            ${percent}%
+          </span>
+
+        </div>
+      `;
+
+    }).join("");
+
+
+  const allDone =
+    completedLevels.length >= 5;
+
+
+  return `
+
+    <div class="crystal-panel">
+
+      <div class="crystal-panel-title">
+        Зарядження кристалів
+      </div>
+
+      <div class="crystal-total">
+        ${completedCount} / 5 відновлено • ${totalPercent}%
+      </div>
+
+      ${rows}
+
+      <div
+        class="
+          crystal-row
+          ${allDone ? "active" : ""}
+        "
+        style="color:#b95cff"
+      >
+
+        <span class="crystal-check">
+          ${allDone ? "✅" : "🔒"}
+        </span>
+
+        <img
+          src="${
+            allDone
+              ? ASSETS.purpleOn
+              : ASSETS.purpleOff
+          }"
+          alt="Цитадель Хаосу"
+        >
+
+        <span>
+          Цитадель Хаосу
+        </span>
+
+        <span class="crystal-percent">
+          ${allDone ? "100%" : "0%"}
+        </span>
+
+      </div>
+
+    </div>
+  `;
 }
 
 
@@ -698,31 +958,51 @@ function renderCrystalPanel(){
    ВИБІР ГЕРОЯ
 ===================================================== */
 
-function showHeroSelect(){
+function showHeroSelect() {
 
   app.innerHTML = `
-    <section class="screen hero-select-screen" ${bg(ASSETS.heroSelect)}>
 
-      <button class="btn back-btn" onclick="playSound('click'); showMap()">
+    <section
+      class="screen hero-select-screen"
+      ${bg(ASSETS.heroSelect)}
+    >
+
+      <button
+        class="btn back-btn"
+        onclick="
+          playSound('click');
+          showMap();
+        "
+      >
         ← Назад
       </button>
 
       <div class="mentor-side">
+
         <div class="mentor-side-title">
           Натискай на наставника
         </div>
 
-        ${MENTORS.map(mentor => `
-          <img
-            class="mentor-medal"
-            src="${mentor.medal}"
-            alt="${mentor.name}"
-            onclick="playSound('click'); openMentorInfo(${mentor.id})"
-          >
-        `).join("")}
+        ${
+          MENTORS.map(mentor => `
+
+            <img
+              class="mentor-medal"
+              src="${mentor.medal}"
+              alt="${mentor.name}"
+              onclick="
+                playSound('click');
+                openMentorInfo(${mentor.id});
+              "
+            >
+
+          `).join("")
+        }
+
       </div>
 
       <div class="hero-stage">
+
         <div class="hero-podium"></div>
 
         <img
@@ -730,6 +1010,7 @@ function showHeroSelect(){
           src="${getHeroImage()}"
           alt="Обраний герой"
         >
+
       </div>
 
       <img
@@ -747,17 +1028,37 @@ function showHeroSelect(){
         <div class="hero-pair">
 
           <img
-            class="hero-choice ${selectedHero === "boy" ? "selected" : ""}"
+            class="
+              hero-choice
+              ${
+                selectedHero === "boy"
+                  ? "selected"
+                  : ""
+              }
+            "
             src="${ASSETS.boy}"
             alt="Хлопчик"
-            onclick="playSound('click'); chooseHero('boy')"
+            onclick="
+              playSound('click');
+              chooseHero('boy');
+            "
           >
 
           <img
-            class="hero-choice ${selectedHero === "girl" ? "selected" : ""}"
+            class="
+              hero-choice
+              ${
+                selectedHero === "girl"
+                  ? "selected"
+                  : ""
+              }
+            "
             src="${ASSETS.girl}"
             alt="Дівчинка"
-            onclick="playSound('click'); chooseHero('girl')"
+            onclick="
+              playSound('click');
+              chooseHero('girl');
+            "
           >
 
         </div>
@@ -769,7 +1070,13 @@ function showHeroSelect(){
           value="${heroName}"
         >
 
-        <button class="btn" onclick="playSound('click'); createHero()">
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            createHero();
+          "
+        >
           Створити героя
         </button>
 
@@ -779,22 +1086,30 @@ function showHeroSelect(){
   `;
 }
 
-function chooseHero(type){
+
+function chooseHero(type) {
 
   selectedHero = type;
+
   showHeroSelect();
 }
 
-function createHero(){
 
-  const input = document.getElementById("heroNameInput");
-  heroName = input.value.trim();
+function createHero() {
 
-  if(!heroName){
+  const input =
+    document.getElementById("heroNameInput");
+
+  heroName =
+    input.value.trim();
+
+  if (!heroName) {
+
     openModal(
       "Введи ім’я героя",
       "<p>Спочатку напиши ім’я героя.</p>"
     );
+
     return;
   }
 
@@ -806,21 +1121,27 @@ function createHero(){
   openHeroScroll(greeting);
 }
 
-function openHeroScroll(greeting){
+
+function openHeroScroll(greeting) {
 
   openModal(
+
     "Героя створено",
+
     `
       <div class="scroll-modal">
 
-        <h2>${greeting}</h2>
+        <h2>
+          ${greeting}
+        </h2>
 
         <p>
           Попереду на тебе чекає велика пригода.
         </p>
 
         <p>
-          П'ять наставників, п'ять артефактів
+          П'ять наставників,
+          п'ять артефактів
           та П'ять Кристалів.
         </p>
 
@@ -828,7 +1149,14 @@ function openHeroScroll(greeting){
           Врятуй Райфіка та переможи Мордора.
         </p>
 
-        <button class="btn" onclick="playSound('click'); closeModal(); showMap();">
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            closeModal();
+            showMap();
+          "
+        >
           Повернутись до карти
         </button>
 
@@ -838,24 +1166,31 @@ function openHeroScroll(greeting){
 }
 
 
-
 /* =====================================================
    ТЕКСТИ РІВНІВ
 ===================================================== */
 
 const LEVEL_CONTENT = {
+
   1: {
+
     storyTitle: "Замок Паролів",
+
     intro: `
       <p>
         Тотус зустрічає героя біля воріт Замку Паролів.
-        У цьому замку зберігаються секретні ключі мешканців Королівства.
+        У цьому замку зберігаються секретні ключі
+        мешканців Королівства.
       </p>
+
       <p>
-        Мордор намагається підібрати слабкі паролі та відкрити захисні брами.
-        Щоб зупинити його, потрібно навчитися створювати надійні паролі.
+        Мордор намагається підібрати слабкі паролі
+        та відкрити захисні брами.
+        Щоб зупинити його,
+        потрібно навчитися створювати надійні паролі.
       </p>
     `,
+
     theory: [
       "Пароль — це секретний ключ до акаунта.",
       "Надійний пароль має бути довгим.",
@@ -867,18 +1202,25 @@ const LEVEL_CONTENT = {
     ]
   },
 
+
   2: {
+
     storyTitle: "Ліс Приманок",
+
     intro: `
       <p>
         Фоксіта веде героя стежкою крізь Ліс Приманок.
-        Тут усе може виглядати безпечно, але за гарними обіцянками часто ховаються пастки.
+        Тут усе може виглядати безпечно,
+        але за гарними обіцянками часто ховаються пастки.
       </p>
+
       <p>
-        Мордор залишив у лісі фальшиві листи, дивні посилання та повідомлення з подарунками.
+        Мордор залишив у лісі фальшиві листи,
+        дивні посилання та повідомлення з подарунками.
         Завдання героя — навчитися розпізнавати фішинг.
       </p>
     `,
+
     theory: [
       "Фішинг — це спроба виманити паролі або особисті дані.",
       "Шахраї часто пишуть: «Терміново!» або «Ви виграли подарунок!».",
@@ -890,18 +1232,24 @@ const LEVEL_CONTENT = {
     ]
   },
 
+
   3: {
+
     storyTitle: "Озеро Фейків",
+
     intro: `
       <p>
         Нереус показує герою Озеро Фейків.
-        У його водах відображаються новини, фото та повідомлення з усього цифрового світу.
+        У його водах відображаються новини,
+        фото та повідомлення з усього цифрового світу.
       </p>
+
       <p>
         Але Мордор змішав правду з вигадками.
         Тепер герой має навчитися перевіряти інформацію.
       </p>
     `,
+
     theory: [
       "Фейк — це неправдива або перекручена інформація.",
       "Не все, що написано в Інтернеті, є правдою.",
@@ -913,18 +1261,26 @@ const LEVEL_CONTENT = {
     ]
   },
 
+
   4: {
+
     storyTitle: "Печера Даних",
+
     intro: `
       <p>
         Анубіса запрошує героя до Печери Даних.
-        Тут зберігаються найцінніші скарби Королівства — особисті дані мешканців.
+        Тут зберігаються найцінніші скарби Королівства —
+        особисті дані мешканців.
       </p>
+
       <p>
-        Мордор хоче викрасти ці дані, щоб послабити захист Королівства.
-        Герой має навчитися відрізняти безпечну інформацію від приватної.
+        Мордор хоче викрасти ці дані,
+        щоб послабити захист Королівства.
+        Герой має навчитися відрізняти
+        безпечну інформацію від приватної.
       </p>
     `,
+
     theory: [
       "Особисті дані — це інформація, за якою можна впізнати людину.",
       "До особистих даних належать адреса, номер телефону, паролі, документи.",
@@ -936,18 +1292,25 @@ const LEVEL_CONTENT = {
     ]
   },
 
+
   5: {
+
     storyTitle: "Фортеця Захисту",
+
     intro: `
       <p>
         Тіфон зустрічає героя біля Фортеці Захисту.
-        Навколо літають іскри, а біля воріт з’являються віруси Мордора.
+        Навколо літають іскри,
+        а біля воріт з’являються віруси Мордора.
       </p>
+
       <p>
-        Щоб захистити Королівство, герой має навчитися розпізнавати небезпечні файли
+        Щоб захистити Королівство,
+        герой має навчитися розпізнавати небезпечні файли
         та не відкривати підозрілі посилання.
       </p>
     `,
+
     theory: [
       "Віруси можуть потрапити на пристрій через підозрілі файли.",
       "Не відкривай файли від незнайомих людей.",
@@ -958,27 +1321,50 @@ const LEVEL_CONTENT = {
       "Краще запитати дорослого, ніж ризикувати безпекою."
     ]
   }
+
 };
+
 
 /* =====================================================
    ЕКРАН РІВНЯ
 ===================================================== */
 
-function showLevel(levelId){
+function showLevel(levelId) {
 
-  const level = LEVELS.find(item => item.id === levelId);
-  const mentor = MENTORS.find(item => item.id === level.mentorId);
-  const done = completedTasks[levelId] || [];
-  const progress = done.length * 25;
+  const level =
+    LEVELS.find(item => item.id === levelId);
+
+  if (!level) return;
+
+  const mentor =
+    MENTORS.find(item => item.id === level.mentorId);
+
+  const done =
+    completedTasks[levelId] || [];
+
+  const progress =
+    done.length * 25;
+
 
   app.innerHTML = `
-    <section class="screen level-screen" ${bg(level.bg)}>
 
-      <button class="btn back-btn" onclick="playSound('click'); showMap()">
+    <section
+      class="screen level-screen"
+      ${bg(level.bg)}
+    >
+
+      <button
+        class="btn back-btn"
+        onclick="
+          playSound('click');
+          showMap();
+        "
+      >
         ← До карти
       </button>
 
       <div class="level-progress">
+
         <div class="level-progress-title">
           ${level.title}
         </div>
@@ -988,53 +1374,95 @@ function showLevel(levelId){
         </div>
 
         <div class="progress-bar">
+
           <div
             class="progress-fill"
-            style="width:${progress}%; background:${level.color};"
+            style="
+              width:${progress}%;
+              background:${level.color};
+            "
           ></div>
+
         </div>
+
       </div>
 
       <img
         class="level-mentor"
         src="${mentor.img}"
         alt="${mentor.name}"
-        onclick="playSound('click'); openLevelTheory(${levelId})"
+        onclick="
+          playSound('click');
+          openLevelTheory(${levelId});
+        "
       >
 
       <div class="level-actions">
-        <button class="btn" onclick="playSound('click'); openLevelTheory(${levelId})">
+
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            openLevelTheory(${levelId});
+          "
+        >
           Історія і теорія
         </button>
 
-        <button class="btn" onclick="playSound('click'); openChallenge(${levelId})">
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            openChallenge(${levelId});
+          "
+        >
           Почати випробування
         </button>
+
       </div>
 
     </section>
   `;
 }
 
+
 /* =====================================================
-   ІСТОРІЯ + ТЕОРІЯ РІВНЯ
+   ІСТОРІЯ + ТЕОРІЯ
 ===================================================== */
 
-function openLevelTheory(levelId){
+function openLevelTheory(levelId) {
 
-  const level = LEVELS.find(item => item.id === levelId);
-  const mentor = MENTORS.find(item => item.id === level.mentorId);
-  const content = LEVEL_CONTENT[levelId];
+  const level =
+    LEVELS.find(item => item.id === levelId);
+
+  if (!level) return;
+
+  const mentor =
+    MENTORS.find(item => item.id === level.mentorId);
+
+  const content =
+    LEVEL_CONTENT[levelId];
+
+  if (!mentor || !content) return;
+
 
   openModal(
+
     content.storyTitle,
+
     `
       <div class="theory-box">
 
-        <img src="${mentor.img}" alt="${mentor.name}">
+        <img
+          src="${mentor.img}"
+          alt="${mentor.name}"
+        >
 
         <div class="theory-text">
-          <h3>${mentor.name} пояснює</h3>
+
+          <h3>
+            ${mentor.name} пояснює
+          </h3>
 
           ${content.intro}
 
@@ -1043,12 +1471,26 @@ function openLevelTheory(levelId){
           </div>
 
           <ol class="theory-list">
-            ${content.theory.map(item => `<li>${item}</li>`).join("")}
+
+            ${
+              content.theory
+                .map(item => `<li>${item}</li>`)
+                .join("")
+            }
+
           </ol>
 
-          <button class="btn" onclick="playSound('click'); closeModal(); openChallenge(${levelId})">
+          <button
+            class="btn"
+            onclick="
+              playSound('click');
+              closeModal();
+              openChallenge(${levelId});
+            "
+          >
             Почати випробування
           </button>
+
         </div>
 
       </div>
@@ -1056,375 +1498,603 @@ function openLevelTheory(levelId){
   );
 }
 
+
 /* =====================================================
    ЗАВДАННЯ РІВНІВ
 ===================================================== */
 
-
-/* =====================================================
-Рівень 1 - наставник ТОТУС
-===================================================== */
-
 const CHALLENGES = {
- 1: [
- {
-   type: "password-builder",
-   title: "Будівельник сейфу"
- },
- {
-   type: "weak-password-hunter",
-   title: "Полювальник за слабкостями"
- },
- {
-   type: "password-manager",
-   title: "Менеджер ключів"
- },
- {
-   type: "two-factor",
-   title: "Синхронний ключ"
- }
-],
 
-/* =====================================================
-Рівень 2 - наставник ФОКСІТА
-===================================================== */
+
+  /* ===================================================
+     РІВЕНЬ 1 — ТОТУС
+  =================================================== */
+
+  1: [
+
+    {
+      type: "password-builder",
+      title: "Будівельник сейфу"
+    },
+
+    {
+      type: "weak-password-hunter",
+      title: "Полювальник за слабкостями"
+    },
+
+    {
+      type: "password-manager",
+      title: "Менеджер ключів"
+    },
+
+    {
+      type: "two-factor",
+      title: "Синхронний ключ"
+    }
+
+  ],
+
+
+  /* ===================================================
+     РІВЕНЬ 2 — ФОКСІТА
+  =================================================== */
 
   2: [
+
     {
       title: "Підозріле посилання",
-      icon: ASSETS.greenOn,
-      question: "Що треба зробити перед переходом за посиланням?",
+      question:
+        "Що треба зробити перед переходом за посиланням?",
+
       answers: [
         "Перевірити адресу сайту",
         "Натиснути одразу",
         "Скинути друзям"
       ],
+
       correct: 0
     },
+
     {
       title: "Що таке фішинг?",
-      icon: ASSETS.greenOn,
-      question: "Фішинг — це коли...",
+
+      question:
+        "Фішинг — це коли...",
+
       answers: [
         "Шахраї виманюють дані",
         "Оновлюється гра",
         "Змінюється фон"
       ],
+
       correct: 0
     },
+
     {
       title: "Лист-пастка",
-      icon: ASSETS.greenOn,
-      question: "Підозрілий лист просить пароль. Що робити?",
+
+      question:
+        "Підозрілий лист просить пароль. Що робити?",
+
       answers: [
         "Ввести пароль",
         "Повідомити дорослим",
         "Переслати всім"
       ],
+
       correct: 1
     },
+
     {
       title: "Ознаки шахрайства",
-      icon: ASSETS.greenOn,
-      question: "Що може бути ознакою шахрайства?",
+
+      question:
+        "Що може бути ознакою шахрайства?",
+
       answers: [
         "Помилки в тексті",
         "Тиск і терміновість",
         "Обидва варіанти"
       ],
+
       correct: 2
     }
+
   ],
 
-/* =====================================================
-Рівень 3 - наставник НЕРЕУС
-===================================================== */
+
+  /* ===================================================
+     РІВЕНЬ 3 — НЕРЕУС
+  =================================================== */
 
   3: [
+
     {
       title: "Гучна новина",
-      icon: ASSETS.blueOn,
-      question: "Що треба зробити з гучною новиною?",
+
+      question:
+        "Що треба зробити з гучною новиною?",
+
       answers: [
         "Одразу поширити",
         "Перевірити джерело",
         "Повірити заголовку"
       ],
+
       correct: 1
     },
+
     {
       title: "Фейк чи правда",
-      icon: ASSETS.blueOn,
-      question: "Фейк — це...",
+
+      question:
+        "Фейк — це...",
+
       answers: [
         "Неправдива інформація",
         "Корисна підказка",
         "Сильний пароль"
       ],
+
       correct: 0
     },
+
     {
       title: "Надійне джерело",
-      icon: ASSETS.blueOn,
-      question: "Якому джерелу краще довіряти?",
+
+      question:
+        "Якому джерелу краще довіряти?",
+
       answers: [
         "Анонімному чату",
         "Офіційному сайту",
         "Невідомому скріну"
       ],
+
       correct: 1
     },
+
     {
       title: "Перевірка",
-      icon: ASSETS.blueOn,
-      question: "Якщо інформація викликає сумнів:",
+
+      question:
+        "Якщо інформація викликає сумнів:",
+
       answers: [
         "Перевірити в кількох джерелах",
         "Повірити одразу",
         "Поширити швидше"
       ],
+
       correct: 0
     }
+
   ],
-/* =====================================================
-Рівень 4 - наставник АНУБІСА
-===================================================== */
+
+
+  /* ===================================================
+     РІВЕНЬ 4 — АНУБІСА
+  =================================================== */
+
   4: [
+
     {
       title: "Особисті дані",
-      icon: ASSETS.pinkOn,
-      question: "Які дані не можна публікувати відкрито?",
+
+      question:
+        "Які дані не можна публікувати відкрито?",
+
       answers: [
         "Адресу і телефон",
         "Улюблений колір",
         "Назву гри"
       ],
+
       correct: 0
     },
+
     {
       title: "Що таке дані?",
-      icon: ASSETS.pinkOn,
-      question: "Особиста інформація — це...",
+
+      question:
+        "Особиста інформація — це...",
+
       answers: [
         "Дані про людину",
         "Назва рівня",
         "Колір кнопки"
       ],
+
       correct: 0
     },
+
     {
       title: "Фото документів",
-      icon: ASSETS.pinkOn,
-      question: "Що робити з фото документів?",
+
+      question:
+        "Що робити з фото документів?",
+
       answers: [
         "Публікувати всюди",
         "Зберігати обережно",
         "Кидати в чат"
       ],
+
       correct: 1
     },
+
     {
       title: "Скарби Анубіси",
-      icon: ASSETS.pinkOn,
-      question: "Чому важливо берегти дані?",
+
+      question:
+        "Чому важливо берегти дані?",
+
       answers: [
         "Щоб шахраї їх не використали",
         "Бо так красивіше",
         "Щоб було більше файлів"
       ],
+
       correct: 0
     }
+
   ],
-/* =====================================================
-Рівень5 - наставник ТІФОН АЛЕ БУДЕ  РОБОТ
-===================================================== */
+
+
+  /* ===================================================
+     РІВЕНЬ 5 — ТІФОН
+  =================================================== */
+
   5: [
+
     {
       title: "Підозрілий файл",
-      icon: ASSETS.redOn,
-      question: "Що робити з підозрілим файлом?",
+
+      question:
+        "Що робити з підозрілим файлом?",
+
       answers: [
         "Відкрити",
         "Не відкривати",
         "Запустити одразу"
       ],
+
       correct: 1
     },
+
     {
       title: "Оновлення",
-      icon: ASSETS.redOn,
-      question: "Навіщо оновлювати пристрій?",
+
+      question:
+        "Навіщо оновлювати пристрій?",
+
       answers: [
         "Для захисту",
         "Щоб було повільніше",
         "Щоб зник інтернет"
       ],
+
       correct: 0
     },
+
     {
       title: "Антивірус",
-      icon: ASSETS.redOn,
-      question: "Антивірус допомагає...",
+
+      question:
+        "Антивірус допомагає...",
+
       answers: [
         "Захищати пристрій",
         "Створювати фейки",
         "Ламати пароль"
       ],
+
       correct: 0
     },
+
     {
       title: "Порада Тіфона",
-      icon: ASSETS.redOn,
-      question: "Як діяти, якщо файл дивний?",
+
+      question:
+        "Як діяти, якщо файл дивний?",
+
       answers: [
         "Порадитись з дорослим",
         "Відкрити",
         "Надіслати всім"
       ],
+
       correct: 0
     }
+
   ]
+
 };
+
 
 /* =====================================================
    ВІДКРИТИ ВИПРОБУВАННЯ
 ===================================================== */
 
 function openChallenge(levelId) {
- const level = LEVELS.find(item => item.id === levelId);
- const tasks = CHALLENGES[levelId];
- const done = completedTasks[levelId] || [];
- if (!level || !tasks) {
-   openModal(
-     "Помилка",
-     "<p>Не вдалося відкрити випробування цього рівня.</p>"
-   );
-   return;
- }
- openModal(
-   "Випробування: " + level.title,
-   `
-<div class="task-instruction">
-       Виконай 4 завдання, щоб зарядити кристал на 100%.
-</div>
-<div class="challenge-grid">
-       ${tasks.map((task, index) => `
-<button
-           class="challenge-card"
-           onclick="playSound('click'); openTask(${levelId}, ${index})"
->
-<img
-             src="${level.artifact}"
-             alt="Артефакт рівня ${level.title}"
->
-<div class="challenge-card-title">
-             ${task.title}
-</div>
-<div class="challenge-card-status">
-             ${done.includes(index) ? "✅ виконано" : "почати"}
-</div>
-</button>
-       `).join("")}
-</div>
-   `
- );
+
+  const level =
+    LEVELS.find(item => item.id === levelId);
+
+  const tasks =
+    CHALLENGES[levelId];
+
+  const done =
+    completedTasks[levelId] || [];
+
+
+  if (!level || !tasks) {
+
+    openModal(
+
+      "Помилка",
+
+      `
+        <p>
+          Не вдалося відкрити
+          випробування цього рівня.
+        </p>
+      `
+    );
+
+    return;
+  }
+
+
+  openModal(
+
+    "Випробування: " + level.title,
+
+    `
+      <div class="task-instruction">
+        Виконай 4 завдання,
+        щоб зарядити кристал на 100%.
+      </div>
+
+      <div class="challenge-grid">
+
+        ${
+          tasks.map((task, index) => `
+
+            <button
+              class="challenge-card"
+              onclick="
+                playSound('click');
+                openTask(${levelId}, ${index});
+              "
+            >
+
+              <img
+                src="${level.artifact}"
+                alt="Артефакт рівня ${level.title}"
+              >
+
+              <div class="challenge-card-title">
+                ${task.title}
+              </div>
+
+              <div class="challenge-card-status">
+
+                ${
+                  done.includes(index)
+                    ? "✅ виконано"
+                    : "почати"
+                }
+
+              </div>
+
+            </button>
+
+          `).join("")
+        }
+
+      </div>
+    `
+  );
 }
+
 
 /* =====================================================
    ВІДКРИТИ ЗАВДАННЯ
 ===================================================== */
 
 function openTask(levelId, taskIndex) {
- const task = CHALLENGES[levelId][taskIndex];
- if (!task) return;
- closeModal();
- if (levelId === 1) {
-   if (task.type === "password-builder") {
-     openPasswordBuilder(levelId, taskIndex);
-     return;
-   }
-   if (task.type === "weak-password-hunter") {
-     openWeakPasswordHunter(levelId, taskIndex);
-     return;
-   }
-   if (task.type === "password-manager") {
-     openPasswordManager(levelId, taskIndex);
-     return;
-   }
-   if (task.type === "two-factor") {
-     openTwoFactorTask(levelId, taskIndex);
-     return;
-   }
- }
- /* Старий формат для інших рівнів */
- openModal(
-   task.title,
-   `
-<p class="task-instruction">
-       ${task.question}
-</p>
-     ${task.answers.map((answer, index) => `
-<button
-         class="answer-btn"
-         onclick="checkAnswer(${levelId}, ${taskIndex}, ${index})"
->
-         ${answer}
-</button>
-     `).join("")}
-<div class="result-box" id="result"></div>
-   `
- );
+
+  const task =
+    CHALLENGES[levelId]?.[taskIndex];
+
+  if (!task) return;
+
+  closeModal();
+
+
+  if (levelId === 1) {
+
+    if (
+      task.type ===
+      "password-builder"
+    ) {
+
+      openPasswordBuilder(
+        levelId,
+        taskIndex
+      );
+
+      return;
+    }
+
+
+    if (
+      task.type ===
+      "weak-password-hunter"
+    ) {
+
+      openWeakPasswordHunter(
+        levelId,
+        taskIndex
+      );
+
+      return;
+    }
+
+
+    if (
+      task.type ===
+      "password-manager"
+    ) {
+
+      openPasswordManager(
+        levelId,
+        taskIndex
+      );
+
+      return;
+    }
+
+
+    if (
+      task.type ===
+      "two-factor"
+    ) {
+
+      openTwoFactorTask(
+        levelId,
+        taskIndex
+      );
+
+      return;
+    }
+
+  }
+
+
+  /* СТАРИЙ ФОРМАТ ДЛЯ ІНШИХ РІВНІВ */
+
+  openModal(
+
+    task.title,
+
+    `
+      <p class="task-instruction">
+        ${task.question}
+      </p>
+
+      ${
+        task.answers
+          .map((answer, index) => `
+
+            <button
+              class="answer-btn"
+              onclick="
+                checkAnswer(
+                  ${levelId},
+                  ${taskIndex},
+                  ${index}
+                )
+              "
+            >
+              ${answer}
+            </button>
+
+          `)
+          .join("")
+      }
+
+      <div
+        class="result-box"
+        id="result"
+      ></div>
+    `
+  );
 }
-/* =====================================================
-   МІНІІГРИ: ЗАМОК ПАРОЛІВ
-===================================================== */
 
 
 /* =====================================================
-   ЗАВЕРШЕННЯ МІНІІГРИ
+   ЗАВЕРШЕННЯ МІНІГРИ
 ===================================================== */
 
-function completeMiniGame(levelId, taskIndex, message) {
+function completeMiniGame(
+  levelId,
+  taskIndex,
+  message
+) {
 
   if (!completedTasks[levelId]) {
     completedTasks[levelId] = [];
   }
 
-  if (!completedTasks[levelId].includes(taskIndex)) {
-    completedTasks[levelId].push(taskIndex);
+
+  if (
+    !completedTasks[levelId]
+      .includes(taskIndex)
+  ) {
+
+    completedTasks[levelId]
+      .push(taskIndex);
   }
 
-  const progress = completedTasks[levelId].length * 25;
+
+  const progress =
+    completedTasks[levelId].length * 25;
+
 
   playSound("correct");
 
+
   if (progress >= 100) {
 
-    if (!completedLevels.includes(levelId)) {
+    if (
+      !completedLevels.includes(levelId)
+    ) {
+
       completedLevels.push(levelId);
     }
+
 
     playSound("crystal");
 
     closeModal();
+
     openLevelReward(levelId);
 
     return;
   }
 
-  const resultBox = document.getElementById("result");
+
+  const resultBox =
+    document.getElementById("result");
+
 
   if (!resultBox) return;
 
+
   resultBox.innerHTML = `
+
     <div class="story-highlight">
-      <p>✅ ${message}</p>
-      <p>Жовтий кристал заряджено на ${progress}%.</p>
+
+      <p>
+        ✅ ${message}
+      </p>
+
+      <p>
+        Жовтий кристал заряджено
+        на ${progress}%.
+      </p>
+
     </div>
 
     <button
       class="btn"
-      onclick="playSound('click'); closeModal(); openChallenge(${levelId})"
+      onclick="
+        playSound('click');
+        closeModal();
+        openChallenge(${levelId});
+      "
     >
       До наступного завдання
     </button>
@@ -1433,36 +2103,49 @@ function completeMiniGame(levelId, taskIndex, message) {
 
 
 /* =====================================================
-   1. БУДІВЕЛЬНИК СЕЙФУ
-===================================================== */
-/* =====================================================
    МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ
 ===================================================== */
 
 let passwordBuilderState = {
+
   word: "",
   symbol: "",
   length: "",
   letterCase: ""
+
 };
 
 
+let safeSelectedCard = null;
+
+
 /* =====================================================
-   ВІДКРИТТЯ МІНІГРИ
+   ВІДКРИТТЯ БУДІВЕЛЬНИКА
 ===================================================== */
 
-function openPasswordBuilder(levelId, taskIndex) {
+function openPasswordBuilder(
+  levelId,
+  taskIndex
+) {
 
   closeModal();
 
+
   passwordBuilderState = {
+
     word: "",
     symbol: "",
     length: "",
     letterCase: ""
+
   };
 
+
+  safeSelectedCard = null;
+
+
   app.innerHTML = `
+
     <section
       class="screen safe-builder-screen"
       ${bg(ASSETS.safeBuilderBg)}
@@ -1476,216 +2159,355 @@ function openPasswordBuilder(levelId, taskIndex) {
           openChallenge(${levelId});
         "
       >
-        ← До випробувань
+        ← До завдань
       </button>
 
-      <div class="safe-builder-header">
 
-        <h1>
-          Будівельник сейфу
-        </h1>
+      <div
+        class="safe-hearts"
+        id="safeHearts"
+      >
+        ❤️ ❤️ ❤️
+      </div>
 
-        <p>
-          Обери по одному елементу з кожної категорії
-          та створи пароль, який Мордор не зламає.
-        </p>
+
+      <div class="safe-builder-title">
+        Будівельник сейфу
+      </div>
+
+
+      <!-- ЛІВА СТОРОНА -->
+
+      <div
+        class="
+          safe-builder-column
+          safe-left
+        "
+      >
+
+        ${renderSafeGroup(
+
+          "word",
+
+          "1. Основа пароля",
+
+          [
+            ["Cat", "Cat"],
+            ["MyDog2015", "MyDog2015"],
+            ["P1zz4_S3cr3t", "P1zz4_S3cr3t"]
+          ]
+
+        )}
+
+
+        ${renderSafeGroup(
+
+          "symbol",
+
+          "2. Спецсимвол",
+
+          [
+            ["none", "Без символів"],
+            ["#", "#"],
+            ["@", "@"],
+            ["!", "!"]
+          ]
+
+        )}
 
       </div>
 
-      <div class="safe-builder-layout">
 
-        <div class="safe-builder-left-panel">
+      <!-- ЦЕНТР -->
 
-          ${renderPasswordCategory(
-            "word",
-            "1. Основа пароля",
-            [
-              {
-                value: "Cat",
-                label: "Cat",
-                hint: "Коротке просте слово"
-              },
-              {
-                value: "MyDog2015",
-                label: "MyDog2015",
-                hint: "Ім’я та рік"
-              },
-              {
-                value: "P1zz4_S3cr3t",
-                label: "P1zz4_S3cr3t",
-                hint: "Складна фраза"
-              }
-            ]
-          )}
+      <div class="safe-builder-center">
 
-          ${renderPasswordCategory(
-            "symbol",
-            "2. Спеціальний символ",
-            [
-              {
-                value: "none",
-                label: "Без символів",
-                hint: "Не додавати"
-              },
-              {
-                value: "#",
-                label: "#",
-                hint: "Решітка"
-              },
-              {
-                value: "@",
-                label: "@",
-                hint: "Символ @"
-              },
-              {
-                value: "!",
-                label: "!",
-                hint: "Знак оклику"
-              }
-            ]
-          )}
-
-        </div>
-
-        <div class="safe-builder-center">
+        <div
+          class="safe-drop-zone"
+          id="safeDropZone"
+          ondragover="allowSafeDrop(event)"
+          ondragleave="leaveSafeDrop(event)"
+          ondrop="dropOnSafe(event)"
+          onclick="placeSelectedCardOnSafe()"
+        >
 
           <div
-            id="safeVisual"
-            class="safe-builder-safe-wrap"
-          >
-            <div
-              id="safeRedFlash"
-              class="safe-red-flash"
-            ></div>
-
-            <div
-              id="safeGoldenFlash"
-              class="safe-golden-flash"
-            ></div>
-
-            <img
-              id="safeImage"
-              class="safe-builder-safe"
-              src="${ASSETS.safeBuilderSafe}"
-              alt="Магічний сейф"
-            >
-
-            <div
-              id="safeCrackText"
-              class="safe-crack-text"
-            >
-              ЗЛАМАНО!
-            </div>
-          </div>
-
-          <div class="safe-password-display">
-
-            <div class="safe-password-label">
-              Створений пароль
-            </div>
-
-            <div
-              id="passwordPreview"
-              class="safe-password-value"
-            >
-              Обери елементи
-            </div>
-
-          </div>
-
-          <div class="safe-strength-panel">
-
-            <div class="safe-strength-top">
-
-              <span>
-                Міцність захисту
-              </span>
-
-              <strong id="strengthPercent">
-                0%
-              </strong>
-
-            </div>
-
-            <div class="safe-strength-track">
-
-              <div
-                id="strengthFill"
-                class="safe-strength-fill"
-                style="width:0%;"
-              ></div>
-
-            </div>
-
-            <div
-              id="strengthLabel"
-              class="safe-strength-label strength-empty"
-            >
-              Захист ще не створено
-            </div>
-
-          </div>
-
-          <button
-            id="lockSafeButton"
-            class="btn safe-lock-button"
-            onclick="checkSafePassword(${levelId}, ${taskIndex})"
-          >
-            🔐 Замкнути сейф
-          </button>
-
-          <div
-            id="safeBuilderResult"
-            class="safe-builder-result"
+            class="safe-red-effect"
+            id="safeRedEffect"
           ></div>
 
+          <div
+            class="safe-gold-effect"
+            id="safeGoldEffect"
+          ></div>
+
+          <img
+            id="safeImage"
+            class="safe-builder-image"
+            src="${ASSETS.safeBuilderSafe}"
+            alt="Сейф"
+          >
+
+          <div
+            class="safe-drop-hint"
+            id="safeDropHint"
+          >
+            Перетягни блок сюди
+          </div>
+
         </div>
 
-        <div class="safe-builder-right-panel">
 
-          ${renderPasswordCategory(
-            "length",
-            "3. Довжина пароля",
-            [
-              {
-                value: "4",
-                label: "4 символи",
-                hint: "Короткий"
-              },
-              {
-                value: "8",
-                label: "8 символів",
-                hint: "Середній"
-              },
-              {
-                value: "12",
-                label: "12+ символів",
-                hint: "Довгий"
-              }
-            ]
-          )}
+        <!-- ВИБРАНІ ЕЛЕМЕНТИ -->
 
-          ${renderPasswordCategory(
-            "letterCase",
-            "4. Регістр",
-            [
-              {
-                value: "lower",
-                label: "abc",
-                hint: "Лише малі"
-              },
-              {
-                value: "upper",
-                label: "ABC",
-                hint: "Лише великі"
-              },
-              {
-                value: "mixed",
-                label: "aBc",
-                hint: "Великі та малі"
-              }
-            ]
-          )}
+        <div class="safe-installed">
+
+          <div class="safe-installed-slot">
+
+            <span>
+              Основа
+            </span>
+
+            <strong id="installed-word">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="safe-installed-slot">
+
+            <span>
+              Символ
+            </span>
+
+            <strong id="installed-symbol">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="safe-installed-slot">
+
+            <span>
+              Довжина
+            </span>
+
+            <strong id="installed-length">
+              —
+            </strong>
+
+          </div>
+
+
+          <div class="safe-installed-slot">
+
+            <span>
+              Регістр
+            </span>
+
+            <strong id="installed-letterCase">
+              —
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <!-- ПАРОЛЬ -->
+
+        <div class="safe-password-box">
+
+          <span>
+            Створений пароль
+          </span>
+
+          <strong id="safePasswordPreview">
+            Обери елементи
+          </strong>
+
+        </div>
+
+
+        <!-- ШКАЛА -->
+
+        <div class="safe-strength">
+
+          <div class="safe-strength-header">
+
+            <span>
+              Міцність захисту
+            </span>
+
+            <strong id="safeStrengthPercent">
+              0%
+            </strong>
+
+          </div>
+
+
+          <div class="safe-strength-track">
+
+            <div
+              class="safe-strength-fill"
+              id="safeStrengthFill"
+            ></div>
+
+          </div>
+
+
+          <div
+            class="safe-strength-status"
+            id="safeStrengthStatus"
+          >
+            Захист ще не створено
+          </div>
+
+        </div>
+
+
+        <button
+          class="btn safe-lock-button"
+          id="safeLockButton"
+          onclick="
+            checkSafeBuilder(
+              ${levelId},
+              ${taskIndex}
+            )
+          "
+        >
+          🔐 Замкнути сейф
+        </button>
+
+
+        <div
+          class="safe-result-message"
+          id="safeResultMessage"
+        ></div>
+
+      </div>
+
+
+      <!-- ПРАВА СТОРОНА -->
+
+      <div
+        class="
+          safe-builder-column
+          safe-right
+        "
+      >
+
+        ${renderSafeGroup(
+
+          "length",
+
+          "3. Довжина",
+
+          [
+            ["4", "4 символи"],
+            ["8", "8 символів"],
+            ["12", "12+ символів"]
+          ]
+
+        )}
+
+
+        ${renderSafeGroup(
+
+          "letterCase",
+
+          "4. Регістр",
+
+          [
+            ["lower", "abc"],
+            ["upper", "ABC"],
+            ["mixed", "aBc"]
+          ]
+
+        )}
+
+      </div>
+
+
+      <!-- ВСТУП ТОТУСА -->
+
+      <div
+        class="safe-intro-overlay"
+        id="safeIntroOverlay"
+      >
+
+        <div class="safe-intro-card">
+
+          <img
+            src="${ASSETS.totus}"
+            class="safe-intro-totus"
+            alt="Тотус"
+          >
+
+          <div class="safe-intro-text">
+
+            <h2>
+              Тотус пояснює
+            </h2>
+
+            <p>
+              Мордор намагається
+              зламати наш сейф!
+            </p>
+
+            <p>
+              Тобі потрібно створити
+              надійний пароль.
+              Перетягни на сейф
+              по одному блоку
+              з кожної категорії:
+            </p>
+
+            <p>
+              <b>
+                основу →
+                спецсимвол →
+                довжину →
+                регістр.
+              </b>
+            </p>
+
+
+            <div class="safe-example">
+
+              <span>
+                Наприклад:
+              </span>
+
+              <strong>
+                P1zz4_S3cr3t + # + 12+ + aBc
+              </strong>
+
+              <span>
+                🔐 = сильний пароль
+              </span>
+
+            </div>
+
+
+            <p class="safe-intro-note">
+              Якщо помилишся —
+              нічого страшного.
+              Можна пробувати стільки разів,
+              скільки потрібно.
+            </p>
+
+
+            <button
+              class="btn"
+              onclick="startSafeBuilderGame()"
+            >
+              Почати випробування
+            </button>
+
+          </div>
 
         </div>
 
@@ -1693,1287 +2515,1189 @@ function openPasswordBuilder(levelId, taskIndex) {
 
     </section>
   `;
-
-  updateSafeBuilder();
 }
 
 
 /* =====================================================
-   СТВОРЕННЯ КАТЕГОРІЙ
+   КАРТКИ БУДІВЕЛЬНИКА
 ===================================================== */
 
-function renderPasswordCategory(category, title, options) {
+function renderSafeGroup(
+  category,
+  title,
+  options
+) {
 
   return `
-    <div class="safe-option-group">
+
+    <div class="safe-category">
 
       <h3>
         ${title}
       </h3>
 
-      <div class="safe-option-list">
-
-        ${options.map(option => `
-          <button
-            type="button"
-            class="safe-option-card"
-            data-category="${category}"
-            data-value="${option.value}"
-            onclick="
-/* =====================================================
-МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ  РІВЕНЬ 1 НАСТАВНИК ТОТУС
-===================================================== */
-
-let passwordBuilderState = {
-word: "",
-symbol: "",
-length: "",
-letterCase: ""
-};
-
-let safeSelectedCard = null;
-
-
-/* =====================================================
-ВІДКРИТТЯ ГРИ
-===================================================== */
-
-function openPasswordBuilder(levelId, taskIndex) {
-
-closeModal();
-
-passwordBuilderState = {
-word: "",
-symbol: "",
-length: "",
-letterCase: ""
-};
-
-safeSelectedCard = null;
-
-app.innerHTML = `
-<section
-class="screen safe-builder-screen"
-${bg(ASSETS.safeBuilderBg)}
->
-
-<button
-class="btn safe-builder-back"
-onclick="
-playSound('click');
-showLevel(${levelId});
-openChallenge(${levelId});
-"
->
-← До завдань
-</button>
-
-
-<!-- ЖИТТЯ / СПРОБИ -->
-
-<div class="safe-hearts" id="safeHearts">
-❤️ ❤️ ❤️
-</div>
-
-
-<!-- НАЗВА -->
-
-<div class="safe-builder-title">
-Будівельник сейфу
-</div>
-
-
-<!-- ЛІВА СТОРОНА -->
-
-<div class="safe-builder-column safe-left">
-
-${renderSafeGroup(
-"word",
-"1. Основа пароля",
-[
-["Cat", "Cat"],
-["MyDog2015", "MyDog2015"],
-["P1zz4_S3cr3t", "P1zz4_S3cr3t"]
-]
-)}
-
-${renderSafeGroup(
-"symbol",
-"2. Спецсимвол",
-[
-["none", "Без символів"],
-["#", "#"],
-["@", "@"],
-["!", "!"]
-]
-)}
-
-</div>
-
-
-<!-- ЦЕНТР -->
-
-<div class="safe-builder-center">
-
-<div
-class="safe-drop-zone"
-id="safeDropZone"
-ondragover="allowSafeDrop(event)"
-ondrop="dropOnSafe(event)"
-onclick="placeSelectedCardOnSafe()"
->
-
-<div class="safe-red-effect" id="safeRedEffect"></div>
-<div class="safe-gold-effect" id="safeGoldEffect"></div>
-
-<img
-id="safeImage"
-class="safe-builder-image"
-src="${ASSETS.safeBuilderSafe}"
-alt="Сейф"
->
-
-<div class="safe-drop-hint" id="safeDropHint">
-Перетягни блок сюди
-</div>
-
-</div>
-
-
-<!-- ВИБРАНІ ЕЛЕМЕНТИ -->
-
-<div class="safe-installed">
-
-<div class="safe-installed-slot">
-<span>Основа</span>
-<strong id="installed-word">—</strong>
-</div>
-
-<div class="safe-installed-slot">
-<span>Символ</span>
-<strong id="installed-symbol">—</strong>
-</div>
-
-<div class="safe-installed-slot">
-<span>Довжина</span>
-<strong id="installed-length">—</strong>
-</div>
-
-<div class="safe-installed-slot">
-<span>Регістр</span>
-<strong id="installed-letterCase">—</strong>
-</div>
-
-</div>
-
-
-<!-- ПАРОЛЬ -->
-
-<div class="safe-password-box">
-
-<span>Створений пароль</span>
-
-<strong id="safePasswordPreview">
-Обери елементи
-</strong>
-
-</div>
-
-
-<!-- ШКАЛА -->
-
-<div class="safe-strength">
-
-<div class="safe-strength-header">
-<span>Міцність захисту</span>
-<strong id="safeStrengthPercent">0%</strong>
-</div>
-
-<div class="safe-strength-track">
-<div
-class="safe-strength-fill"
-id="safeStrengthFill"
-></div>
-</div>
-
-<div
-class="safe-strength-status"
-id="safeStrengthStatus"
->
-Захист ще не створено
-</div>
-
-</div>
-
-
-<button
-class="btn safe-lock-button"
-id="safeLockButton"
-onclick="checkSafeBuilder(${levelId}, ${taskIndex})"
->
-🔐 Замкнути сейф
-</button>
-
-
-<div
-class="safe-result-message"
-id="safeResultMessage"
-></div>
-
-</div>
-
-
-<!-- ПРАВА СТОРОНА -->
-
-<div class="safe-builder-column safe-right">
-
-${renderSafeGroup(
-"length",
-"3. Довжина",
-[
-["4", "4 символи"],
-["8", "8 символів"],
-["12", "12+ символів"]
-]
-)}
-
-${renderSafeGroup(
-"letterCase",
-"4. Регістр",
-[
-["lower", "abc"],
-["upper", "ABC"],
-["mixed", "aBc"]
-]
-)}
-
-</div>
-
-
-<!-- ВСТУП ТОТУСА -->
-
-<div class="safe-intro-overlay" id="safeIntroOverlay">
-
-<div class="safe-intro-card">
-
-<img
-src="${ASSETS.totus}"
-class="safe-intro-totus"
-alt="Тотус"
->
-
-<div class="safe-intro-text">
-
-<h2>
-Тотус пояснює
-</h2>
-
-<p>
-Мордор намагається зламати наш сейф!
-</p>
-
-<p>
-Тобі потрібно створити надійний пароль.
-Перетягни на сейф по одному блоку
-з кожної категорії:
-</p>
-
-<p>
-<b>
-основу → спецсимвол → довжину → регістр.
-</b>
-</p>
-
-<div class="safe-example">
-
-<span>Наприклад:</span>
-
-<strong>
-P1zz4_S3cr3t + # + 12+ + aBc
-</strong>
-
-<span>
-🔐 = сильний пароль
-</span>
-
-</div>
-
-<p class="safe-intro-note">
-Якщо помилишся — нічого страшного.
-Можна пробувати стільки разів,
-скільки потрібно.
-</p>
-
-<button
-class="btn"
-onclick="startSafeBuilderGame()"
->
-Почати випробування
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-`;
-
+      <div class="safe-cards">
+
+        ${
+          options.map(
+            ([value, label]) => `
+
+              <div
+                class="safe-drag-card"
+                draggable="true"
+                data-category="${category}"
+                data-value="${value}"
+                data-label="${label}"
+
+                ondragstart="
+                  startSafeDrag(event)
+                "
+
+                ondragend="
+                  endSafeDrag(event)
+                "
+
+                onclick="
+                  selectSafeCard(
+                    '${category}',
+                    '${value}',
+                    '${label}',
+                    this
+                  )
+                "
+              >
+                ${label}
+              </div>
+
+            `
+          ).join("")
+        }
+
+      </div>
+
+    </div>
+  `;
 }
 
 
 /* =====================================================
-СТВОРЕННЯ БЛОКІВ
-===================================================== */
-
-function renderSafeGroup(category, title, options) {
-
-return `
-<div class="safe-category">
-
-<h3>${title}</h3>
-
-<div class="safe-cards">
-
-${options.map(([value, label]) => `
-<div
-class="safe-drag-card"
-draggable="true"
-data-category="${category}"
-data-value="${value}"
-data-label="${label}"
-
-ondragstart="startSafeDrag(event)"
-
-onclick="
-selectSafeCard(
-'${category}',
-'${value}',
-'${label}',
-this
-)
-"
->
-${label}
-</div>
-`).join("")}
-
-</div>
-
-</div>
-`;
-}
-
-
-/* =====================================================
-ПОЧАТОК ПІСЛЯ ПОЯСНЕННЯ ТОТУСА
+   ПОЧАТОК ПІСЛЯ ТОТУСА
 ===================================================== */
 
 function startSafeBuilderGame() {
 
-const overlay =
-document.getElementById("safeIntroOverlay");
+  const overlay =
+    document.getElementById(
+      "safeIntroOverlay"
+    );
 
-if (overlay) {
-overlay.classList.add("hide");
-}
+  if (overlay) {
 
-playSound("click");
+    overlay.classList.add("hide");
+
+    window.setTimeout(() => {
+
+      if (overlay) {
+        overlay.style.display = "none";
+      }
+
+    }, 400);
+  }
+
+  playSound("click");
 }
 
 
 /* =====================================================
-DRAG & DROP
+   DRAG & DROP
 ===================================================== */
 
 function startSafeDrag(event) {
 
-const card = event.currentTarget;
+  const card =
+    event.currentTarget;
 
-event.dataTransfer.setData(
-"category",
-card.dataset.category
-);
 
-event.dataTransfer.setData(
-"value",
-card.dataset.value
-);
+  event.dataTransfer.setData(
+    "category",
+    card.dataset.category
+  );
 
-event.dataTransfer.setData(
-"label",
-card.dataset.label
-);
+  event.dataTransfer.setData(
+    "value",
+    card.dataset.value
+  );
 
-card.classList.add("dragging");
+  event.dataTransfer.setData(
+    "label",
+    card.dataset.label
+  );
+
+
+  event.dataTransfer.effectAllowed =
+    "move";
+
+
+  card.classList.add("dragging");
+}
+
+
+function endSafeDrag(event) {
+
+  event.currentTarget
+    .classList
+    .remove("dragging");
+
+
+  const zone =
+    document.getElementById(
+      "safeDropZone"
+    );
+
+  if (zone) {
+    zone.classList.remove("drag-over");
+  }
 }
 
 
 function allowSafeDrop(event) {
 
-event.preventDefault();
+  event.preventDefault();
 
-const zone =
-document.getElementById("safeDropZone");
+  event.dataTransfer.dropEffect =
+    "move";
 
-if (zone) {
-zone.classList.add("drag-over");
+
+  const zone =
+    document.getElementById(
+      "safeDropZone"
+    );
+
+  if (zone) {
+    zone.classList.add("drag-over");
+  }
 }
+
+
+function leaveSafeDrop(event) {
+
+  const zone =
+    document.getElementById(
+      "safeDropZone"
+    );
+
+  if (
+    zone &&
+    !zone.contains(event.relatedTarget)
+  ) {
+
+    zone.classList.remove("drag-over");
+  }
 }
 
 
 function dropOnSafe(event) {
 
-event.preventDefault();
+  event.preventDefault();
+  event.stopPropagation();
 
-const category =
-event.dataTransfer.getData("category");
 
-const value =
-event.dataTransfer.getData("value");
+  const category =
+    event.dataTransfer.getData(
+      "category"
+    );
 
-const label =
-event.dataTransfer.getData("label");
+  const value =
+    event.dataTransfer.getData(
+      "value"
+    );
 
-installSafePart(
-category,
-value,
-label
-);
+  const label =
+    event.dataTransfer.getData(
+      "label"
+    );
 
-document
-.querySelectorAll(".safe-drag-card")
-.forEach(card => {
-card.classList.remove("dragging");
-});
 
-const zone =
-document.getElementById("safeDropZone");
+  if (
+    !category ||
+    value === ""
+  ) {
+    return;
+  }
 
-if (zone) {
-zone.classList.remove("drag-over");
-}
+
+  installSafePart(
+    category,
+    value,
+    label
+  );
+
+
+  document
+    .querySelectorAll(
+      ".safe-drag-card"
+    )
+    .forEach(card => {
+
+      card.classList.remove(
+        "dragging"
+      );
+    });
+
+
+  const zone =
+    document.getElementById(
+      "safeDropZone"
+    );
+
+  if (zone) {
+    zone.classList.remove("drag-over");
+  }
 }
 
 
 /* =====================================================
-НАТИСКАННЯ — ДЛЯ ТЕЛЕФОНА / ПЛАНШЕТА
+   НАТИСКАННЯ ДЛЯ ТЕЛЕФОНА
 ===================================================== */
 
 function selectSafeCard(
-category,
-value,
-label,
-element
+  category,
+  value,
+  label,
+  element
 ) {
 
-safeSelectedCard = {
-category,
-value,
-label
-};
+  safeSelectedCard = {
 
-document
-.querySelectorAll(".safe-drag-card")
-.forEach(card => {
-card.classList.remove("touch-selected");
-});
+    category,
+    value,
+    label
 
-element.classList.add("touch-selected");
+  };
 
-const hint =
-document.getElementById("safeDropHint");
 
-if (hint) {
-hint.textContent =
-"Тепер натисни на сейф";
-}
+  document
+    .querySelectorAll(
+      ".safe-drag-card"
+    )
+    .forEach(card => {
 
-playSound("click");
+      card.classList.remove(
+        "touch-selected"
+      );
+    });
+
+
+  if (element) {
+
+    element.classList.add(
+      "touch-selected"
+    );
+  }
+
+
+  const hint =
+    document.getElementById(
+      "safeDropHint"
+    );
+
+
+  if (hint) {
+
+    hint.textContent =
+      "Тепер натисни на сейф";
+  }
+
+
+  playSound("click");
 }
 
 
 function placeSelectedCardOnSafe() {
 
-if (!safeSelectedCard) return;
+  if (!safeSelectedCard) return;
 
-installSafePart(
-safeSelectedCard.category,
-safeSelectedCard.value,
-safeSelectedCard.label
-);
 
-safeSelectedCard = null;
+  installSafePart(
 
-document
-.querySelectorAll(".safe-drag-card")
-.forEach(card => {
-card.classList.remove("touch-selected");
-});
+    safeSelectedCard.category,
+    safeSelectedCard.value,
+    safeSelectedCard.label
+
+  );
+
+
+  safeSelectedCard = null;
+
+
+  document
+    .querySelectorAll(
+      ".safe-drag-card"
+    )
+    .forEach(card => {
+
+      card.classList.remove(
+        "touch-selected"
+      );
+    });
 }
 
 
 /* =====================================================
-ВСТАНОВЛЕННЯ БЛОКУ НА СЕЙФ
+   ВСТАНОВЛЕННЯ БЛОКУ
 ===================================================== */
 
 function installSafePart(
-category,
-value,
-label
+  category,
+  value,
+  label
 ) {
 
-passwordBuilderState[category] = value;
+  passwordBuilderState[category] =
+    value;
 
-const slot =
-document.getElementById(
-`installed-${category}`
-);
 
-if (slot) {
-slot.textContent = label;
-slot.parentElement.classList.add("filled");
-}
+  const slot =
+    document.getElementById(
+      `installed-${category}`
+    );
 
-document
-.querySelectorAll(
-`.safe-drag-card[data-category="${category}"]`
-)
-.forEach(card => {
 
-card.classList.remove("installed");
+  if (slot) {
 
-if (
-card.dataset.value === value
-) {
-card.classList.add("installed");
-}
+    slot.textContent =
+      label;
 
-});
+    slot.parentElement
+      .classList
+      .add("filled");
+  }
 
-const hint =
-document.getElementById("safeDropHint");
 
-if (hint) {
-hint.textContent =
-"Елемент встановлено!";
-}
+  document
+    .querySelectorAll(
+      `.safe-drag-card[data-category="${category}"]`
+    )
+    .forEach(card => {
 
-playSound("click");
+      card.classList.remove(
+        "installed"
+      );
 
-updateSafeBuilderGame();
+
+      if (
+        card.dataset.value === value
+      ) {
+
+        card.classList.add(
+          "installed"
+        );
+      }
+    });
+
+
+  const hint =
+    document.getElementById(
+      "safeDropHint"
+    );
+
+
+  if (hint) {
+
+    hint.textContent =
+      "Елемент встановлено!";
+  }
+
+
+  playSound("click");
+
+  updateSafeBuilderGame();
 }
 
 
 /* =====================================================
-СТВОРЕННЯ ПАРОЛЯ
+   СТВОРЕННЯ ПАРОЛЯ
 ===================================================== */
 
 function buildSafePassword() {
 
-let word =
-passwordBuilderState.word || "";
-
-if (
-passwordBuilderState.letterCase === "lower"
-) {
-word = word.toLowerCase();
-}
-
-if (
-passwordBuilderState.letterCase === "upper"
-) {
-word = word.toUpperCase();
-}
-
-if (
-passwordBuilderState.letterCase === "mixed"
-) {
-
-word = word
-.split("")
-.map((char, index) => {
-
-if (!/[a-zA-Z]/.test(char)) {
-return char;
-}
-
-return index % 2 === 0
-? char.toUpperCase()
-: char.toLowerCase();
-
-})
-.join("");
-}
+  let word =
+    passwordBuilderState.word || "";
 
 
-let symbol = "";
+  if (
+    passwordBuilderState
+      .letterCase === "lower"
+  ) {
 
-if (
-passwordBuilderState.symbol &&
-passwordBuilderState.symbol !== "none"
-) {
-symbol = passwordBuilderState.symbol;
-}
-
-
-let password =
-word + symbol;
+    word =
+      word.toLowerCase();
+  }
 
 
-const targetLength =
-Number(
-passwordBuilderState.length || 0
-);
+  if (
+    passwordBuilderState
+      .letterCase === "upper"
+  ) {
+
+    word =
+      word.toUpperCase();
+  }
 
 
-const extra = [
-"27",
-"84",
-"51",
-"2026"
-];
+  if (
+    passwordBuilderState
+      .letterCase === "mixed"
+  ) {
 
-let i = 0;
+    let upperNext = true;
 
-while (
-targetLength &&
-password.length < targetLength
-) {
+    word =
+      word
+        .split("")
+        .map(char => {
 
-password += extra[i];
+          if (
+            !/[a-zA-Z]/.test(char)
+          ) {
 
-i =
-(i + 1) % extra.length;
-}
+            return char;
+          }
 
 
-return password;
+          const changedChar =
+            upperNext
+              ? char.toUpperCase()
+              : char.toLowerCase();
+
+
+          upperNext =
+            !upperNext;
+
+
+          return changedChar;
+
+        })
+        .join("");
+  }
+
+
+  let symbol = "";
+
+
+  if (
+    passwordBuilderState.symbol &&
+    passwordBuilderState.symbol !== "none"
+  ) {
+
+    symbol =
+      passwordBuilderState.symbol;
+  }
+
+
+  let password =
+    word + symbol;
+
+
+  const targetLength =
+    Number(
+      passwordBuilderState.length || 0
+    );
+
+
+  const extraCharacters =
+    "27A9x4B8m5Q2026";
+
+
+  let index = 0;
+
+
+  while (
+    targetLength > 0 &&
+    password.length < targetLength
+  ) {
+
+    password +=
+      extraCharacters[
+        index %
+        extraCharacters.length
+      ];
+
+
+    index += 1;
+  }
+
+
+  return password;
 }
 
 
 /* =====================================================
-МІЦНІСТЬ
+   МІЦНІСТЬ ПАРОЛЯ
 ===================================================== */
 
 function calculateSafeBuilderStrength() {
 
-let score = 0;
+  let score = 0;
 
 
-if (passwordBuilderState.word === "Cat") {
-score += 5;
-}
-
-if (
-passwordBuilderState.word === "MyDog2015"
-) {
-score += 15;
-}
-
-if (
-passwordBuilderState.word ===
-"P1zz4_S3cr3t"
-) {
-score += 30;
-}
+  if (
+    passwordBuilderState.word === "Cat"
+  ) {
+    score += 5;
+  }
 
 
-if (
-passwordBuilderState.symbol &&
-passwordBuilderState.symbol !== "none"
-) {
-score += 20;
-}
+  if (
+    passwordBuilderState.word ===
+    "MyDog2015"
+  ) {
+    score += 15;
+  }
 
 
-if (
-passwordBuilderState.length === "4"
-) {
-score += 5;
-}
-
-if (
-passwordBuilderState.length === "8"
-) {
-score += 15;
-}
-
-if (
-passwordBuilderState.length === "12"
-) {
-score += 30;
-}
+  if (
+    passwordBuilderState.word ===
+    "P1zz4_S3cr3t"
+  ) {
+    score += 30;
+  }
 
 
-if (
-passwordBuilderState.letterCase === "lower"
-) {
-score += 5;
-}
-
-if (
-passwordBuilderState.letterCase === "upper"
-) {
-score += 10;
-}
-
-if (
-passwordBuilderState.letterCase === "mixed"
-) {
-score += 20;
-}
+  if (
+    passwordBuilderState.symbol &&
+    passwordBuilderState.symbol !== "none"
+  ) {
+    score += 20;
+  }
 
 
-return Math.min(
-score,
-100
-);
+  if (
+    passwordBuilderState.length === "4"
+  ) {
+    score += 5;
+  }
+
+
+  if (
+    passwordBuilderState.length === "8"
+  ) {
+    score += 15;
+  }
+
+
+  if (
+    passwordBuilderState.length === "12"
+  ) {
+    score += 30;
+  }
+
+
+  if (
+    passwordBuilderState
+      .letterCase === "lower"
+  ) {
+    score += 5;
+  }
+
+
+  if (
+    passwordBuilderState
+      .letterCase === "upper"
+  ) {
+    score += 10;
+  }
+
+
+  if (
+    passwordBuilderState
+      .letterCase === "mixed"
+  ) {
+    score += 20;
+  }
+
+
+  return Math.min(
+    score,
+    100
+  );
 }
 
 
 /* =====================================================
-ОНОВЛЕННЯ ЕКРАНА
+   ОНОВЛЕННЯ БУДІВЕЛЬНИКА
 ===================================================== */
 
 function updateSafeBuilderGame() {
 
-const preview =
-document.getElementById(
-"safePasswordPreview"
-);
-
-const percent =
-document.getElementById(
-"safeStrengthPercent"
-);
-
-const fill =
-document.getElementById(
-"safeStrengthFill"
-);
-
-const status =
-document.getElementById(
-"safeStrengthStatus"
-);
+  const preview =
+    document.getElementById(
+      "safePasswordPreview"
+    );
 
 
-const password =
-buildSafePassword();
+  const percent =
+    document.getElementById(
+      "safeStrengthPercent"
+    );
 
 
-const count =
-Object
-.values(passwordBuilderState)
-.filter(Boolean)
-.length;
+  const fill =
+    document.getElementById(
+      "safeStrengthFill"
+    );
 
 
-const strength =
-calculateSafeBuilderStrength();
+  const status =
+    document.getElementById(
+      "safeStrengthStatus"
+    );
 
 
-if (preview) {
-
-preview.textContent =
-count
-? password
-: "Обери елементи";
-}
+  const password =
+    buildSafePassword();
 
 
-if (percent) {
+  const count = [
 
-percent.textContent =
-`${strength}%`;
-}
+    passwordBuilderState.word,
+    passwordBuilderState.symbol,
+    passwordBuilderState.length,
+    passwordBuilderState.letterCase
 
-
-if (fill) {
-
-fill.style.width =
-`${strength}%`;
-
-fill.classList.remove(
-"weak",
-"medium",
-"strong"
-);
-
-if (strength < 50) {
-fill.classList.add("weak");
-}
-
-else if (strength < 85) {
-fill.classList.add("medium");
-}
-
-else {
-fill.classList.add("strong");
-}
-}
+  ].filter(value => value !== "").length;
 
 
-if (!status) return;
+  const strength =
+    calculateSafeBuilderStrength();
 
 
-if (count < 4) {
+  if (preview) {
 
-status.textContent =
-`Встановлено ${count} з 4 елементів`;
-
-return;
-}
-
-
-if (strength < 50) {
-
-status.textContent =
-"Слабкий пароль";
-
-return;
-}
+    preview.textContent =
+      count
+        ? password
+        : "Обери елементи";
+  }
 
 
-if (strength < 85) {
+  if (percent) {
 
-status.textContent =
-"Захист можна посилити";
-
-return;
-}
+    percent.textContent =
+      `${strength}%`;
+  }
 
 
-status.textContent =
-"Надійний пароль!";
+  if (fill) {
+
+    fill.style.width =
+      `${strength}%`;
+
+
+    fill.classList.remove(
+      "weak",
+      "medium",
+      "strong"
+    );
+
+
+    if (strength < 50) {
+
+      fill.classList.add("weak");
+
+    } else if (strength < 85) {
+
+      fill.classList.add("medium");
+
+    } else {
+
+      fill.classList.add("strong");
+
+    }
+  }
+
+
+  if (!status) return;
+
+
+  if (count < 4) {
+
+    status.textContent =
+      `Встановлено ${count} з 4 елементів`;
+
+    return;
+  }
+
+
+  if (strength < 50) {
+
+    status.textContent =
+      "Слабкий пароль";
+
+    return;
+  }
+
+
+  if (strength < 85) {
+
+    status.textContent =
+      "Захист можна посилити";
+
+    return;
+  }
+
+
+  status.textContent =
+    "Надійний пароль!";
 }
 
 
 /* =====================================================
-ПЕРЕВІРКА
+   ПЕРЕВІРКА СЕЙФА
 ===================================================== */
 
 function checkSafeBuilder(
-levelId,
-taskIndex
+  levelId,
+  taskIndex
 ) {
 
-const message =
-document.getElementById(
-"safeResultMessage"
-);
+  const count = [
+
+    passwordBuilderState.word,
+    passwordBuilderState.symbol,
+    passwordBuilderState.length,
+    passwordBuilderState.letterCase
+
+  ].filter(value => value !== "").length;
 
 
-const count =
-Object
-.values(passwordBuilderState)
-.filter(Boolean)
-.length;
+  if (count < 4) {
+
+    safeBuilderMistake(
+      "Обери всі чотири елементи."
+    );
+
+    shakeSafeBuilder("medium");
+
+    return;
+  }
 
 
-if (count < 4) {
-
-safeBuilderMistake(
-"Обери всі чотири елементи."
-);
-
-return;
-}
+  const strength =
+    calculateSafeBuilderStrength();
 
 
-const strength =
-calculateSafeBuilderStrength();
+  if (strength < 50) {
+
+    safeBuilderMistake(
+      "Зламано за 1 секунду! Мордор легко підібрав цей пароль."
+    );
+
+    shakeSafeBuilder("strong");
+
+    return;
+  }
 
 
-if (strength < 50) {
+  if (strength < 85) {
 
-safeBuilderMistake(
-"Зламано за 1 секунду! Мордор легко підібрав цей пароль."
-);
+    safeBuilderMistake(
+      "Майже! Спробуй додати сильнішу основу, більшу довжину, спецсимвол або різний регістр."
+    );
 
-shakeSafeBuilder("strong");
+    shakeSafeBuilder("medium");
 
-return;
-}
-
-
-if (strength < 85) {
-
-safeBuilderMistake(
-"Майже! Спробуй додати сильнішу основу, більшу довжину, спецсимвол або різний регістр."
-);
-
-shakeSafeBuilder("medium");
-
-return;
-}
+    return;
+  }
 
 
-finishSafeBuilder(
-levelId,
-taskIndex
-);
+  finishSafeBuilder(
+    levelId,
+    taskIndex
+  );
 }
 
 
 /* =====================================================
-ПОМИЛКА — БЕЗ GAME OVER
+   ПОМИЛКА — БЕЗ GAME OVER
 ===================================================== */
 
 function safeBuilderMistake(text) {
 
-playSound("wrong");
+  playSound("wrong");
 
 
-const hearts =
-document.getElementById("safeHearts");
-
-const message =
-document.getElementById(
-"safeResultMessage"
-);
+  const hearts =
+    document.getElementById(
+      "safeHearts"
+    );
 
 
-if (hearts) {
-
-hearts.innerHTML =
-"❤️ 💔 ❤️";
-
-hearts.classList.add(
-"heart-hit"
-);
+  const message =
+    document.getElementById(
+      "safeResultMessage"
+    );
 
 
-setTimeout(() => {
+  if (hearts) {
 
-hearts.innerHTML =
-"❤️ ❤️ ❤️";
-
-hearts.classList.remove(
-"heart-hit"
-);
-
-}, 850);
-}
+    hearts.innerHTML =
+      "❤️ 💔 ❤️";
 
 
-if (message) {
+    hearts.classList.add(
+      "heart-hit"
+    );
 
-message.innerHTML = `
-❌ ${text}
-<br>
-<b>Спробуй ще раз.</b>
-`;
-}
+
+    window.setTimeout(() => {
+
+      hearts.innerHTML =
+        "❤️ ❤️ ❤️";
+
+
+      hearts.classList.remove(
+        "heart-hit"
+      );
+
+    }, 850);
+  }
+
+
+  if (message) {
+
+    message.innerHTML = `
+
+      ❌ ${text}
+
+      <br>
+
+      <b>
+        Спробуй ще раз.
+      </b>
+    `;
+  }
 }
 
 
 /* =====================================================
-ТРЯСКА СЕЙФА
+   ТРЯСКА СЕЙФА
 ===================================================== */
 
 function shakeSafeBuilder(
-strength = "strong"
+  strength = "strong"
 ) {
 
-const safe =
-document.getElementById(
-"safeDropZone"
-);
-
-const red =
-document.getElementById(
-"safeRedEffect"
-);
+  const safe =
+    document.getElementById(
+      "safeDropZone"
+    );
 
 
-if (!safe) return;
+  const red =
+    document.getElementById(
+      "safeRedEffect"
+    );
 
 
-safe.classList.remove(
-"shake-medium",
-"shake-strong"
-);
+  if (!safe) return;
 
 
-void safe.offsetWidth;
+  safe.classList.remove(
+    "shake-medium",
+    "shake-strong"
+  );
 
 
-safe.classList.add(
-strength === "medium"
-? "shake-medium"
-: "shake-strong"
-);
+  void safe.offsetWidth;
 
 
-if (red) {
-red.classList.add("active");
-}
+  safe.classList.add(
+    strength === "medium"
+      ? "shake-medium"
+      : "shake-strong"
+  );
 
 
-setTimeout(() => {
+  if (red) {
+    red.classList.add("active");
+  }
 
-safe.classList.remove(
-"shake-medium",
-"shake-strong"
-);
 
-if (red) {
-red.classList.remove("active");
-}
+  window.setTimeout(() => {
 
-}, 900);
+    safe.classList.remove(
+      "shake-medium",
+      "shake-strong"
+    );
+
+
+    if (red) {
+      red.classList.remove("active");
+    }
+
+  }, 900);
 }
 
 
 /* =====================================================
-ПЕРЕМОГА
+   ПЕРЕМОГА БУДІВЕЛЬНИКА
 ===================================================== */
 
 function finishSafeBuilder(
-levelId,
-taskIndex
+  levelId,
+  taskIndex
 ) {
 
-playSound("correct");
+  playSound("correct");
 
 
-const safe =
-document.getElementById(
-"safeDropZone"
-);
-
-const gold =
-document.getElementById(
-"safeGoldEffect"
-);
+  const safe =
+    document.getElementById(
+      "safeDropZone"
+    );
 
 
-if (safe) {
-safe.classList.add(
-"safe-win"
-);
-}
+  const gold =
+    document.getElementById(
+      "safeGoldEffect"
+    );
 
 
-if (gold) {
-gold.classList.add(
-"active"
-);
-}
+  const percent =
+    document.getElementById(
+      "safeStrengthPercent"
+    );
 
 
-setTimeout(() => {
+  const fill =
+    document.getElementById(
+      "safeStrengthFill"
+    );
 
-registerSafeBuilderSuccess(
-levelId,
-taskIndex
-);
 
-}, 1300);
+  const status =
+    document.getElementById(
+      "safeStrengthStatus"
+    );
+
+
+  if (percent) {
+    percent.textContent = "100%";
+  }
+
+
+  if (fill) {
+
+    fill.style.width = "100%";
+
+    fill.classList.remove(
+      "weak",
+      "medium"
+    );
+
+    fill.classList.add(
+      "strong"
+    );
+  }
+
+
+  if (status) {
+
+    status.textContent =
+      "Сейф надійно замкнено!";
+  }
+
+
+  if (safe) {
+
+    safe.classList.add(
+      "safe-win"
+    );
+  }
+
+
+  if (gold) {
+
+    gold.classList.add(
+      "active"
+    );
+  }
+
+
+  window.setTimeout(() => {
+
+    registerSafeBuilderSuccess(
+      levelId,
+      taskIndex
+    );
+
+  }, 1300);
 }
 
 
 /* =====================================================
-ЗАПИС +25%
+   +25% ЗА БУДІВЕЛЬНИКА
 ===================================================== */
 
 function registerSafeBuilderSuccess(
-levelId,
-taskIndex
+  levelId,
+  taskIndex
 ) {
 
-if (!completedTasks[levelId]) {
+  if (!completedTasks[levelId]) {
 
-completedTasks[levelId] = [];
-}
-
-
-if (
-!completedTasks[levelId]
-.includes(taskIndex)
-) {
-
-completedTasks[levelId]
-.push(taskIndex);
-}
+    completedTasks[levelId] = [];
+  }
 
 
-const progress =
-completedTasks[levelId].length * 25;
+  if (
+    !completedTasks[levelId]
+      .includes(taskIndex)
+  ) {
+
+    completedTasks[levelId]
+      .push(taskIndex);
+  }
 
 
-if (
-progress >= 100 &&
-!completedLevels.includes(levelId)
-) {
-
-completedLevels.push(levelId);
-}
+  const progress =
+    completedTasks[levelId].length * 25;
 
 
-openSafeBuilderVictory(
-levelId,
-progress
-);
+  if (
+    progress >= 100 &&
+    !completedLevels.includes(levelId)
+  ) {
+
+    completedLevels.push(levelId);
+  }
+
+
+  openSafeBuilderVictory(
+    levelId,
+    progress
+  );
 }
 
 
 /* =====================================================
-ФІНАЛЬНЕ ВІКНО
+   ФІНАЛЬНЕ ВІКНО БУДІВЕЛЬНИКА
 ===================================================== */
 
 function openSafeBuilderVictory(
-levelId,
-progress
+  levelId,
+  progress
 ) {
 
-openModal(
+  openModal(
 
-"Сейф надійно замкнено!",
+    "Сейф надійно замкнено!",
 
-`
-<div class="scroll-modal">
+    `
+      <div class="scroll-modal">
 
-<div style="
-font-size:64px;
-margin-bottom:12px;
-">
-🔐✨
-</div>
+        <div
+          style="
+            font-size:64px;
+            margin-bottom:12px;
+          "
+        >
+          🔐✨
+        </div>
 
-<h2>
-Вітаємо!
-</h2>
+        <h2>
+          Вітаємо!
+        </h2>
 
-<p>
-Ти створив / створила
-надійний пароль.
-</p>
+        <p>
+          Ти створив / створила
+          надійний пароль.
+        </p>
 
-<p>
-Мордор не зміг зламати сейф!
-</p>
+        <p>
+          Мордор не зміг
+          зламати сейф!
+        </p>
 
-<p style="
-color:#ffd84d;
-font-weight:900;
-">
-Жовтий кристал:
-${progress}%
-</p>
+        <p
+          style="
+            color:#ffd84d;
+            font-weight:900;
+          "
+        >
+          Жовтий кристал:
+          ${progress}%
+        </p>
 
-<button
-class="btn"
-onclick="
-playSound('click');
-closeModal();
-showLevel(${levelId});
-openChallenge(${levelId});
-"
->
-← Назад до завдань
-</button>
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            closeModal();
+            showLevel(${levelId});
+            openChallenge(${levelId});
+          "
+        >
+          ← Назад до завдань
+        </button>
 
-</div>
-`
-);
+      </div>
+    `
+  );
 }
 
-/* =====================================================
-   МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
-===================================================== */
+
 /* =====================================================
    МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ
 ===================================================== */
 
 const WEAK_HUNTER_CONFIG = {
+
   duration: 30,
   targetScore: 15,
   maxLives: 3,
   maxPasswordsOnScreen: 7,
   spawnInterval: 720
+
 };
 
 
 const WEAK_HUNTER_PASSWORDS = [
-  {
-    value: "12345678",
-    weak: true
-  },
-  {
-    value: "password",
-    weak: true
-  },
-  {
-    value: "qwerty",
-    weak: true
-  },
-  {
-    value: "katya2014",
-    weak: true
-  },
-  {
-    value: "iloveyou",
-    weak: true
-  },
-  {
-    value: "123456789",
-    weak: true
-  },
-  {
-    value: "admin123",
-    weak: true
-  },
-  {
-    value: "11111111",
-    weak: true
-  },
-  {
-    value: "football",
-    weak: true
-  },
-  {
-    value: "princess",
-    weak: true
-  },
 
-  {
-    value: "K7#mP9!xL",
-    weak: false
-  },
-  {
-    value: "R0bL0x_P4ss!",
-    weak: false
-  },
-  {
-    value: "S3cur3_S4fe#9",
-    weak: false
-  },
-  {
-    value: "BlueDragon1827!",
-    weak: false
-  },
-  {
-    value: "M0on#River_84",
-    weak: false
-  },
-  {
-    value: "Cyb3r!Castle#27",
-    weak: false
-  }
+  { value: "12345678", weak: true },
+  { value: "password", weak: true },
+  { value: "qwerty", weak: true },
+  { value: "katya2014", weak: true },
+  { value: "iloveyou", weak: true },
+  { value: "123456789", weak: true },
+  { value: "admin123", weak: true },
+  { value: "11111111", weak: true },
+  { value: "football", weak: true },
+  { value: "princess", weak: true },
+
+  { value: "K7#mP9!xL", weak: false },
+  { value: "R0bL0x_P4ss!", weak: false },
+  { value: "S3cur3_S4fe#9", weak: false },
+  { value: "BlueDragon1827!", weak: false },
+  { value: "M0on#River_84", weak: false },
+  { value: "Cyb3r!Castle#27", weak: false }
+
 ];
 
 
 let weakHunterState = {
+
   levelId: null,
   taskIndex: null,
 
-  timeLeft: WEAK_HUNTER_CONFIG.duration,
+  timeLeft:
+    WEAK_HUNTER_CONFIG.duration,
+
   score: 0,
-  lives: WEAK_HUNTER_CONFIG.maxLives,
+
+  lives:
+    WEAK_HUNTER_CONFIG.maxLives,
 
   running: false,
   finished: false,
@@ -2982,26 +3706,36 @@ let weakHunterState = {
   spawnId: null,
 
   passwordTimeouts: []
+
 };
 
 
 /* =====================================================
-   ВІДКРИТТЯ МІНІГРИ
+   ВІДКРИТТЯ ПОЛЮВАЛЬНИКА
 ===================================================== */
 
-function openWeakPasswordHunter(levelId, taskIndex) {
+function openWeakPasswordHunter(
+  levelId,
+  taskIndex
+) {
 
   closeModal();
 
   cleanupWeakHunter();
 
+
   weakHunterState = {
+
     levelId,
     taskIndex,
 
-    timeLeft: WEAK_HUNTER_CONFIG.duration,
+    timeLeft:
+      WEAK_HUNTER_CONFIG.duration,
+
     score: 0,
-    lives: WEAK_HUNTER_CONFIG.maxLives,
+
+    lives:
+      WEAK_HUNTER_CONFIG.maxLives,
 
     running: false,
     finished: false,
@@ -3010,12 +3744,21 @@ function openWeakPasswordHunter(levelId, taskIndex) {
     spawnId: null,
 
     passwordTimeouts: []
+
   };
 
+
+  /*
+    Поки окремий фон другої мінігри
+    не підключений у ASSETS,
+    використовуємо фон Замку Паролів.
+  */
+
   app.innerHTML = `
+
     <section
       class="screen weak-hunter-screen"
-      ${bg(ASSETS.weakHunterBg)}
+      ${bg(ASSETS.level1)}
     >
 
       <button
@@ -3026,12 +3769,17 @@ function openWeakPasswordHunter(levelId, taskIndex) {
         ← До випробувань
       </button>
 
-      <div class="weak-hunter-dark-overlay"></div>
+
+      <div
+        class="weak-hunter-dark-overlay"
+      ></div>
+
 
       <div
         id="weakHunterGameArea"
         class="weak-hunter-game-area"
       ></div>
+
 
       <div
         id="weakHunterMentorStage"
@@ -3041,15 +3789,22 @@ function openWeakPasswordHunter(levelId, taskIndex) {
         <button
           type="button"
           class="weak-hunter-mentor-button"
-          onclick="showWeakHunterInstructions()"
-          aria-label="Натисни на наставника Тотуса"
+          onclick="
+            showWeakHunterInstructions()
+          "
+          aria-label="
+            Натисни на наставника Тотуса
+          "
         >
+
           <img
             class="weak-hunter-mentor"
             src="${ASSETS.totus}"
             alt="Наставник Тотус"
           >
+
         </button>
+
 
         <div class="weak-hunter-mentor-hint">
           Натисни на наставника
@@ -3059,6 +3814,7 @@ function openWeakPasswordHunter(levelId, taskIndex) {
 
     </section>
   `;
+
 
   playSound("click");
 }
@@ -3072,12 +3828,18 @@ function showWeakHunterInstructions() {
 
   playSound("click");
 
+
   const mentorStage =
-    document.getElementById("weakHunterMentorStage");
+    document.getElementById(
+      "weakHunterMentorStage"
+    );
+
 
   if (!mentorStage) return;
 
+
   mentorStage.innerHTML = `
+
     <div class="weak-hunter-dialog-scene">
 
       <img
@@ -3086,6 +3848,7 @@ function showWeakHunterInstructions() {
         alt="Наставник Тотус"
       >
 
+
       <div class="weak-hunter-dialog">
 
         <h2>
@@ -3093,7 +3856,8 @@ function showWeakHunterInstructions() {
         </h2>
 
         <p>
-          Мордор випустив у Замок слабкі паролі.
+          Мордор випустив
+          у Замок слабкі паролі.
         </p>
 
         <p>
@@ -3103,9 +3867,11 @@ function showWeakHunterInstructions() {
         </p>
 
         <p>
-          <strong>Сильні паролі не чіпай!</strong>
-          За помилку згасне один кристал життя.
+          <strong>
+            Сильні паролі не чіпай!
+          </strong>
         </p>
+
 
         <div class="weak-hunter-rules">
 
@@ -3118,10 +3884,32 @@ function showWeakHunterInstructions() {
           </span>
 
           <span>
-            💎 3 життя
+            ❤️ ❤️ ❤️
           </span>
 
         </div>
+
+
+        <div class="story-highlight">
+
+          <p>
+            Приклад:
+          </p>
+
+          <p>
+            ❌ <b>12345678</b> —
+            слабкий пароль,
+            його треба знищити.
+          </p>
+
+          <p>
+            ✅ <b>K7#mP9!xL</b> —
+            сильний пароль,
+            його не чіпаємо.
+          </p>
+
+        </div>
+
 
         <button
           type="button"
@@ -3139,12 +3927,13 @@ function showWeakHunterInstructions() {
 
 
 /* =====================================================
-   ЗАПУСК ГРИ
+   ЗАПУСК ПОЛЮВАННЯ
 ===================================================== */
 
 function startWeakHunterGame() {
 
   cleanupWeakHunter();
+
 
   weakHunterState.timeLeft =
     WEAK_HUNTER_CONFIG.duration;
@@ -3157,17 +3946,34 @@ function startWeakHunterGame() {
   weakHunterState.running = true;
   weakHunterState.finished = false;
 
+
   const gameArea =
-    document.getElementById("weakHunterGameArea");
+    document.getElementById(
+      "weakHunterGameArea"
+    );
+
 
   const mentorStage =
-    document.getElementById("weakHunterMentorStage");
+    document.getElementById(
+      "weakHunterMentorStage"
+    );
 
-  if (!gameArea || !mentorStage) return;
 
-  mentorStage.classList.add("hidden");
+  if (
+    !gameArea ||
+    !mentorStage
+  ) {
+    return;
+  }
+
+
+  mentorStage.classList.add(
+    "hidden"
+  );
+
 
   gameArea.innerHTML = `
+
     <div class="weak-hunter-hud">
 
       <div class="weak-hunter-hud-box">
@@ -3182,6 +3988,7 @@ function startWeakHunterGame() {
 
       </div>
 
+
       <div class="weak-hunter-hud-box">
 
         <span class="weak-hunter-hud-label">
@@ -3194,7 +4001,13 @@ function startWeakHunterGame() {
 
       </div>
 
-      <div class="weak-hunter-hud-box weak-hunter-lives-box">
+
+      <div
+        class="
+          weak-hunter-hud-box
+          weak-hunter-lives-box
+        "
+      >
 
         <span class="weak-hunter-hud-label">
           Життя
@@ -3211,12 +4024,16 @@ function startWeakHunterGame() {
 
     </div>
 
+
     <div
       id="weakHunterPasswords"
       class="weak-hunter-password-zone"
     ></div>
 
-    <div class="weak-hunter-center-crystal-wrap">
+
+    <div
+      class="weak-hunter-center-crystal-wrap"
+    >
 
       <div
         id="weakHunterCrystalGlow"
@@ -3226,11 +4043,12 @@ function startWeakHunterGame() {
       <img
         id="weakHunterCenterCrystal"
         class="weak-hunter-center-crystal"
-        src="${ASSETS.yellowCrystal}"
+        src="${ASSETS.yellowOn}"
         alt="Кристал Замку Паролів"
       >
 
     </div>
+
 
     <div
       id="weakHunterMessage"
@@ -3238,20 +4056,30 @@ function startWeakHunterGame() {
     ></div>
   `;
 
+
   updateWeakHunterHud();
 
   playSound("click");
 
-  for (let index = 0; index < 5; index += 1) {
+
+  for (
+    let index = 0;
+    index < 5;
+    index += 1
+  ) {
 
     window.setTimeout(() => {
 
-      if (weakHunterState.running) {
+      if (
+        weakHunterState.running
+      ) {
+
         spawnWeakHunterPassword();
       }
 
     }, index * 180);
   }
+
 
   weakHunterState.spawnId =
     window.setInterval(() => {
@@ -3260,6 +4088,7 @@ function startWeakHunterGame() {
 
     }, WEAK_HUNTER_CONFIG.spawnInterval);
 
+
   weakHunterState.timerId =
     window.setInterval(() => {
 
@@ -3267,7 +4096,10 @@ function startWeakHunterGame() {
 
       updateWeakHunterHud();
 
-      if (weakHunterState.timeLeft <= 0) {
+
+      if (
+        weakHunterState.timeLeft <= 0
+      ) {
 
         failWeakHunter(
           "Час завершився. Спробуй ще раз!"
@@ -3279,35 +4111,35 @@ function startWeakHunterGame() {
 
 
 /* =====================================================
-   ВІДОБРАЖЕННЯ ЖИТТІВ
+   СЕРДЕЧКА
 ===================================================== */
 
 function renderWeakHunterLives() {
 
-  return Array
-    .from(
-      {
-        length: WEAK_HUNTER_CONFIG.maxLives
-      },
-      (_, index) => `
-        <img
-          class="
-            weak-hunter-life-crystal
-            ${index < weakHunterState.lives
-              ? "active"
-              : "inactive"}
-          "
-          src="${ASSETS.yellowCrystal}"
-          alt=""
-        >
-      `
-    )
-    .join("");
+  let hearts = "";
+
+
+  for (
+    let index = 0;
+    index <
+    WEAK_HUNTER_CONFIG.maxLives;
+    index += 1
+  ) {
+
+    hearts +=
+      index <
+      weakHunterState.lives
+        ? `<span class="weak-hunter-heart active">❤️</span>`
+        : `<span class="weak-hunter-heart inactive">🖤</span>`;
+  }
+
+
+  return hearts;
 }
 
 
 /* =====================================================
-   СТВОРЕННЯ ЛІТАЮЧОГО ПАРОЛЯ
+   ЛІТАЮЧИЙ ПАРОЛЬ
 ===================================================== */
 
 function spawnWeakHunterPassword() {
@@ -3319,32 +4151,44 @@ function spawnWeakHunterPassword() {
     return;
   }
 
+
   const passwordZone =
     document.getElementById(
       "weakHunterPasswords"
     );
 
+
   if (!passwordZone) return;
+
 
   const currentPasswords =
     passwordZone.querySelectorAll(
       ".weak-hunter-password"
     );
 
+
   if (
     currentPasswords.length >=
-    WEAK_HUNTER_CONFIG.maxPasswordsOnScreen
+    WEAK_HUNTER_CONFIG
+      .maxPasswordsOnScreen
   ) {
     return;
   }
 
+
   const passwordData =
     getRandomWeakHunterPassword();
 
-  const passwordElement =
-    document.createElement("button");
 
-  passwordElement.type = "button";
+  const passwordElement =
+    document.createElement(
+      "button"
+    );
+
+
+  passwordElement.type =
+    "button";
+
 
   passwordElement.className =
     `weak-hunter-password ${
@@ -3353,55 +4197,88 @@ function spawnWeakHunterPassword() {
         : "strong-password"
     }`;
 
+
   passwordElement.textContent =
     passwordData.value;
+
 
   passwordElement.dataset.weak =
     String(passwordData.weak);
 
+
   const startX =
-    randomWeakHunterNumber(8, 78);
+    randomWeakHunterNumber(
+      8,
+      78
+    );
+
 
   const startY =
-    randomWeakHunterNumber(17, 75);
+    randomWeakHunterNumber(
+      17,
+      75
+    );
+
 
   const moveX =
-    randomWeakHunterNumber(-120, 120);
+    randomWeakHunterNumber(
+      -120,
+      120
+    );
+
 
   const moveY =
-    randomWeakHunterNumber(-80, 80);
+    randomWeakHunterNumber(
+      -80,
+      80
+    );
+
 
   const rotation =
-    randomWeakHunterNumber(-10, 10);
+    randomWeakHunterNumber(
+      -10,
+      10
+    );
+
 
   const lifetime =
-    randomWeakHunterNumber(4800, 6800);
+    randomWeakHunterNumber(
+      4800,
+      6800
+    );
+
 
   passwordElement.style.left =
     `${startX}%`;
 
+
   passwordElement.style.top =
     `${startY}%`;
+
 
   passwordElement.style.setProperty(
     "--weak-hunter-move-x",
     `${moveX}px`
   );
 
+
   passwordElement.style.setProperty(
     "--weak-hunter-move-y",
     `${moveY}px`
   );
+
 
   passwordElement.style.setProperty(
     "--weak-hunter-rotation",
     `${rotation}deg`
   );
 
+
   passwordElement.style.setProperty(
     "--weak-hunter-duration",
     `${lifetime}ms`
   );
+
 
   passwordElement.addEventListener(
     "click",
@@ -3414,7 +4291,11 @@ function spawnWeakHunterPassword() {
     }
   );
 
-  passwordZone.appendChild(passwordElement);
+
+  passwordZone.appendChild(
+    passwordElement
+  );
+
 
   const timeoutId =
     window.setTimeout(() => {
@@ -3426,9 +4307,10 @@ function spawnWeakHunterPassword() {
 
     }, lifetime);
 
-  weakHunterState.passwordTimeouts.push(
-    timeoutId
-  );
+
+  weakHunterState
+    .passwordTimeouts
+    .push(timeoutId);
 }
 
 
@@ -3438,18 +4320,16 @@ function spawnWeakHunterPassword() {
 
 function getRandomWeakHunterPassword() {
 
-  /*
-    Приблизно 65% паролів будуть слабкими,
-    щоб дитина встигла набрати 15 балів.
-  */
-
   const shouldBeWeak =
     Math.random() < 0.65;
 
+
   const availablePasswords =
     WEAK_HUNTER_PASSWORDS.filter(
-      item => item.weak === shouldBeWeak
+      item =>
+        item.weak === shouldBeWeak
     );
+
 
   return availablePasswords[
     Math.floor(
@@ -3472,18 +4352,22 @@ function handleWeakHunterPassword(
   if (
     !weakHunterState.running ||
     weakHunterState.finished ||
-    passwordElement.classList.contains(
-      "destroyed"
-    )
+    passwordElement
+      .classList
+      .contains("destroyed")
   ) {
     return;
   }
 
-  passwordElement.classList.add(
-    "destroyed"
-  );
 
-  passwordElement.disabled = true;
+  passwordElement
+    .classList
+    .add("destroyed");
+
+
+  passwordElement.disabled =
+    true;
+
 
   if (passwordData.weak) {
 
@@ -3491,23 +4375,31 @@ function handleWeakHunterPassword(
 
     weakHunterState.score += 1;
 
-    passwordElement.classList.add(
-      "correct-hit"
-    );
+
+    passwordElement
+      .classList
+      .add("correct-hit");
+
 
     createWeakHunterParticles(
       passwordElement,
       "gold"
     );
 
+
     showWeakHunterMessage(
       "+1",
       "success"
     );
 
-    pulseWeakHunterCrystal("success");
+
+    pulseWeakHunterCrystal(
+      "success"
+    );
+
 
     updateWeakHunterHud();
+
 
     if (
       weakHunterState.score >=
@@ -3521,26 +4413,32 @@ function handleWeakHunterPassword(
       }, 260);
     }
 
+
   } else {
 
     playSound("wrong");
 
-    passwordElement.classList.add(
-      "wrong-hit"
-    );
+
+    passwordElement
+      .classList
+      .add("wrong-hit");
+
 
     createWeakHunterParticles(
       passwordElement,
       "red"
     );
 
+
     showWeakHunterMessage(
       "Сильний пароль! Не чіпай його",
       "error"
     );
 
+
     loseWeakHunterLife();
   }
+
 
   window.setTimeout(() => {
 
@@ -3551,36 +4449,28 @@ function handleWeakHunterPassword(
 
 
 /* =====================================================
-   ПАРОЛЬ ЗНИК ІЗ ЕКРАНА
+   ПАРОЛЬ ЗНИК
 ===================================================== */
 
 function expireWeakHunterPassword(
-  passwordElement,
-  passwordData
+  passwordElement
 ) {
 
   if (
     !passwordElement ||
     !passwordElement.isConnected ||
-    passwordElement.classList.contains(
-      "destroyed"
-    )
+    passwordElement
+      .classList
+      .contains("destroyed")
   ) {
     return;
   }
 
-  passwordElement.classList.add(
-    "expired"
-  );
 
-  /*
-    Якщо слабкий пароль не натиснули,
-    життя поки не забираємо.
+  passwordElement
+    .classList
+    .add("expired");
 
-    Це робить мінігру зрозумілішою:
-    життя втрачається лише за помилковий
-    клік на сильний пароль.
-  */
 
   window.setTimeout(() => {
 
@@ -3603,35 +4493,25 @@ function loseWeakHunterLife() {
     return;
   }
 
+
   weakHunterState.lives -= 1;
+
 
   updateWeakHunterHud();
 
-  pulseWeakHunterCrystal("damage");
+  pulseWeakHunterCrystal(
+    "damage"
+  );
 
-  const lifeCrystals =
-    document.querySelectorAll(
-      ".weak-hunter-life-crystal"
-    );
 
-  const lostCrystal =
-    lifeCrystals[
-      weakHunterState.lives
-    ];
-
-  if (lostCrystal) {
-
-    lostCrystal.classList.add(
-      "just-lost"
-    );
-  }
-
-  if (weakHunterState.lives <= 0) {
+  if (
+    weakHunterState.lives <= 0
+  ) {
 
     window.setTimeout(() => {
 
       failWeakHunter(
-        "Усі кристали життя згасли."
+        "Спробуй ще раз. Ця спроба завершилась."
       );
 
     }, 450);
@@ -3640,7 +4520,7 @@ function loseWeakHunterLife() {
 
 
 /* =====================================================
-   ОНОВЛЕННЯ HUD
+   HUD
 ===================================================== */
 
 function updateWeakHunterHud() {
@@ -3650,15 +4530,18 @@ function updateWeakHunterHud() {
       "weakHunterTimer"
     );
 
+
   const score =
     document.getElementById(
       "weakHunterScore"
     );
 
+
   const lives =
     document.getElementById(
       "weakHunterLives"
     );
+
 
   if (timer) {
 
@@ -3670,11 +4553,13 @@ function updateWeakHunterHud() {
         )
       ).padStart(2, "0")}`;
 
+
     timer.classList.toggle(
       "danger",
       weakHunterState.timeLeft <= 7
     );
   }
+
 
   if (score) {
 
@@ -3683,6 +4568,7 @@ function updateWeakHunterHud() {
         WEAK_HUNTER_CONFIG.targetScore
       }`;
   }
+
 
   if (lives) {
 
@@ -3693,7 +4579,7 @@ function updateWeakHunterHud() {
 
 
 /* =====================================================
-   РЕАКЦІЯ ЦЕНТРАЛЬНОГО КРИСТАЛА
+   РЕАКЦІЯ КРИСТАЛА
 ===================================================== */
 
 function pulseWeakHunterCrystal(type) {
@@ -3703,14 +4589,18 @@ function pulseWeakHunterCrystal(type) {
       "weakHunterCenterCrystal"
     );
 
+
   if (!crystal) return;
+
 
   crystal.classList.remove(
     "weak-hunter-crystal-success-hit",
     "weak-hunter-crystal-damage-hit"
   );
 
+
   void crystal.offsetWidth;
+
 
   if (type === "damage") {
 
@@ -3728,7 +4618,7 @@ function pulseWeakHunterCrystal(type) {
 
 
 /* =====================================================
-   КОРОТКЕ ПОВІДОМЛЕННЯ
+   ПОВІДОМЛЕННЯ
 ===================================================== */
 
 function showWeakHunterMessage(
@@ -3741,18 +4631,24 @@ function showWeakHunterMessage(
       "weakHunterMessage"
     );
 
+
   if (!message) return;
 
-  message.textContent = text;
+
+  message.textContent =
+    text;
+
 
   message.className =
     `weak-hunter-message ${type} active`;
 
+
   window.setTimeout(() => {
 
     if (message) {
-
-      message.classList.remove("active");
+      message.classList.remove(
+        "active"
+      );
     }
 
   }, 850);
@@ -3760,7 +4656,7 @@ function showWeakHunterMessage(
 
 
 /* =====================================================
-   ЧАСТИНКИ ПІСЛЯ КЛІКУ
+   ЧАСТИНКИ
 ===================================================== */
 
 function createWeakHunterParticles(
@@ -3773,37 +4669,58 @@ function createWeakHunterParticles(
       "weakHunterGameArea"
     );
 
-  if (!gameArea || !target) return;
+
+  if (
+    !gameArea ||
+    !target
+  ) {
+    return;
+  }
+
 
   const targetRect =
     target.getBoundingClientRect();
 
+
   const areaRect =
     gameArea.getBoundingClientRect();
+
 
   const centerX =
     targetRect.left -
     areaRect.left +
     targetRect.width / 2;
 
+
   const centerY =
     targetRect.top -
     areaRect.top +
     targetRect.height / 2;
 
-  for (let index = 0; index < 9; index += 1) {
+
+  for (
+    let index = 0;
+    index < 9;
+    index += 1
+  ) {
 
     const particle =
-      document.createElement("span");
+      document.createElement(
+        "span"
+      );
+
 
     particle.className =
       `weak-hunter-particle ${type}`;
 
+
     particle.style.left =
       `${centerX}px`;
 
+
     particle.style.top =
       `${centerY}px`;
+
 
     particle.style.setProperty(
       "--particle-x",
@@ -3813,6 +4730,7 @@ function createWeakHunterParticles(
       )}px`
     );
 
+
     particle.style.setProperty(
       "--particle-y",
       `${randomWeakHunterNumber(
@@ -3821,7 +4739,11 @@ function createWeakHunterParticles(
       )}px`
     );
 
-    gameArea.appendChild(particle);
+
+    gameArea.appendChild(
+      particle
+    );
+
 
     window.setTimeout(() => {
 
@@ -3833,106 +4755,86 @@ function createWeakHunterParticles(
 
 
 /* =====================================================
-   ПЕРЕМОГА
+   ПЕРЕМОГА ПОЛЮВАЛЬНИКА
 ===================================================== */
 
 function completeWeakHunter() {
 
-  if (weakHunterState.finished) return;
+  if (
+    weakHunterState.finished
+  ) {
+    return;
+  }
+
 
   weakHunterState.finished = true;
   weakHunterState.running = false;
+
 
   stopWeakHunterTimers();
 
   removeWeakHunterPasswords();
 
+
   playSound("correct");
 
-  const crystal =
-    document.getElementById(
-      "weakHunterCenterCrystal"
-    );
-
-  const crystalGlow =
-    document.getElementById(
-      "weakHunterCrystalGlow"
-    );
-
-  if (crystal) {
-
-    crystal.classList.add(
-      "weak-hunter-final-crystal"
-    );
-  }
-
-  if (crystalGlow) {
-
-    crystalGlow.classList.add(
-      "active"
-    );
-  }
 
   showWeakHunterEndOverlay({
+
     success: true,
-    title: "Випробування пройдено!",
+
+    title:
+      "Випробування пройдено!",
+
     text:
-      "Ти знищив усі слабкі паролі та захистив Замок."
+      "Ти знайшов / знайшла 15 слабких паролів і захистив / захистила Замок."
+
   });
-
-  window.setTimeout(() => {
-
-    completeMiniGame(
-      weakHunterState.levelId,
-      weakHunterState.taskIndex,
-      "Слабкі паролі знищено!"
-    );
-
-  }, 2100);
 }
 
 
 /* =====================================================
-   ПОРАЗКА
+   НЕВДАЛА СПРОБА
 ===================================================== */
 
 function failWeakHunter(message) {
 
-  if (weakHunterState.finished) return;
+  if (
+    weakHunterState.finished
+  ) {
+    return;
+  }
+
 
   weakHunterState.finished = true;
   weakHunterState.running = false;
+
 
   stopWeakHunterTimers();
 
   removeWeakHunterPasswords();
 
+
   playSound("wrong");
 
-  const crystal =
-    document.getElementById(
-      "weakHunterCenterCrystal"
-    );
-
-  if (crystal) {
-
-    crystal.classList.add(
-      "weak-hunter-failed-crystal"
-    );
-  }
 
   showWeakHunterEndOverlay({
+
     success: false,
-    title: "Спробуй ще раз",
+
+    title:
+      "Спробуй ще раз",
+
     text:
       message ||
       "Цього разу Мордор виявився швидшим."
+
   });
 }
 
 
 /* =====================================================
-   ФІНАЛЬНЕ ВІКНО
+   ФІНАЛЬНЕ ВІКНО ПОЛЮВАЛЬНИКА
 ===================================================== */
 
 function showWeakHunterEndOverlay({
@@ -3946,10 +4848,15 @@ function showWeakHunterEndOverlay({
       "weakHunterGameArea"
     );
 
+
   if (!gameArea) return;
 
+
   const overlay =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   overlay.className =
     `weak-hunter-end-overlay ${
@@ -3958,7 +4865,9 @@ function showWeakHunterEndOverlay({
         : "failure"
     }`;
 
+
   overlay.innerHTML = `
+
     <div class="weak-hunter-end-card">
 
       <div class="weak-hunter-end-icon">
@@ -3973,41 +4882,125 @@ function showWeakHunterEndOverlay({
         ${text}
       </p>
 
+
       ${
         success
           ? `
-            <div class="weak-hunter-fanfare">
-              Кристал Паролів сяє!
-            </div>
+
+            <p class="weak-hunter-fanfare">
+              Жовтий кристал отримує +25%!
+            </p>
+
+            <button
+              type="button"
+              class="btn"
+              onclick="
+                finishWeakHunterAndReturn();
+              "
+            >
+              ← Назад до завдань
+            </button>
+
           `
           : `
+
             <button
               type="button"
               class="btn weak-hunter-restart-button"
-              onclick="restartWeakHunter()"
+              onclick="
+                restartWeakHunter();
+              "
             >
-              Почати заново
+              Спробувати ще раз
             </button>
 
             <button
               type="button"
               class="btn weak-hunter-challenges-button"
-              onclick="leaveWeakHunter()"
+              onclick="
+                leaveWeakHunter();
+              "
             >
-              До випробувань
+              До завдань
             </button>
+
           `
       }
 
     </div>
   `;
 
-  gameArea.appendChild(overlay);
+
+  gameArea.appendChild(
+    overlay
+  );
 }
 
 
 /* =====================================================
-   ПЕРЕЗАПУСК
+   ЗАВЕРШИТИ ПОЛЮВАЛЬНИКА +25%
+===================================================== */
+
+function finishWeakHunterAndReturn() {
+
+  const levelId =
+    weakHunterState.levelId;
+
+
+  const taskIndex =
+    weakHunterState.taskIndex;
+
+
+  if (!completedTasks[levelId]) {
+
+    completedTasks[levelId] = [];
+  }
+
+
+  if (
+    !completedTasks[levelId]
+      .includes(taskIndex)
+  ) {
+
+    completedTasks[levelId]
+      .push(taskIndex);
+  }
+
+
+  const progress =
+    completedTasks[levelId].length * 25;
+
+
+  if (
+    progress >= 100 &&
+    !completedLevels.includes(levelId)
+  ) {
+
+    completedLevels.push(levelId);
+  }
+
+
+  cleanupWeakHunter();
+
+  playSound("correct");
+
+
+  if (progress >= 100) {
+
+    openLevelReward(levelId);
+
+    return;
+  }
+
+
+  showLevel(levelId);
+
+  openChallenge(levelId);
+}
+
+
+/* =====================================================
+   ПЕРЕЗАПУСК ПОЛЮВАЛЬНИКА
 ===================================================== */
 
 function restartWeakHunter() {
@@ -4019,7 +5012,7 @@ function restartWeakHunter() {
 
 
 /* =====================================================
-   ВИХІД ДО ЧОТИРЬОХ КНИГ
+   ВИХІД З ПОЛЮВАЛЬНИКА
 ===================================================== */
 
 function leaveWeakHunter() {
@@ -4027,9 +5020,11 @@ function leaveWeakHunter() {
   const levelId =
     weakHunterState.levelId;
 
+
   cleanupWeakHunter();
 
   playSound("click");
+
 
   showLevel(levelId);
 
@@ -4049,8 +5044,11 @@ function stopWeakHunterTimers() {
       weakHunterState.timerId
     );
 
-    weakHunterState.timerId = null;
+
+    weakHunterState.timerId =
+      null;
   }
+
 
   if (weakHunterState.spawnId) {
 
@@ -4058,21 +5056,29 @@ function stopWeakHunterTimers() {
       weakHunterState.spawnId
     );
 
-    weakHunterState.spawnId = null;
+
+    weakHunterState.spawnId =
+      null;
   }
 
-  weakHunterState.passwordTimeouts
+
+  weakHunterState
+    .passwordTimeouts
     .forEach(timeoutId => {
 
-      window.clearTimeout(timeoutId);
+      window.clearTimeout(
+        timeoutId
+      );
     });
 
-  weakHunterState.passwordTimeouts = [];
+
+  weakHunterState.passwordTimeouts =
+    [];
 }
 
 
 /* =====================================================
-   ПРИБИРАННЯ ПАРОЛІВ
+   ПРИБРАТИ ПАРОЛІ
 ===================================================== */
 
 function removeWeakHunterPasswords() {
@@ -4083,7 +5089,10 @@ function removeWeakHunterPasswords() {
     )
     .forEach(password => {
 
-      password.classList.add("expired");
+      password.classList.add(
+        "expired"
+      );
+
 
       window.setTimeout(() => {
 
@@ -4095,14 +5104,17 @@ function removeWeakHunterPasswords() {
 
 
 /* =====================================================
-   ПОВНЕ ОЧИЩЕННЯ МІНІГРИ
+   ОЧИЩЕННЯ ПОЛЮВАЛЬНИКА
 ===================================================== */
 
 function cleanupWeakHunter() {
 
   stopWeakHunterTimers();
 
-  weakHunterState.running = false;
+
+  weakHunterState.running =
+    false;
+
 
   document
     .querySelectorAll(
@@ -4132,170 +5144,305 @@ function randomWeakHunterNumber(
 
 
 /* =====================================================
-   3. МЕНЕДЖЕР КЛЮЧІВ
+   МІНІГРА 3 — МЕНЕДЖЕР КЛЮЧІВ
 ===================================================== */
 
 let accountPasswords = {
+
   roblox: "",
   tiktok: "",
   personal: ""
+
 };
+
 
 let selectedAccount = null;
 
-function openPasswordManager(levelId, taskIndex) {
+
+function openPasswordManager(
+  levelId,
+  taskIndex
+) {
 
   accountPasswords = {
+
     roblox: "",
     tiktok: "",
     personal: ""
+
   };
+
 
   selectedAccount = null;
 
+
   openModal(
+
     "Менеджер ключів",
+
     `
       <div class="task-instruction">
-        Розподіли різні сильні паролі між трьома акаунтами.
+
+        Розподіли різні сильні паролі
+        між трьома акаунтами.
 
         <br><br>
 
-        Спочатку натисни на акаунт, а потім обери для нього пароль.
-        Один пароль не можна використовувати всюди.
+        Спочатку натисни на акаунт,
+        а потім обери для нього пароль.
+
+        <br><br>
+
+        Один пароль не можна
+        використовувати всюди.
+
       </div>
+
 
       <div class="account-list">
 
         <button
           id="account-roblox"
           class="answer-btn"
-          onclick="selectAccount('roblox', this)"
+          onclick="
+            selectAccount(
+              'roblox',
+              this
+            )
+          "
         >
           🎮 Roblox:
-          <span id="password-roblox">пароль не обрано</span>
+
+          <span id="password-roblox">
+            пароль не обрано
+          </span>
+
         </button>
+
 
         <button
           id="account-tiktok"
           class="answer-btn"
-          onclick="selectAccount('tiktok', this)"
+          onclick="
+            selectAccount(
+              'tiktok',
+              this
+            )
+          "
         >
           🎵 TikTok:
-          <span id="password-tiktok">пароль не обрано</span>
+
+          <span id="password-tiktok">
+            пароль не обрано
+          </span>
+
         </button>
+
 
         <button
           id="account-personal"
           class="answer-btn"
-          onclick="selectAccount('personal', this)"
+          onclick="
+            selectAccount(
+              'personal',
+              this
+            )
+          "
         >
           👤 Особистий акаунт:
-          <span id="password-personal">пароль не обрано</span>
+
+          <span id="password-personal">
+            пароль не обрано
+          </span>
+
         </button>
 
       </div>
 
-      <h3>Ключі-паролі</h3>
+
+      <h3>
+        Ключі-паролі
+      </h3>
+
 
       <div class="answer-grid">
 
         <button
           class="answer-btn"
-          onclick="assignPassword('SuperNinja!2026')"
+          onclick="
+            assignPassword(
+              'SuperNinja!2026'
+            )
+          "
         >
           SuperNinja!2026
         </button>
 
+
         <button
           class="answer-btn"
-          onclick="assignPassword('F0xita#Green77')"
+          onclick="
+            assignPassword(
+              'F0xita#Green77'
+            )
+          "
         >
           F0xita#Green77
         </button>
 
+
         <button
           class="answer-btn"
-          onclick="assignPassword('Lake_Truth!482')"
+          onclick="
+            assignPassword(
+              'Lake_Truth!482'
+            )
+          "
         >
           Lake_Truth!482
         </button>
 
+
         <button
           class="answer-btn"
-          onclick="assignPassword('12345678')"
+          onclick="
+            assignPassword(
+              '12345678'
+            )
+          "
         >
           12345678
         </button>
 
       </div>
 
+
       <button
         class="btn"
-        onclick="checkPasswordManager(${levelId}, ${taskIndex})"
+        onclick="
+          checkPasswordManager(
+            ${levelId},
+            ${taskIndex}
+          )
+        "
       >
         Перевірити ключі
       </button>
 
-      <div class="result-box" id="result"></div>
+
+      <div
+        class="result-box"
+        id="result"
+      ></div>
     `
   );
 }
 
-function selectAccount(account, button) {
 
-  selectedAccount = account;
+function selectAccount(
+  account,
+  button
+) {
+
+  selectedAccount =
+    account;
+
 
   document
-    .querySelectorAll(".account-list .answer-btn")
+    .querySelectorAll(
+      ".account-list .answer-btn"
+    )
     .forEach(item => {
-      item.classList.remove("selected-answer");
+
+      item.classList.remove(
+        "selected-answer"
+      );
     });
 
-  button.classList.add("selected-answer");
+
+  button.classList.add(
+    "selected-answer"
+  );
 }
+
 
 function assignPassword(password) {
 
-  const resultBox = document.getElementById("result");
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
 
   if (!selectedAccount) {
 
     playSound("wrong");
 
-    resultBox.innerHTML =
-      "Спочатку обери акаунт.";
+
+    if (resultBox) {
+
+      resultBox.innerHTML =
+        "Спочатку обери акаунт.";
+    }
 
     return;
   }
 
-  accountPasswords[selectedAccount] = password;
+
+  accountPasswords[
+    selectedAccount
+  ] = password;
+
 
   const passwordText =
     document.getElementById(
       "password-" + selectedAccount
     );
 
+
   if (passwordText) {
-    passwordText.textContent = password;
+
+    passwordText.textContent =
+      password;
   }
 
-  resultBox.innerHTML =
-    "Ключ додано до обраного акаунта.";
+
+  if (resultBox) {
+
+    resultBox.innerHTML =
+      "Ключ додано до обраного акаунта.";
+  }
 }
 
-function checkPasswordManager(levelId, taskIndex) {
 
-  const resultBox = document.getElementById("result");
+function checkPasswordManager(
+  levelId,
+  taskIndex
+) {
 
-  const passwords = Object.values(accountPasswords);
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
+
+  const passwords =
+    Object.values(
+      accountPasswords
+    );
+
 
   const allSelected =
-    passwords.every(password => password !== "");
+    passwords.every(
+      password =>
+        password !== ""
+    );
+
 
   if (!allSelected) {
 
     playSound("wrong");
+
 
     resultBox.innerHTML =
       "❌ Додай пароль до кожного акаунта.";
@@ -4303,9 +5450,15 @@ function checkPasswordManager(levelId, taskIndex) {
     return;
   }
 
-  if (passwords.includes("12345678")) {
+
+  if (
+    passwords.includes(
+      "12345678"
+    )
+  ) {
 
     playSound("wrong");
+
 
     resultBox.innerHTML =
       "❌ Слабкий пароль 12345678 не можна використовувати.";
@@ -4313,193 +5466,241 @@ function checkPasswordManager(levelId, taskIndex) {
     return;
   }
 
-  const uniquePasswords = new Set(passwords);
 
-  if (uniquePasswords.size !== passwords.length) {
+  const uniquePasswords =
+    new Set(passwords);
+
+
+  if (
+    uniquePasswords.size !==
+    passwords.length
+  ) {
 
     playSound("wrong");
 
-    resultBox.innerHTML = `
-      ❌ Для різних акаунтів потрібно використовувати різні паролі.
-    `;
+
+    resultBox.innerHTML =
+      "❌ Для різних акаунтів потрібно використовувати різні паролі.";
 
     return;
   }
 
+
   completeMiniGame(
+
     levelId,
+
     taskIndex,
+
     "Усі акаунти отримали різні надійні ключі!"
+
   );
 }
 
 
 /* =====================================================
-   4. СИНХРОННИЙ КЛЮЧ — 2FA
+   МІНІГРА 4 — СИНХРОННИЙ КЛЮЧ / 2FA
 ===================================================== */
 
-let currentTwoFactorCode = "";
-let twoFactorStagePassed = false;
-
-function generateTwoFactorCode() {
-
-  return String(
-    Math.floor(100000 + Math.random() * 900000)
-  );
-}
-
-function openTwoFactorTask(levelId, taskIndex) {
-
-  currentTwoFactorCode = generateTwoFactorCode();
-  twoFactorStagePassed = false;
+function openTwoFactorTask(
+  levelId,
+  taskIndex
+) {
 
   openModal(
+
     "Синхронний ключ",
+
     `
       <div class="task-instruction">
-        Мордор намагається увійти до акаунта героя.
+
+        Мордор намагається
+        увійти до акаунта героя.
 
         <br><br>
 
-        На смартфон надійшло сповіщення:
+        На смартфон надійшло
+        сповіщення:
+
       </div>
 
+
       <div class="story-highlight">
+
         <p>
           🔔 Вхід із міста Готем
         </p>
 
         <p>
-          Пристрій: невідомий комп’ютер
+          Пристрій:
+          невідомий комп’ютер
         </p>
 
         <p>
           Це ви?
         </p>
+
       </div>
+
 
       <button
         class="answer-btn"
-        onclick="acceptUnknownLogin()"
+        onclick="
+          acceptUnknownLogin()
+        "
       >
         ✅ Так, дозволити вхід
       </button>
 
+
       <button
         class="answer-btn"
-        onclick="rejectUnknownLogin(${levelId}, ${taskIndex})"
+        onclick="
+          rejectUnknownLogin(
+            ${levelId},
+            ${taskIndex}
+          )
+        "
       >
         ❌ Ні, заблокувати
       </button>
 
-      <div class="result-box" id="result"></div>
+
+      <div
+        class="result-box"
+        id="result"
+      ></div>
     `
   );
 }
 
+
 function acceptUnknownLogin() {
 
-  const resultBox = document.getElementById("result");
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
 
   playSound("wrong");
 
+
   resultBox.innerHTML = `
+
     ❌ Це був Мордор!
 
     <br><br>
 
-    Не підтверджуй вхід, якщо ти його не здійснював.
+    Не підтверджуй вхід,
+    якщо ти його не здійснював.
+
+    <br><br>
+
+    ❤️ Спробуй ще раз.
   `;
 }
 
-function rejectUnknownLogin(levelId, taskIndex) {
 
-  twoFactorStagePassed = true;
+/*
+   ВАЖЛИВО:
+   після блокування невідомого входу
+   НЕ просимо вводити код.
+*/
 
-  const resultBox = document.getElementById("result");
+function rejectUnknownLogin(
+  levelId,
+  taskIndex
+) {
+
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
 
   playSound("correct");
 
+
   resultBox.innerHTML = `
-    ✅ Невідомий вхід заблоковано!
 
-    <br><br>
+    <div class="story-highlight">
 
-    Для завершення захисту введи одноразовий код:
+      <p>
+        ✅ Невідомий вхід заблоковано!
+      </p>
 
-    <div
-      style="
-        margin:18px 0;
-        font-size:30px;
-        font-weight:900;
-        letter-spacing:6px;
-      "
-    >
-      ${currentTwoFactorCode}
+      <p>
+        Ти правильно відреагував /
+        відреагувала на підозрілий
+        запит входу.
+      </p>
+
+      <p>
+        Другий фактор захисту
+        допоміг зупинити Мордора.
+      </p>
+
     </div>
-
-    <input
-      id="twoFactorInput"
-      class="hero-name-input"
-      maxlength="6"
-      inputmode="numeric"
-      placeholder="Введи 6 цифр"
-    >
-
-    <br><br>
 
     <button
       class="btn"
-      onclick="checkTwoFactorCode(${levelId}, ${taskIndex})"
+      onclick="
+        finishTwoFactorTask(
+          ${levelId},
+          ${taskIndex}
+        )
+      "
     >
-      Підтвердити код
+      Завершити випробування
     </button>
   `;
 }
 
-function checkTwoFactorCode(levelId, taskIndex) {
 
-  const input =
-    document.getElementById("twoFactorInput");
-
-  const resultBox =
-    document.getElementById("result");
-
-  if (!twoFactorStagePassed || !input) return;
-
-  if (input.value.trim() !== currentTwoFactorCode) {
-
-    playSound("wrong");
-
-    resultBox.innerHTML += `
-      <p>
-        ❌ Код неправильний. Перевір цифри та спробуй ще раз.
-      </p>
-    `;
-
-    return;
-  }
+function finishTwoFactorTask(
+  levelId,
+  taskIndex
+) {
 
   completeMiniGame(
+
     levelId,
+
     taskIndex,
-    "Двофакторний захист активовано!"
+
+    "Підозрілий вхід заблоковано!"
+
   );
 }
 
+
 /* =====================================================
-   ПЕРЕВІРКА ВІДПОВІДІ
+   ПЕРЕВІРКА ВІДПОВІДІ ІНШИХ РІВНІВ
 ===================================================== */
 
-function checkAnswer(levelId, taskIndex, answerIndex){
+function checkAnswer(
+  levelId,
+  taskIndex,
+  answerIndex
+) {
 
-  const task = CHALLENGES[levelId][taskIndex];
+  const task =
+    CHALLENGES[levelId][taskIndex];
 
-  const resultBox = document.getElementById("result");
 
-  if(answerIndex !== task.correct){
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
 
-     playSound("wrong");
+
+  if (
+    answerIndex !== task.correct
+  ) {
+
+    playSound("wrong");
+
 
     resultBox.innerHTML =
       "❌ Спробуй ще раз. Подумай уважніше.";
@@ -4507,23 +5708,39 @@ function checkAnswer(levelId, taskIndex, answerIndex){
     return;
   }
 
-   playSound("correct");
 
-  if(!completedTasks[levelId]){
+  playSound("correct");
+
+
+  if (!completedTasks[levelId]) {
+
     completedTasks[levelId] = [];
   }
 
-  if(!completedTasks[levelId].includes(taskIndex)){
-    completedTasks[levelId].push(taskIndex);
+
+  if (
+    !completedTasks[levelId]
+      .includes(taskIndex)
+  ) {
+
+    completedTasks[levelId]
+      .push(taskIndex);
   }
 
-  const progress = completedTasks[levelId].length * 25;
 
-  if(progress >= 100){
+  const progress =
+    completedTasks[levelId].length * 25;
 
-    if(!completedLevels.includes(levelId)){
+
+  if (progress >= 100) {
+
+    if (
+      !completedLevels.includes(levelId)
+    ) {
+
       completedLevels.push(levelId);
     }
+
 
     playSound("crystal");
 
@@ -4534,61 +5751,104 @@ function checkAnswer(levelId, taskIndex, answerIndex){
     return;
   }
 
+
   resultBox.innerHTML = `
-    ✅ Правильно! Кристал заряджено на ${progress}%.
+
+    ✅ Правильно!
+
+    Кристал заряджено
+    на ${progress}%.
 
     <br><br>
 
     <button
       class="btn"
-      onclick="playSound('click'); closeModal(); openChallenge(${levelId})"
+      onclick="
+        playSound('click');
+        closeModal();
+        openChallenge(${levelId});
+      "
     >
       До наступного завдання
     </button>
   `;
 }
 
+
 /* =====================================================
-   СУВІЙ ПІСЛЯ РІВНЯ
+   НАГОРОДА ПІСЛЯ РІВНЯ
 ===================================================== */
 
-function openLevelReward(levelId){
+function openLevelReward(levelId) {
 
-  const level = LEVELS.find(item => item.id === levelId);
-  const mentor = MENTORS.find(item => item.id === level.mentorId);
+  const level =
+    LEVELS.find(
+      item => item.id === levelId
+    );
+
+
+  const mentor =
+    MENTORS.find(
+      item => item.id ===
+      level.mentorId
+    );
+
 
   openModal(
+
     "Кристал заряджено!",
+
     `
       <div class="scroll-modal">
 
         <img
-          class="scroll-artifact crystal-active"
+          class="
+            scroll-artifact
+            crystal-active
+          "
           src="${level.crystalOn}"
           alt="${level.title}"
         >
 
-        <h2>Вітаємо!</h2>
+        <h2>
+          Вітаємо!
+        </h2>
 
         <p>
-          Ти успішно пройшов / пройшла рівень:
+          Ти успішно пройшов /
+          пройшла рівень:
         </p>
 
         <p>
-          <b>${level.title}</b>
+          <b>
+            ${level.title}
+          </b>
         </p>
 
         <p>
-          Наставник <b>${mentor.name}</b> передає тобі силу кристала.
+          Наставник
+          <b>${mentor.name}</b>
+          передає тобі
+          силу кристала.
         </p>
 
-        <p style="color:${level.color}; font-weight:700;">
-          Кристал заряджено на 100%.
+        <p
+          style="
+            color:${level.color};
+            font-weight:700;
+          "
+        >
+          Кристал заряджено
+          на 100%.
         </p>
 
         <button
           class="btn"
-          onclick="playSound('click'); closeModal(); showMap();"
+          onclick="
+            playSound('click');
+            closeModal();
+            showMap();
+          "
         >
           Повернутись до карти
         </button>
@@ -4603,49 +5863,76 @@ function openLevelReward(levelId){
    ЦИТАДЕЛЬ ХАОСУ
 ===================================================== */
 
-function citadelLocked(){
+function citadelLocked() {
 
   openModal(
+
     "Цитадель ще закрита",
+
     `
       <p>
-        Спочатку заряди всі П'ять Кристалів.
+        Спочатку заряди
+        всі П'ять Кристалів.
       </p>
 
       <p>
-        Лише тоді шлях до Цитаделі Хаосу відкриється.
+        Лише тоді шлях
+        до Цитаделі Хаосу
+        відкриється.
       </p>
     `
   );
 }
 
-function showCitadel(){
+
+function showCitadel() {
 
   app.innerHTML = `
-    <section class="screen level-screen" ${bg(ASSETS.citadel)}>
 
-      <button class="btn back-btn" onclick="playSound('click'); showMap()">
+    <section
+      class="screen level-screen"
+      ${bg(ASSETS.citadel)}
+    >
+
+      <button
+        class="btn back-btn"
+        onclick="
+          playSound('click');
+          showMap();
+        "
+      >
         ← До карти
       </button>
 
       <div class="level-actions">
-        <button class="btn" onclick="playSound('click'); openFinalBattle()">
+
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            openFinalBattle();
+          "
+        >
           Визволити Райфіка
         </button>
+
       </div>
 
     </section>
   `;
 }
 
+
 /* =====================================================
    ФІНАЛЬНА БИТВА
 ===================================================== */
 
-function openFinalBattle(){
+function openFinalBattle() {
 
   openModal(
+
     "Фінальне випробування",
+
     `
       <div class="final-layout">
 
@@ -4658,31 +5945,52 @@ function openFinalBattle(){
         <div class="final-text">
 
           <p>
-            Мордор ховається у Цитаделі Хаосу.
-            Він намагається втримати Райфіка та силу Кристалів.
+            Мордор ховається
+            у Цитаделі Хаосу.
+            Він намагається втримати
+            Райфіка та силу Кристалів.
           </p>
 
           <p>
-            Щоб зруйнувати Маску Обману, дай відповідь на фінальне питання.
+            Щоб зруйнувати Маску Обману,
+            дай відповідь
+            на фінальне питання.
           </p>
 
           <div class="task-instruction">
-            Що робити, якщо отримав підозріле посилання?
+
+            Що робити,
+            якщо отримав
+            підозріле посилання?
+
           </div>
 
-          <button class="answer-btn" onclick="winGame()">
-            Перевірити відправника і не вводити пароль
+          <button
+            class="answer-btn"
+            onclick="winGame()"
+          >
+            Перевірити відправника
+            і не вводити пароль
           </button>
 
-          <button class="answer-btn" onclick="finalWrong()">
+          <button
+            class="answer-btn"
+            onclick="finalWrong()"
+          >
             Одразу натиснути
           </button>
 
-          <button class="answer-btn" onclick="finalWrong()">
+          <button
+            class="answer-btn"
+            onclick="finalWrong()"
+          >
             Ввести пароль
           </button>
 
-          <div class="result-box" id="result"></div>
+          <div
+            class="result-box"
+            id="result"
+          ></div>
 
         </div>
 
@@ -4691,56 +5999,91 @@ function openFinalBattle(){
   );
 }
 
-function finalWrong(){
 
-  const resultBox = document.getElementById("result");
+function finalWrong() {
 
-  // playSound("wrong");
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
+
+  playSound("wrong");
+
 
   resultBox.innerHTML =
     "❌ Мордор майже тебе обманув. Спробуй ще раз.";
 }
 
+
 /* =====================================================
    ПЕРЕМОГА
 ===================================================== */
 
-function winGame(){
+function winGame() {
 
-   playSound("final");
+  playSound("final");
 
-  const resultBox = document.getElementById("result");
+
+  const resultBox =
+    document.getElementById(
+      "result"
+    );
+
 
   resultBox.innerHTML = `
+
     ✅ Маску Обману зруйновано!
 
     <br><br>
 
-    <button class="btn" onclick="showVictoryScreen()">
+    <button
+      class="btn"
+      onclick="
+        showVictoryScreen()
+      "
+    >
       Завершити гру
     </button>
   `;
 }
 
-function showVictoryScreen(){
+
+function showVictoryScreen() {
 
   app.innerHTML = `
-    <section class="screen" ${bg(ASSETS.map)}>
+
+    <section
+      class="screen"
+      ${bg(ASSETS.map)}
+    >
 
       <div class="victory-screen">
 
-        <h1>🏆 Перемога!</h1>
+        <h1>
+          🏆 Перемога!
+        </h1>
 
         <p>
-          Райфік врятований, а П'ять Кристалів знову
-          захищають Королівство КіберЛегенд.
+          Райфік врятований,
+          а П'ять Кристалів
+          знову захищають
+          Королівство КіберЛегенд.
         </p>
 
         <p>
-          Ти став / стала справжньою Легендою КіберБезпеки!
+          Ти став / стала
+          справжньою Легендою
+          КіберБезпеки!
         </p>
 
-        <button class="btn" onclick="playSound('click'); openAfterCredits()">
+        <button
+          class="btn"
+          onclick="
+            playSound('click');
+            openAfterCredits();
+          "
+        >
           Далі
         </button>
 
@@ -4750,22 +6093,29 @@ function showVictoryScreen(){
   `;
 }
 
+
 /* =====================================================
    СЦЕНА ПІСЛЯ ТИТРІВ
 ===================================================== */
 
-function openAfterCredits(){
+function openAfterCredits() {
 
   openModal(
+
     "Сцена після титрів",
+
     `
       <p>
-        Коли всі святкують перемогу, серед уламків трону
-        залишається маленька фіолетова іскра.
+        Коли всі святкують перемогу,
+        серед уламків трону
+        залишається маленька
+        фіолетова іскра.
       </p>
 
       <p>
-        Вона поступово перетворюється на цифровий силует Мордора.
+        Вона поступово
+        перетворюється
+        на цифровий силует Мордора.
       </p>
 
       <p>
@@ -4773,33 +6123,47 @@ function openAfterCredits(){
       </p>
 
       <div class="story-highlight">
+
         <p>
           “Ти переміг мене сьогодні...
         </p>
 
         <p>
-          Але кіберзагрози ніколи не зникають назавжди.
+          Але кіберзагрози
+          ніколи не зникають назавжди.
         </p>
 
         <p>
-          Ми ще зустрінемося, Герою...
+          Ми ще зустрінемося,
+          Герою...
         </p>
 
         <p>
           До наступної пригоди...”
         </p>
+
       </div>
 
       <p>
-        <b>Кінець першого сезону.</b>
+        <b>
+          Кінець першого сезону.
+        </b>
       </p>
 
-      <button class="btn" onclick="playSound('click'); closeModal(); showStartScreen()">
+      <button
+        class="btn"
+        onclick="
+          playSound('click');
+          closeModal();
+          showStartScreen();
+        "
+      >
         Нова пригода
       </button>
     `
   );
 }
+
 
 /* =====================================================
    ЗАПУСК ГРИ

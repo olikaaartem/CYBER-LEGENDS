@@ -3142,3 +3142,1069 @@ and (orientation: portrait) {
     height: 29px;
   }
 }
+/* =====================================================
+БУДІВЕЛЬНИК СЕЙФУ — НОВА ВЕРСІЯ
+===================================================== */
+
+.safe-builder-screen {
+position: relative;
+width: 100%;
+height: 100vh;
+min-height: 100vh;
+
+overflow: hidden;
+
+background-image: var(--bg);
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+}
+
+
+/* НАЗАД */
+
+.safe-builder-back {
+position: absolute;
+left: 2%;
+top: 3%;
+
+z-index: 20;
+}
+
+
+/* НАЗВА */
+
+.safe-builder-title {
+position: absolute;
+
+top: 3%;
+left: 50%;
+
+transform: translateX(-50%);
+
+padding: 10px 28px;
+
+border-radius: 18px;
+
+background:
+rgba(24, 17, 58, 0.9);
+
+border:
+2px solid #e7bd4e;
+
+color: #ffe58c;
+
+font-size:
+clamp(23px, 2.4vw, 40px);
+
+font-weight: 900;
+
+z-index: 10;
+}
+
+
+/* СЕРДЕЧКА */
+
+.safe-hearts {
+position: absolute;
+
+right: 3%;
+top: 4%;
+
+padding: 8px 15px;
+
+border-radius: 15px;
+
+background:
+rgba(24, 17, 58, 0.87);
+
+font-size:
+clamp(20px, 2vw, 30px);
+
+z-index: 15;
+}
+
+
+/* КОЛОНКИ */
+
+.safe-builder-column {
+position: absolute;
+
+top: 15%;
+
+width: 23%;
+
+max-height: 77vh;
+
+display: flex;
+flex-direction: column;
+gap: 14px;
+
+z-index: 7;
+}
+
+
+.safe-left {
+left: 3%;
+}
+
+
+.safe-right {
+right: 3%;
+}
+
+
+/* КАТЕГОРІЇ */
+
+.safe-category {
+padding: 12px;
+
+border-radius: 17px;
+
+border:
+2px solid rgba(
+255,
+211,
+70,
+0.8
+);
+
+background:
+rgba(
+29,
+22,
+67,
+0.92
+);
+
+box-shadow:
+0 10px 24px
+rgba(0,0,0,.28);
+}
+
+
+.safe-category h3 {
+margin:
+0 0 9px;
+
+text-align: center;
+
+color: #ffe37c;
+
+font-size:
+clamp(
+14px,
+1.25vw,
+20px
+);
+}
+
+
+/* КАРТКИ */
+
+.safe-cards {
+display: grid;
+gap: 7px;
+}
+
+
+.safe-drag-card {
+padding:
+9px 11px;
+
+border-radius:
+12px;
+
+border:
+2px solid
+rgba(
+255,
+255,
+255,
+.18
+);
+
+background:
+linear-gradient(
+135deg,
+#493994,
+#252052
+);
+
+color: white;
+
+text-align: center;
+
+font-size:
+clamp(
+13px,
+1.05vw,
+17px
+);
+
+font-weight: 700;
+
+cursor: grab;
+
+user-select: none;
+
+transition:
+.18s ease;
+}
+
+
+.safe-drag-card:hover {
+transform:
+translateY(-2px);
+
+border-color:
+#ffe26a;
+}
+
+
+.safe-drag-card.dragging {
+opacity: .45;
+}
+
+
+.safe-drag-card.touch-selected {
+border-color:
+white;
+
+box-shadow:
+0 0 18px
+#ffe55d;
+
+transform:
+scale(1.04);
+}
+
+
+.safe-drag-card.installed {
+background:
+linear-gradient(
+135deg,
+#fce893,
+#e7a82e
+);
+
+color:
+#271d31;
+
+border-color:
+white;
+}
+
+
+/* ЦЕНТР */
+
+.safe-builder-center {
+position: absolute;
+
+left: 50%;
+top: 13%;
+
+width: 43%;
+height: 82%;
+
+transform:
+translateX(-50%);
+
+display: flex;
+flex-direction: column;
+align-items: center;
+
+z-index: 6;
+}
+
+
+/* СЕЙФ */
+
+.safe-drop-zone {
+position: relative;
+
+width:
+min(38vw, 500px);
+
+height:
+min(38vw, 500px);
+
+max-height: 48vh;
+
+display: flex;
+align-items: center;
+justify-content: center;
+
+transition:
+.2s ease;
+}
+
+
+.safe-drop-zone.drag-over {
+transform:
+scale(1.05);
+
+filter:
+drop-shadow(
+0 0 28px
+#ffe25f
+);
+}
+
+
+.safe-builder-image {
+width: 100%;
+height: 100%;
+
+object-fit: contain;
+
+position: relative;
+
+z-index: 3;
+
+filter:
+drop-shadow(
+0 15px 18px
+rgba(0,0,0,.38)
+);
+}
+
+
+.safe-drop-hint {
+position: absolute;
+
+bottom: 5%;
+
+left: 50%;
+
+transform:
+translateX(-50%);
+
+z-index: 7;
+
+padding:
+7px 13px;
+
+border-radius:
+12px;
+
+background:
+rgba(
+22,
+16,
+48,
+.88
+);
+
+color:
+#fff4b0;
+
+font-size:
+13px;
+}
+
+
+/* ВСТАНОВЛЕНІ БЛОКИ */
+
+.safe-installed {
+width: 95%;
+
+display: grid;
+
+grid-template-columns:
+repeat(4, 1fr);
+
+gap: 7px;
+
+margin-top:
+-2px;
+}
+
+
+.safe-installed-slot {
+padding:
+6px 5px;
+
+text-align: center;
+
+border-radius:
+10px;
+
+background:
+rgba(
+29,
+22,
+67,
+.88
+);
+
+border:
+1px solid
+#c4a44f;
+
+color: white;
+
+font-size:
+11px;
+}
+
+
+.safe-installed-slot span {
+display: block;
+
+opacity: .7;
+
+margin-bottom:
+2px;
+}
+
+
+.safe-installed-slot.filled {
+border-color:
+#ffe66d;
+
+box-shadow:
+0 0 12px
+rgba(
+255,
+221,
+77,
+.35
+);
+}
+
+
+/* ПАРОЛЬ */
+
+.safe-password-box {
+margin-top:
+7px;
+
+width:
+90%;
+
+padding:
+7px 12px;
+
+text-align:
+center;
+
+border-radius:
+12px;
+
+background:
+rgba(
+24,
+17,
+58,
+.9
+);
+
+border:
+1px solid
+#e7bd4e;
+}
+
+
+.safe-password-box span {
+display: block;
+
+font-size:
+11px;
+
+color:
+#d9d0ef;
+}
+
+
+.safe-password-box strong {
+color:
+#fff0a0;
+
+font-family:
+monospace;
+
+font-size:
+clamp(
+15px,
+1.4vw,
+21px
+);
+}
+
+
+/* ШКАЛА */
+
+.safe-strength {
+width:
+90%;
+
+margin-top:
+6px;
+
+padding:
+7px 11px;
+
+border-radius:
+12px;
+
+background:
+rgba(
+24,
+17,
+58,
+.9
+);
+
+color:
+white;
+}
+
+
+.safe-strength-header {
+display:
+flex;
+
+justify-content:
+space-between;
+
+font-size:
+12px;
+
+margin-bottom:
+4px;
+}
+
+
+.safe-strength-track {
+height:
+13px;
+
+border-radius:
+12px;
+
+overflow:
+hidden;
+
+background:
+rgba(
+0,
+0,
+0,
+.35
+);
+}
+
+
+.safe-strength-fill {
+width:
+0%;
+
+height:
+100%;
+
+transition:
+width .3s ease;
+}
+
+
+.safe-strength-fill.weak {
+background:
+#ff4545;
+}
+
+
+.safe-strength-fill.medium {
+background:
+#ffd348;
+}
+
+
+.safe-strength-fill.strong {
+background:
+#58e978;
+}
+
+
+.safe-strength-status {
+margin-top:
+4px;
+
+text-align:
+center;
+
+font-size:
+11px;
+}
+
+
+/* КНОПКА */
+
+.safe-lock-button {
+margin-top:
+7px;
+}
+
+
+/* ПОВІДОМЛЕННЯ */
+
+.safe-result-message {
+min-height:
+30px;
+
+margin-top:
+5px;
+
+padding:
+5px 12px;
+
+color:
+white;
+
+text-align:
+center;
+
+font-size:
+12px;
+
+border-radius:
+10px;
+
+background:
+rgba(
+24,
+17,
+58,
+.77
+);
+}
+
+
+/* ЧЕРВОНИЙ ЕФЕКТ */
+
+.safe-red-effect,
+.safe-gold-effect {
+position:
+absolute;
+
+inset:
+5%;
+
+opacity:
+0;
+
+z-index:
+1;
+
+pointer-events:
+none;
+}
+
+
+.safe-red-effect {
+background:
+radial-gradient(
+circle,
+rgba(
+255,
+30,
+30,
+.8
+),
+transparent
+68%
+);
+}
+
+
+.safe-red-effect.active {
+animation:
+safeRedFlash
+.85s ease;
+}
+
+
+/* ЗОЛОТО */
+
+.safe-gold-effect {
+background:
+radial-gradient(
+circle,
+rgba(
+255,
+228,
+78,
+.95
+),
+transparent
+67%
+);
+}
+
+
+.safe-gold-effect.active {
+animation:
+safeGoldFlash
+1.4s ease;
+}
+
+
+/* ТРЯСКА */
+
+.shake-medium {
+animation:
+safeShakeMedium
+.6s ease;
+}
+
+
+.shake-strong {
+animation:
+safeShakeStrong
+.85s ease;
+}
+
+
+.safe-win {
+animation:
+safeWinPulse
+1.3s ease;
+}
+
+
+/* СЕРДЕЧКО */
+
+.heart-hit {
+animation:
+heartHit
+.6s ease;
+}
+
+
+/* =====================================================
+ВСТУП ТОТУСА
+===================================================== */
+
+.safe-intro-overlay {
+position:
+absolute;
+
+inset:
+0;
+
+z-index:
+100;
+
+display:
+flex;
+
+align-items:
+center;
+
+justify-content:
+center;
+
+background:
+rgba(
+4,
+5,
+16,
+.82
+);
+
+backdrop-filter:
+blur(4px);
+
+transition:
+opacity .35s ease;
+}
+
+
+.safe-intro-overlay.hide {
+opacity:
+0;
+
+pointer-events:
+none;
+}
+
+
+.safe-intro-card {
+width:
+min(
+920px,
+88vw
+);
+
+display:
+grid;
+
+grid-template-columns:
+280px 1fr;
+
+gap:
+25px;
+
+align-items:
+center;
+
+padding:
+28px;
+
+border-radius:
+24px;
+
+border:
+3px solid
+#e9bc48;
+
+background:
+linear-gradient(
+135deg,
+rgba(
+30,
+22,
+70,
+.98
+),
+rgba(
+15,
+13,
+43,
+.98
+)
+);
+
+box-shadow:
+0 20px 60px
+rgba(
+0,
+0,
+0,
+.55
+);
+
+color:
+white;
+}
+
+
+.safe-intro-totus {
+max-width:
+100%;
+
+max-height:
+380px;
+
+object-fit:
+contain;
+}
+
+
+.safe-intro-text h2 {
+color:
+#ffe478;
+
+margin-top:
+0;
+}
+
+
+.safe-example {
+margin:
+13px 0;
+
+padding:
+12px;
+
+border-radius:
+13px;
+
+background:
+rgba(
+255,
+216,
+77,
+.12
+);
+
+border:
+1px solid
+#e9bd4b;
+}
+
+
+.safe-example span,
+.safe-example strong {
+display:
+block;
+
+margin:
+4px 0;
+}
+
+
+.safe-intro-note {
+opacity:
+.8;
+
+font-size:
+14px;
+}
+
+
+/* =====================================================
+АНІМАЦІЇ
+===================================================== */
+
+@keyframes safeShakeMedium {
+
+0%,
+100% {
+transform:
+translateX(0);
+}
+
+25% {
+transform:
+translateX(-8px);
+}
+
+50% {
+transform:
+translateX(8px);
+}
+
+75% {
+transform:
+translateX(-5px);
+}
+}
+
+
+@keyframes safeShakeStrong {
+
+0%,
+100% {
+transform:
+translate(0,0)
+rotate(0);
+}
+
+15% {
+transform:
+translate(-15px,3px)
+rotate(-2deg);
+}
+
+30% {
+transform:
+translate(15px,-3px)
+rotate(2deg);
+}
+
+45% {
+transform:
+translate(-12px,-2px)
+rotate(-1.5deg);
+}
+
+60% {
+transform:
+translate(12px,2px)
+rotate(1.5deg);
+}
+
+80% {
+transform:
+translate(-6px,0);
+}
+}
+
+
+@keyframes safeRedFlash {
+
+0%,
+100% {
+opacity:
+0;
+}
+
+35% {
+opacity:
+1;
+}
+}
+
+
+@keyframes safeGoldFlash {
+
+0% {
+opacity:
+0;
+
+transform:
+scale(.7);
+}
+
+40% {
+opacity:
+1;
+
+transform:
+scale(1.1);
+}
+
+100% {
+opacity:
+0;
+
+transform:
+scale(1.35);
+}
+}
+
+
+@keyframes safeWinPulse {
+
+0% {
+transform:
+scale(1);
+}
+
+40% {
+transform:
+scale(1.06);
+}
+
+70% {
+transform:
+scale(.98);
+}
+
+100% {
+transform:
+scale(1);
+}
+}
+
+
+@keyframes heartHit {
+
+0%,
+100% {
+transform:
+scale(1);
+}
+
+40% {
+transform:
+scale(1.35);
+}
+
+70% {
+transform:
+scale(.9);
+}
+}
+

@@ -1720,480 +1720,1167 @@ function renderPasswordCategory(category, title, options) {
             data-category="${category}"
             data-value="${option.value}"
             onclick="
-              selectSafeOption(
-                '${category}',
-                '${option.value}',
-                this
-              )
-            "
-          >
-            <strong>
-              ${option.label}
-            </strong>
-
-            <span>
-              ${option.hint}
-            </span>
-          </button>
-        `).join("")}
-
-      </div>
-
-    </div>
-  `;
-}
-
-
 /* =====================================================
-   ВИБІР ЕЛЕМЕНТА
+МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ  РІВЕНЬ 1 НАСТАВНИК ТОТУС
 ===================================================== */
 
-function selectSafeOption(category, value, button) {
+let passwordBuilderState = {
+word: "",
+symbol: "",
+length: "",
+letterCase: ""
+};
 
-  passwordBuilderState[category] = value;
+let safeSelectedCard = null;
 
-  document
-    .querySelectorAll(
-      `.safe-option-card[data-category="${category}"]`
-    )
-    .forEach(item => {
-      item.classList.remove("selected");
-    });
 
-  button.classList.add("selected");
+/* =====================================================
+ВІДКРИТТЯ ГРИ
+===================================================== */
 
-  playSound("click");
+function openPasswordBuilder(levelId, taskIndex) {
 
-  updateSafeBuilder();
+closeModal();
+
+passwordBuilderState = {
+word: "",
+symbol: "",
+length: "",
+letterCase: ""
+};
+
+safeSelectedCard = null;
+
+app.innerHTML = `
+<section
+class="screen safe-builder-screen"
+${bg(ASSETS.safeBuilderBg)}
+>
+
+<button
+class="btn safe-builder-back"
+onclick="
+playSound('click');
+showLevel(${levelId});
+openChallenge(${levelId});
+"
+>
+← До завдань
+</button>
+
+
+<!-- ЖИТТЯ / СПРОБИ -->
+
+<div class="safe-hearts" id="safeHearts">
+❤️ ❤️ ❤️
+</div>
+
+
+<!-- НАЗВА -->
+
+<div class="safe-builder-title">
+Будівельник сейфу
+</div>
+
+
+<!-- ЛІВА СТОРОНА -->
+
+<div class="safe-builder-column safe-left">
+
+${renderSafeGroup(
+"word",
+"1. Основа пароля",
+[
+["Cat", "Cat"],
+["MyDog2015", "MyDog2015"],
+["P1zz4_S3cr3t", "P1zz4_S3cr3t"]
+]
+)}
+
+${renderSafeGroup(
+"symbol",
+"2. Спецсимвол",
+[
+["none", "Без символів"],
+["#", "#"],
+["@", "@"],
+["!", "!"]
+]
+)}
+
+</div>
+
+
+<!-- ЦЕНТР -->
+
+<div class="safe-builder-center">
+
+<div
+class="safe-drop-zone"
+id="safeDropZone"
+ondragover="allowSafeDrop(event)"
+ondrop="dropOnSafe(event)"
+onclick="placeSelectedCardOnSafe()"
+>
+
+<div class="safe-red-effect" id="safeRedEffect"></div>
+<div class="safe-gold-effect" id="safeGoldEffect"></div>
+
+<img
+id="safeImage"
+class="safe-builder-image"
+src="${ASSETS.safeBuilderSafe}"
+alt="Сейф"
+>
+
+<div class="safe-drop-hint" id="safeDropHint">
+Перетягни блок сюди
+</div>
+
+</div>
+
+
+<!-- ВИБРАНІ ЕЛЕМЕНТИ -->
+
+<div class="safe-installed">
+
+<div class="safe-installed-slot">
+<span>Основа</span>
+<strong id="installed-word">—</strong>
+</div>
+
+<div class="safe-installed-slot">
+<span>Символ</span>
+<strong id="installed-symbol">—</strong>
+</div>
+
+<div class="safe-installed-slot">
+<span>Довжина</span>
+<strong id="installed-length">—</strong>
+</div>
+
+<div class="safe-installed-slot">
+<span>Регістр</span>
+<strong id="installed-letterCase">—</strong>
+</div>
+
+</div>
+
+
+<!-- ПАРОЛЬ -->
+
+<div class="safe-password-box">
+
+<span>Створений пароль</span>
+
+<strong id="safePasswordPreview">
+Обери елементи
+</strong>
+
+</div>
+
+
+<!-- ШКАЛА -->
+
+<div class="safe-strength">
+
+<div class="safe-strength-header">
+<span>Міцність захисту</span>
+<strong id="safeStrengthPercent">0%</strong>
+</div>
+
+<div class="safe-strength-track">
+<div
+class="safe-strength-fill"
+id="safeStrengthFill"
+></div>
+</div>
+
+<div
+class="safe-strength-status"
+id="safeStrengthStatus"
+>
+Захист ще не створено
+</div>
+
+</div>
+
+
+<button
+class="btn safe-lock-button"
+id="safeLockButton"
+onclick="checkSafeBuilder(${levelId}, ${taskIndex})"
+>
+🔐 Замкнути сейф
+</button>
+
+
+<div
+class="safe-result-message"
+id="safeResultMessage"
+></div>
+
+</div>
+
+
+<!-- ПРАВА СТОРОНА -->
+
+<div class="safe-builder-column safe-right">
+
+${renderSafeGroup(
+"length",
+"3. Довжина",
+[
+["4", "4 символи"],
+["8", "8 символів"],
+["12", "12+ символів"]
+]
+)}
+
+${renderSafeGroup(
+"letterCase",
+"4. Регістр",
+[
+["lower", "abc"],
+["upper", "ABC"],
+["mixed", "aBc"]
+]
+)}
+
+</div>
+
+
+<!-- ВСТУП ТОТУСА -->
+
+<div class="safe-intro-overlay" id="safeIntroOverlay">
+
+<div class="safe-intro-card">
+
+<img
+src="${ASSETS.totus}"
+class="safe-intro-totus"
+alt="Тотус"
+>
+
+<div class="safe-intro-text">
+
+<h2>
+Тотус пояснює
+</h2>
+
+<p>
+Мордор намагається зламати наш сейф!
+</p>
+
+<p>
+Тобі потрібно створити надійний пароль.
+Перетягни на сейф по одному блоку
+з кожної категорії:
+</p>
+
+<p>
+<b>
+основу → спецсимвол → довжину → регістр.
+</b>
+</p>
+
+<div class="safe-example">
+
+<span>Наприклад:</span>
+
+<strong>
+P1zz4_S3cr3t + # + 12+ + aBc
+</strong>
+
+<span>
+🔐 = сильний пароль
+</span>
+
+</div>
+
+<p class="safe-intro-note">
+Якщо помилишся — нічого страшного.
+Можна пробувати стільки разів,
+скільки потрібно.
+</p>
+
+<button
+class="btn"
+onclick="startSafeBuilderGame()"
+>
+Почати випробування
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+`;
+
 }
 
 
 /* =====================================================
-   СТВОРЕННЯ ПАРОЛЯ
+СТВОРЕННЯ БЛОКІВ
+===================================================== */
+
+function renderSafeGroup(category, title, options) {
+
+return `
+<div class="safe-category">
+
+<h3>${title}</h3>
+
+<div class="safe-cards">
+
+${options.map(([value, label]) => `
+<div
+class="safe-drag-card"
+draggable="true"
+data-category="${category}"
+data-value="${value}"
+data-label="${label}"
+
+ondragstart="startSafeDrag(event)"
+
+onclick="
+selectSafeCard(
+'${category}',
+'${value}',
+'${label}',
+this
+)
+"
+>
+${label}
+</div>
+`).join("")}
+
+</div>
+
+</div>
+`;
+}
+
+
+/* =====================================================
+ПОЧАТОК ПІСЛЯ ПОЯСНЕННЯ ТОТУСА
+===================================================== */
+
+function startSafeBuilderGame() {
+
+const overlay =
+document.getElementById("safeIntroOverlay");
+
+if (overlay) {
+overlay.classList.add("hide");
+}
+
+playSound("click");
+}
+
+
+/* =====================================================
+DRAG & DROP
+===================================================== */
+
+function startSafeDrag(event) {
+
+const card = event.currentTarget;
+
+event.dataTransfer.setData(
+"category",
+card.dataset.category
+);
+
+event.dataTransfer.setData(
+"value",
+card.dataset.value
+);
+
+event.dataTransfer.setData(
+"label",
+card.dataset.label
+);
+
+card.classList.add("dragging");
+}
+
+
+function allowSafeDrop(event) {
+
+event.preventDefault();
+
+const zone =
+document.getElementById("safeDropZone");
+
+if (zone) {
+zone.classList.add("drag-over");
+}
+}
+
+
+function dropOnSafe(event) {
+
+event.preventDefault();
+
+const category =
+event.dataTransfer.getData("category");
+
+const value =
+event.dataTransfer.getData("value");
+
+const label =
+event.dataTransfer.getData("label");
+
+installSafePart(
+category,
+value,
+label
+);
+
+document
+.querySelectorAll(".safe-drag-card")
+.forEach(card => {
+card.classList.remove("dragging");
+});
+
+const zone =
+document.getElementById("safeDropZone");
+
+if (zone) {
+zone.classList.remove("drag-over");
+}
+}
+
+
+/* =====================================================
+НАТИСКАННЯ — ДЛЯ ТЕЛЕФОНА / ПЛАНШЕТА
+===================================================== */
+
+function selectSafeCard(
+category,
+value,
+label,
+element
+) {
+
+safeSelectedCard = {
+category,
+value,
+label
+};
+
+document
+.querySelectorAll(".safe-drag-card")
+.forEach(card => {
+card.classList.remove("touch-selected");
+});
+
+element.classList.add("touch-selected");
+
+const hint =
+document.getElementById("safeDropHint");
+
+if (hint) {
+hint.textContent =
+"Тепер натисни на сейф";
+}
+
+playSound("click");
+}
+
+
+function placeSelectedCardOnSafe() {
+
+if (!safeSelectedCard) return;
+
+installSafePart(
+safeSelectedCard.category,
+safeSelectedCard.value,
+safeSelectedCard.label
+);
+
+safeSelectedCard = null;
+
+document
+.querySelectorAll(".safe-drag-card")
+.forEach(card => {
+card.classList.remove("touch-selected");
+});
+}
+
+
+/* =====================================================
+ВСТАНОВЛЕННЯ БЛОКУ НА СЕЙФ
+===================================================== */
+
+function installSafePart(
+category,
+value,
+label
+) {
+
+passwordBuilderState[category] = value;
+
+const slot =
+document.getElementById(
+`installed-${category}`
+);
+
+if (slot) {
+slot.textContent = label;
+slot.parentElement.classList.add("filled");
+}
+
+document
+.querySelectorAll(
+`.safe-drag-card[data-category="${category}"]`
+)
+.forEach(card => {
+
+card.classList.remove("installed");
+
+if (
+card.dataset.value === value
+) {
+card.classList.add("installed");
+}
+
+});
+
+const hint =
+document.getElementById("safeDropHint");
+
+if (hint) {
+hint.textContent =
+"Елемент встановлено!";
+}
+
+playSound("click");
+
+updateSafeBuilderGame();
+}
+
+
+/* =====================================================
+СТВОРЕННЯ ПАРОЛЯ
 ===================================================== */
 
 function buildSafePassword() {
 
-  let word = passwordBuilderState.word || "";
+let word =
+passwordBuilderState.word || "";
 
-  if (passwordBuilderState.letterCase === "upper") {
-    word = word.toUpperCase();
-  }
+if (
+passwordBuilderState.letterCase === "lower"
+) {
+word = word.toLowerCase();
+}
 
-  if (passwordBuilderState.letterCase === "lower") {
-    word = word.toLowerCase();
-  }
+if (
+passwordBuilderState.letterCase === "upper"
+) {
+word = word.toUpperCase();
+}
 
-  if (passwordBuilderState.letterCase === "mixed") {
+if (
+passwordBuilderState.letterCase === "mixed"
+) {
 
-    word = word
-      .split("")
-      .map((letter, index) => {
+word = word
+.split("")
+.map((char, index) => {
 
-        if (!/[a-zA-Z]/.test(letter)) {
-          return letter;
-        }
+if (!/[a-zA-Z]/.test(char)) {
+return char;
+}
 
-        return index % 2 === 0
-          ? letter.toUpperCase()
-          : letter.toLowerCase();
-      })
-      .join("");
-  }
+return index % 2 === 0
+? char.toUpperCase()
+: char.toLowerCase();
 
-  const symbol =
-    passwordBuilderState.symbol === "none"
-      ? ""
-      : passwordBuilderState.symbol;
+})
+.join("");
+}
 
-  let password = word + symbol;
 
-  const targetLength =
-    Number(passwordBuilderState.length || 0);
+let symbol = "";
 
-  const numberParts = ["27", "84", "2026", "531"];
+if (
+passwordBuilderState.symbol &&
+passwordBuilderState.symbol !== "none"
+) {
+symbol = passwordBuilderState.symbol;
+}
 
-  let numberIndex = 0;
 
-  while (
-    targetLength > 0 &&
-    password.length < targetLength
-  ) {
+let password =
+word + symbol;
 
-    password += numberParts[numberIndex];
 
-    numberIndex =
-      (numberIndex + 1) % numberParts.length;
-  }
+const targetLength =
+Number(
+passwordBuilderState.length || 0
+);
 
-  return password;
+
+const extra = [
+"27",
+"84",
+"51",
+"2026"
+];
+
+let i = 0;
+
+while (
+targetLength &&
+password.length < targetLength
+) {
+
+password += extra[i];
+
+i =
+(i + 1) % extra.length;
+}
+
+
+return password;
 }
 
 
 /* =====================================================
-   РОЗРАХУНОК МІЦНОСТІ
+МІЦНІСТЬ
 ===================================================== */
 
-function calculateSafeStrength() {
+function calculateSafeBuilderStrength() {
 
-  let score = 0;
+let score = 0;
 
-  if (passwordBuilderState.word === "Cat") {
-    score += 5;
-  }
 
-  if (passwordBuilderState.word === "MyDog2015") {
-    score += 15;
-  }
+if (passwordBuilderState.word === "Cat") {
+score += 5;
+}
 
-  if (passwordBuilderState.word === "P1zz4_S3cr3t") {
-    score += 30;
-  }
+if (
+passwordBuilderState.word === "MyDog2015"
+) {
+score += 15;
+}
 
-  if (
-    passwordBuilderState.symbol &&
-    passwordBuilderState.symbol !== "none"
-  ) {
-    score += 20;
-  }
+if (
+passwordBuilderState.word ===
+"P1zz4_S3cr3t"
+) {
+score += 30;
+}
 
-  if (passwordBuilderState.length === "4") {
-    score += 5;
-  }
 
-  if (passwordBuilderState.length === "8") {
-    score += 15;
-  }
+if (
+passwordBuilderState.symbol &&
+passwordBuilderState.symbol !== "none"
+) {
+score += 20;
+}
 
-  if (passwordBuilderState.length === "12") {
-    score += 30;
-  }
 
-  if (passwordBuilderState.letterCase === "lower") {
-    score += 5;
-  }
+if (
+passwordBuilderState.length === "4"
+) {
+score += 5;
+}
 
-  if (passwordBuilderState.letterCase === "upper") {
-    score += 8;
-  }
+if (
+passwordBuilderState.length === "8"
+) {
+score += 15;
+}
 
-  if (passwordBuilderState.letterCase === "mixed") {
-    score += 20;
-  }
+if (
+passwordBuilderState.length === "12"
+) {
+score += 30;
+}
 
-  return Math.min(score, 100);
+
+if (
+passwordBuilderState.letterCase === "lower"
+) {
+score += 5;
+}
+
+if (
+passwordBuilderState.letterCase === "upper"
+) {
+score += 10;
+}
+
+if (
+passwordBuilderState.letterCase === "mixed"
+) {
+score += 20;
+}
+
+
+return Math.min(
+score,
+100
+);
 }
 
 
 /* =====================================================
-   ОНОВЛЕННЯ ІНТЕРФЕЙСУ
+ОНОВЛЕННЯ ЕКРАНА
 ===================================================== */
 
-function updateSafeBuilder() {
+function updateSafeBuilderGame() {
 
-  const preview =
-    document.getElementById("passwordPreview");
+const preview =
+document.getElementById(
+"safePasswordPreview"
+);
 
-  const percentElement =
-    document.getElementById("strengthPercent");
+const percent =
+document.getElementById(
+"safeStrengthPercent"
+);
 
-  const strengthFill =
-    document.getElementById("strengthFill");
+const fill =
+document.getElementById(
+"safeStrengthFill"
+);
 
-  const strengthLabel =
-    document.getElementById("strengthLabel");
+const status =
+document.getElementById(
+"safeStrengthStatus"
+);
 
-  if (
-    !preview ||
-    !percentElement ||
-    !strengthFill ||
-    !strengthLabel
-  ) {
-    return;
-  }
 
-  const password = buildSafePassword();
+const password =
+buildSafePassword();
 
-  const selectedCount =
-    Object.values(passwordBuilderState)
-      .filter(value => value !== "").length;
 
-  const strength = calculateSafeStrength();
+const count =
+Object
+.values(passwordBuilderState)
+.filter(Boolean)
+.length;
 
-  preview.textContent =
-    selectedCount === 0
-      ? "Обери елементи"
-      : password || "Пароль без символів";
 
-  percentElement.textContent =
-    `${strength}%`;
+const strength =
+calculateSafeBuilderStrength();
 
-  strengthFill.style.width =
-    `${strength}%`;
 
-  strengthFill.classList.remove(
-    "weak",
-    "medium",
-    "strong"
-  );
+if (preview) {
 
-  strengthLabel.classList.remove(
-    "strength-empty",
-    "strength-weak",
-    "strength-medium",
-    "strength-strong"
-  );
+preview.textContent =
+count
+? password
+: "Обери елементи";
+}
 
-  if (selectedCount < 4) {
 
-    strengthLabel.textContent =
-      `Обрано категорій: ${selectedCount} з 4`;
+if (percent) {
 
-    strengthLabel.classList.add(
-      "strength-empty"
-    );
+percent.textContent =
+`${strength}%`;
+}
 
-    return;
-  }
 
-  if (strength < 50) {
+if (fill) {
 
-    strengthFill.classList.add("weak");
+fill.style.width =
+`${strength}%`;
 
-    strengthLabel.textContent =
-      "Слабкий пароль";
+fill.classList.remove(
+"weak",
+"medium",
+"strong"
+);
 
-    strengthLabel.classList.add(
-      "strength-weak"
-    );
+if (strength < 50) {
+fill.classList.add("weak");
+}
 
-    return;
-  }
+else if (strength < 85) {
+fill.classList.add("medium");
+}
 
-  if (strength < 85) {
+else {
+fill.classList.add("strong");
+}
+}
 
-    strengthFill.classList.add("medium");
 
-    strengthLabel.textContent =
-      "Середній захист";
+if (!status) return;
 
-    strengthLabel.classList.add(
-      "strength-medium"
-    );
 
-    return;
-  }
+if (count < 4) {
 
-  strengthFill.classList.add("strong");
+status.textContent =
+`Встановлено ${count} з 4 елементів`;
 
-  strengthLabel.textContent =
-    "Надійний пароль";
+return;
+}
 
-  strengthLabel.classList.add(
-    "strength-strong"
-  );
+
+if (strength < 50) {
+
+status.textContent =
+"Слабкий пароль";
+
+return;
+}
+
+
+if (strength < 85) {
+
+status.textContent =
+"Захист можна посилити";
+
+return;
+}
+
+
+status.textContent =
+"Надійний пароль!";
 }
 
 
 /* =====================================================
-   ПЕРЕВІРКА ПАРОЛЯ
+ПЕРЕВІРКА
 ===================================================== */
 
-function checkSafePassword(levelId, taskIndex) {
+function checkSafeBuilder(
+levelId,
+taskIndex
+) {
 
-  const resultBox =
-    document.getElementById("safeBuilderResult");
+const message =
+document.getElementById(
+"safeResultMessage"
+);
 
-  const selectedCount =
-    Object.values(passwordBuilderState)
-      .filter(value => value !== "").length;
 
-  if (selectedCount < 4) {
+const count =
+Object
+.values(passwordBuilderState)
+.filter(Boolean)
+.length;
 
-    playSound("wrong");
 
-    resultBox.innerHTML = `
-      ❌ Обери по одному елементу
-      з усіх чотирьох категорій.
-    `;
+if (count < 4) {
 
-    shakeSafe("light");
+safeBuilderMistake(
+"Обери всі чотири елементи."
+);
 
-    return;
-  }
+return;
+}
 
-  const strength = calculateSafeStrength();
 
-  if (strength < 50) {
+const strength =
+calculateSafeBuilderStrength();
 
-    playSound("wrong");
 
-    resultBox.innerHTML = `
-      <strong>
-        ❌ Зламано за 1 секунду!
-      </strong>
+if (strength < 50) {
 
-      <br>
+safeBuilderMistake(
+"Зламано за 1 секунду! Мордор легко підібрав цей пароль."
+);
 
-      Мордор легко підібрав цей пароль.
-      Додай довжину, різний регістр
-      і спеціальний символ.
-    `;
+shakeSafeBuilder("strong");
 
-    shakeSafe("strong");
+return;
+}
 
-    return;
-  }
 
-  if (strength < 85) {
+if (strength < 85) {
 
-    playSound("wrong");
+safeBuilderMistake(
+"Майже! Спробуй додати сильнішу основу, більшу довжину, спецсимвол або різний регістр."
+);
 
-    resultBox.innerHTML = `
-      ⚠️ Непогано, але сейф ще недостатньо захищений.
+shakeSafeBuilder("medium");
 
-      <br>
+return;
+}
 
-      Спробуй використати складнішу основу,
-      12+ символів, різний регістр
-      і спеціальний символ.
-    `;
 
-    shakeSafe("medium");
-
-    return;
-  }
-
-  completeSafeBuilder(levelId, taskIndex);
+finishSafeBuilder(
+levelId,
+taskIndex
+);
 }
 
 
 /* =====================================================
-   ТРЯСКА СЕЙФА
+ПОМИЛКА — БЕЗ GAME OVER
 ===================================================== */
 
-function shakeSafe(power = "light") {
+function safeBuilderMistake(text) {
 
-  const safeVisual =
-    document.getElementById("safeVisual");
+playSound("wrong");
 
-  const redFlash =
-    document.getElementById("safeRedFlash");
 
-  const crackText =
-    document.getElementById("safeCrackText");
+const hearts =
+document.getElementById("safeHearts");
 
-  if (!safeVisual) return;
+const message =
+document.getElementById(
+"safeResultMessage"
+);
 
-  safeVisual.classList.remove(
-    "safe-shake-light",
-    "safe-shake-medium",
-    "safe-shake-strong"
-  );
 
-  void safeVisual.offsetWidth;
+if (hearts) {
 
-  safeVisual.classList.add(
-    `safe-shake-${power}`
-  );
+hearts.innerHTML =
+"❤️ 💔 ❤️";
 
-  if (redFlash) {
-    redFlash.classList.add("active");
-  }
+hearts.classList.add(
+"heart-hit"
+);
 
-  if (
-    power === "strong" &&
-    crackText
-  ) {
-    crackText.classList.add("active");
-  }
 
-  window.setTimeout(() => {
+setTimeout(() => {
 
-    safeVisual.classList.remove(
-      "safe-shake-light",
-      "safe-shake-medium",
-      "safe-shake-strong"
-    );
+hearts.innerHTML =
+"❤️ ❤️ ❤️";
 
-    if (redFlash) {
-      redFlash.classList.remove("active");
-    }
+hearts.classList.remove(
+"heart-hit"
+);
 
-    if (crackText) {
-      crackText.classList.remove("active");
-    }
+}, 850);
+}
 
-  }, 900);
+
+if (message) {
+
+message.innerHTML = `
+❌ ${text}
+<br>
+<b>Спробуй ще раз.</b>
+`;
+}
 }
 
 
 /* =====================================================
-   УСПІШНЕ ЗАВЕРШЕННЯ
+ТРЯСКА СЕЙФА
 ===================================================== */
 
-function completeSafeBuilder(levelId, taskIndex) {
+function shakeSafeBuilder(
+strength = "strong"
+) {
 
-  const safeVisual =
-    document.getElementById("safeVisual");
+const safe =
+document.getElementById(
+"safeDropZone"
+);
 
-  const safeImage =
-    document.getElementById("safeImage");
+const red =
+document.getElementById(
+"safeRedEffect"
+);
 
-  const goldenFlash =
-    document.getElementById("safeGoldenFlash");
 
-  const resultBox =
-    document.getElementById("safeBuilderResult");
+if (!safe) return;
 
-  const lockButton =
-    document.getElementById("lockSafeButton");
 
-  playSound("correct");
+safe.classList.remove(
+"shake-medium",
+"shake-strong"
+);
 
-  if (lockButton) {
-    lockButton.disabled = true;
-  }
 
-  if (safeVisual) {
-    safeVisual.classList.add(
-      "safe-success"
-    );
-  }
+void safe.offsetWidth;
 
-  if (safeImage) {
-    safeImage.classList.add(
-      "safe-lock-animation"
-    );
-  }
 
-  if (goldenFlash) {
-    goldenFlash.classList.add("active");
-  }
+safe.classList.add(
+strength === "medium"
+? "shake-medium"
+: "shake-strong"
+);
 
-  resultBox.innerHTML = `
-    <strong>
-      ✅ Надійний пароль створено!
-    </strong>
 
-    <br>
-
-    Сейф замкнено, а Мордор
-    не зміг зламати захист.
-  `;
-
-  window.setTimeout(() => {
-
-    completeMiniGame(
-      levelId,
-      taskIndex,
-      "Сейф захищено надійним паролем!"
-    );
-
-  }, 1800);
+if (red) {
+red.classList.add("active");
 }
 
 
+setTimeout(() => {
+
+safe.classList.remove(
+"shake-medium",
+"shake-strong"
+);
+
+if (red) {
+red.classList.remove("active");
+}
+
+}, 900);
+}
+
+
+/* =====================================================
+ПЕРЕМОГА
+===================================================== */
+
+function finishSafeBuilder(
+levelId,
+taskIndex
+) {
+
+playSound("correct");
+
+
+const safe =
+document.getElementById(
+"safeDropZone"
+);
+
+const gold =
+document.getElementById(
+"safeGoldEffect"
+);
+
+
+if (safe) {
+safe.classList.add(
+"safe-win"
+);
+}
+
+
+if (gold) {
+gold.classList.add(
+"active"
+);
+}
+
+
+setTimeout(() => {
+
+registerSafeBuilderSuccess(
+levelId,
+taskIndex
+);
+
+}, 1300);
+}
+
+
+/* =====================================================
+ЗАПИС +25%
+===================================================== */
+
+function registerSafeBuilderSuccess(
+levelId,
+taskIndex
+) {
+
+if (!completedTasks[levelId]) {
+
+completedTasks[levelId] = [];
+}
+
+
+if (
+!completedTasks[levelId]
+.includes(taskIndex)
+) {
+
+completedTasks[levelId]
+.push(taskIndex);
+}
+
+
+const progress =
+completedTasks[levelId].length * 25;
+
+
+if (
+progress >= 100 &&
+!completedLevels.includes(levelId)
+) {
+
+completedLevels.push(levelId);
+}
+
+
+openSafeBuilderVictory(
+levelId,
+progress
+);
+}
+
+
+/* =====================================================
+ФІНАЛЬНЕ ВІКНО
+===================================================== */
+
+function openSafeBuilderVictory(
+levelId,
+progress
+) {
+
+openModal(
+
+"Сейф надійно замкнено!",
+
+`
+<div class="scroll-modal">
+
+<div style="
+font-size:64px;
+margin-bottom:12px;
+">
+🔐✨
+</div>
+
+<h2>
+Вітаємо!
+</h2>
+
+<p>
+Ти створив / створила
+надійний пароль.
+</p>
+
+<p>
+Мордор не зміг зламати сейф!
+</p>
+
+<p style="
+color:#ffd84d;
+font-weight:900;
+">
+Жовтий кристал:
+${progress}%
+</p>
+
+<button
+class="btn"
+onclick="
+playSound('click');
+closeModal();
+showLevel(${levelId});
+openChallenge(${levelId});
+"
+>
+← Назад до завдань
+</button>
+
+</div>
+`
+);
+}
 
 /* =====================================================
    МІНІГРА 2 — ПОЛЮВАЛЬНИК ЗА СЛАБКОСТЯМИ

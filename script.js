@@ -349,7 +349,7 @@ function openKodusIntro() {
   typeKodusText(
     text,
     KODUS_INTRO_TEXT,
-    35
+    55
   );
 
 

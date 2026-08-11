@@ -26,11 +26,13 @@ const ASSETS = {
 
   citadel: "fon/Fon_mordor_1.png",
 
-  /* МІНІГРА 1 — БУДІВЕЛЬНИК СЕЙФУ */
+  /* міні ігри фони для 1 рівня */
 
   safeBuilderBg: "fon/fon_safe_builder.png",
   safeBuilderSafe: "artefaktu/safe_builder.png",
-
+  weakHunterBg: "fon/weak-password-hunter-bg.png",
+  keyManagerBg: "fon/key-manager-bg.png",
+  syncKeyBg: "fon/sync-key-bg.png",
   /* ЛОГО */
 
   logo: "artefaktu/logo_game.png",

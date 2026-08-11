@@ -142,7 +142,7 @@ function startMusic() {
 
    /* ВІЩУН КОДУС */
   SOUNDS.kodusStart.volume = 1;
-  SOUNDS.kodusStart.playbackRate = 0.9;
+  SOUNDS.kodusStart.playbackRate = 1;
 
   SOUNDS.bg.play().catch(() => {});
 

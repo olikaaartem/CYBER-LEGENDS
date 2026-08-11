@@ -2315,45 +2315,7 @@ function openTask(levelId, taskIndex) {
 }
 
 
-  /* СТАРИЙ ФОРМАТ ДЛЯ ІНШИХ РІВНІВ */
-
-  openModal(
-
-    task.title,
-
-    `
-      <p class="task-instruction">
-        ${task.question}
-      </p>
-
-      ${
-        task.answers
-          .map((answer, index) => `
-
-            <button
-              class="answer-btn"
-              onclick="
-                checkAnswer(
-                  ${levelId},
-                  ${taskIndex},
-                  ${index}
-                )
-              "
-            >
-              ${answer}
-            </button>
-
-          `)
-          .join("")
-      }
-
-      <div
-        class="result-box"
-        id="result"
-      ></div>
-    `
-  );
-}
+ 
 
 
 /* =====================================================

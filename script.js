@@ -60,6 +60,10 @@ const ASSETS = {
   nereus: "geroi/nastavnuk_som.png",
   anubisa: "geroi/nastavnuk_kajjian.png",
   tifon: "geroi/nastavnuk_drakon.png",
+   
+ /* ПРОВІДНИК КІБЕРКОРОЛІВСТВА */
+
+kodus: "geroi/did_kodys.png",
 
   /* МЕДАЛЬЙОНИ */
 
@@ -104,7 +108,10 @@ const SOUNDS = {
   correct: new Audio("music/correct.mp3"),
   wrong: new Audio("music/wrong.mp3"),
   final: new Audio("music/final.mp3"),
-  storm: new Audio("music/storm.mp3")
+  storm: new Audio("music/storm.mp3"),
+     
+ /* ОЗВУЧКА ВІЩУНА КОДУСА */
+  kodusStart: new Audio("audio codyc/did_kodys_start.mp3")
 
 };
 
@@ -132,6 +139,10 @@ function startMusic() {
   SOUNDS.wrong.volume = 0.9;
   SOUNDS.final.volume = 0.8;
   SOUNDS.storm.volume = 0.25;
+
+   /* ВІЩУН КОДУС */
+  SOUNDS.kodusStart.volume = 1;
+  SOUNDS.kodusStart.playbackRate = 0.9;
 
   SOUNDS.bg.play().catch(() => {});
 

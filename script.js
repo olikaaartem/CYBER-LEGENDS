@@ -317,7 +317,7 @@ function openKodusIntro() {
     "kodus-intro-button";
 
   button.textContent =
-    "СТВОРИТИ ГЕРОЯ";
+    "ДАЛІ";
 
   button.style.display =
     "none";
@@ -402,21 +402,22 @@ function openKodusIntro() {
       );
 
 
-      setTimeout(() => {
+     setTimeout(() => {
 
-        overlay.remove();
+    overlay.remove();
 
-        /*
-          ТУТ ПІЗНІШЕ ПІДКЛЮЧИМО
-          ТВОЮ ВЖЕ ІСНУЮЧУ ФУНКЦІЮ
-          ВИБОРУ ГЕРОЯ.
-        */
+    /* Відкриваємо карту */
+    showMap();
 
-      }, 700);
+    /* Запускаємо музику вже на карті */
+    startMusic();
 
-    }
-  );
-}
+    /* Показуємо Кодуса на карті */
+    setTimeout(() => {
+        showKodusMapHint();
+    }, 700);
+
+}, 700);
 
 
 /* =====================================================
@@ -428,7 +429,64 @@ function startKodusIntro() {
   openKodusIntro();
 
 }
+/* =====================================================
+   КОДУС — ПІДКАЗКА НА КАРТІ
+===================================================== */
 
+function showKodusMapHint() {
+
+    const oldHint = document.querySelector(".kodus-map-hint");
+
+    if (oldHint) {
+        oldHint.remove();
+    }
+
+    const hint = document.createElement("div");
+
+    hint.className = "kodus-map-hint";
+
+    hint.innerHTML = `
+        <img
+            class="kodus-map-character"
+            src="${ASSETS.kodus}"
+            alt="Віщун Кодус"
+        >
+
+        <div class="kodus-map-dialogue">
+
+            <div class="kodus-map-name">
+                Віщун Кодус
+            </div>
+
+            <div class="kodus-map-text">
+                Твоя подорож починається!
+                Але перш ніж вирушити до першої локації,
+                створи свого Героя.
+            </div>
+
+            <button
+                class="kodus-map-button"
+                onclick="closeKodusMapHint()"
+            >
+                ЗРОЗУМІЛО
+            </button>
+
+        </div>
+    `;
+
+    document.body.appendChild(hint);
+}
+
+
+function closeKodusMapHint() {
+
+    const hint = document.querySelector(".kodus-map-hint");
+
+    if (hint) {
+        hint.remove();
+    }
+}
+       
 /* =====================================================
    СТАН ГРИ
 ===================================================== */

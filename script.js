@@ -1911,7 +1911,6 @@ function openChallenge(levelId) {
   );
 }
 
-
 /* =====================================================
    ВІДКРИТИ ЗАВДАННЯ
 ===================================================== */
@@ -1921,16 +1920,33 @@ function openTask(levelId, taskIndex) {
   const task =
     CHALLENGES[levelId]?.[taskIndex];
 
-  if (!task) return;
+  if (!task) {
+    console.error(
+      "Не знайдено завдання:",
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
 
   closeModal();
 
 
+  /* ===================================================
+     РІВЕНЬ 1 — ЗАМОК ПАРОЛІВ
+  =================================================== */
+
   if (levelId === 1) {
 
+    /* -----------------------------------------------
+       КНИГА 1
+       БУДІВЕЛЬНИК СЕЙФУ
+    ----------------------------------------------- */
+
     if (
-      task.type ===
-      "password-builder"
+      taskIndex === 0 ||
+      task.type === "password-builder"
     ) {
 
       openPasswordBuilder(
@@ -1942,9 +1958,14 @@ function openTask(levelId, taskIndex) {
     }
 
 
+    /* -----------------------------------------------
+       КНИГА 2
+       ПОЛЮВАННЯ ЗА СЛАБКОСТЯМИ
+    ----------------------------------------------- */
+
     if (
-      task.type ===
-      "weak-password-hunter"
+      taskIndex === 1 ||
+      task.type === "weak-password-hunter"
     ) {
 
       openWeakPasswordHunter(
@@ -1956,12 +1977,17 @@ function openTask(levelId, taskIndex) {
     }
 
 
+    /* -----------------------------------------------
+       КНИГА 3
+       МЕНЕДЖЕР КЛЮЧІВ
+    ----------------------------------------------- */
+
     if (
-      task.type ===
-      "password-manager"
+      taskIndex === 2 ||
+      task.type === "password-manager"
     ) {
 
-      openPasswordManager(
+      openKeyManager(
         levelId,
         taskIndex
       );
@@ -1970,12 +1996,17 @@ function openTask(levelId, taskIndex) {
     }
 
 
+    /* -----------------------------------------------
+       КНИГА 4
+       СИНХРОННИЙ КЛЮЧ
+    ----------------------------------------------- */
+
     if (
-      task.type ===
-      "two-factor"
+      taskIndex === 3 ||
+      task.type === "two-factor"
     ) {
 
-      openTwoFactorTask(
+      openSyncKeyGame(
         levelId,
         taskIndex
       );
@@ -1984,6 +2015,34 @@ function openTask(levelId, taskIndex) {
     }
 
   }
+
+
+  /* ===================================================
+     ІНШІ РІВНІ
+     Поки залишаємо стандартну логіку
+  =================================================== */
+
+  if (
+    typeof openStandardTask === "function"
+  ) {
+
+    openStandardTask(
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
+
+
+  console.warn(
+    "Для цього завдання поки немає окремої мінігри:",
+    levelId,
+    taskIndex,
+    task.type
+  );
+
+}
 
 
   /* СТАРИЙ ФОРМАТ ДЛЯ ІНШИХ РІВНІВ */

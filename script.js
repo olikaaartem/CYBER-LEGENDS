@@ -157,6 +157,276 @@ document.addEventListener(
   { once: true }
 );
 
+/* =====================================================
+   ВСТУП — ВІЩУН КОДУС
+===================================================== */
+
+let kodusIntroOpened = false;
+
+
+/* =====================================================
+   ТЕКСТ ВСТУПУ КОДУСА
+===================================================== */
+
+const KODUS_INTRO_TEXT = `
+Вітаю тебе, юний Герою!
+
+Я — Віщун Кодус, провідник Кіберкоролівства.
+
+Наш світ у небезпеці...
+
+Мордер викрав Райфика та розколов силу
+Кристала Мудрості на п’ять кристалів.
+
+Тепер вони приховані у різних куточках
+Кіберкоролівства.
+
+Щоб повернути силу Кристала Мудрості
+та врятувати Райфика, тобі доведеться
+пройти всі випробування.
+
+Але спочатку...
+
+Кіберкоролівству потрібен Герой.
+`;
+
+
+/* =====================================================
+   ДРУКАРСЬКА МАШИНКА
+===================================================== */
+
+function typeKodusText(element, text, speed = 35) {
+
+  element.innerHTML = "";
+
+  let index = 0;
+
+  function typeNextCharacter() {
+
+    if (index >= text.length) {
+      return;
+    }
+
+    const character = text[index];
+
+    if (character === "\n") {
+
+      element.innerHTML += "<br>";
+
+    } else {
+
+      element.append(
+        document.createTextNode(character)
+      );
+
+    }
+
+    index++;
+
+    setTimeout(
+      typeNextCharacter,
+      speed
+    );
+  }
+
+  typeNextCharacter();
+}
+
+
+/* =====================================================
+   ВІДКРИТИ ВСТУП КОДУСА
+===================================================== */
+
+function openKodusIntro() {
+
+  if (kodusIntroOpened) return;
+
+  kodusIntroOpened = true;
+
+
+  /* ---------- ЗАТЕМНЕННЯ ---------- */
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.className =
+    "kodus-intro-overlay";
+
+
+  /* ---------- СЦЕНА ---------- */
+
+  const scene =
+    document.createElement("div");
+
+  scene.className =
+    "kodus-intro-scene";
+
+
+  /* ---------- КОДУС ---------- */
+
+  const kodus =
+    document.createElement("img");
+
+  kodus.className =
+    "kodus-intro-character";
+
+  kodus.src =
+    ASSETS.kodus;
+
+  kodus.alt =
+    "Віщун Кодус";
+
+
+  /* ---------- ДІАЛОГ ---------- */
+
+  const dialogue =
+    document.createElement("div");
+
+  dialogue.className =
+    "kodus-intro-dialogue";
+
+
+  /* ---------- ІМ'Я ---------- */
+
+  const name =
+    document.createElement("div");
+
+  name.className =
+    "kodus-intro-name";
+
+  name.textContent =
+    "Віщун Кодус";
+
+
+  /* ---------- ТЕКСТ ---------- */
+
+  const text =
+    document.createElement("div");
+
+  text.className =
+    "kodus-intro-text";
+
+
+  /* ---------- КНОПКА ---------- */
+
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "kodus-intro-button";
+
+  button.textContent =
+    "СТВОРИТИ ГЕРОЯ";
+
+  button.style.display =
+    "none";
+
+
+  dialogue.appendChild(name);
+
+  dialogue.appendChild(text);
+
+  dialogue.appendChild(button);
+
+
+  scene.appendChild(kodus);
+
+  scene.appendChild(dialogue);
+
+  overlay.appendChild(scene);
+
+  document.body.appendChild(overlay);
+
+
+  /* =====================================================
+     ЗАПУСК ОЗВУЧКИ
+  ===================================================== */
+
+  SOUNDS.kodusStart.currentTime = 0;
+
+  SOUNDS.kodusStart.volume = 1;
+
+  SOUNDS.kodusStart.playbackRate = 0.9;
+
+
+  SOUNDS.kodusStart
+    .play()
+    .catch(() => {});
+
+
+  /* =====================================================
+     ЗАПУСК ДРУКУ ТЕКСТУ
+  ===================================================== */
+
+  typeKodusText(
+    text,
+    KODUS_INTRO_TEXT,
+    35
+  );
+
+
+  /* =====================================================
+     КОЛИ КОДУС ЗАКІНЧИВ ГОВОРИТИ
+  ===================================================== */
+
+  SOUNDS.kodusStart.onended = () => {
+
+    button.style.display =
+      "block";
+
+    button.classList.add(
+      "show"
+    );
+  };
+
+
+  /* =====================================================
+     КНОПКА "СТВОРИТИ ГЕРОЯ"
+  ===================================================== */
+
+  button.addEventListener(
+    "click",
+    () => {
+
+      playSound("click");
+
+
+      SOUNDS.kodusStart.pause();
+
+      SOUNDS.kodusStart.currentTime = 0;
+
+
+      overlay.classList.add(
+        "hide"
+      );
+
+
+      setTimeout(() => {
+
+        overlay.remove();
+
+        /*
+          ТУТ ПІЗНІШЕ ПІДКЛЮЧИМО
+          ТВОЮ ВЖЕ ІСНУЮЧУ ФУНКЦІЮ
+          ВИБОРУ ГЕРОЯ.
+        */
+
+      }, 700);
+
+    }
+  );
+}
+
+
+/* =====================================================
+   ЗАПУСТИТИ КОДУСА ПІСЛЯ КНОПКИ "ПОЧАТИ ГРУ"
+===================================================== */
+
+function startKodusIntro() {
+
+  openKodusIntro();
+
+}
 
 /* =====================================================
    СТАН ГРИ

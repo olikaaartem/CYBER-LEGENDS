@@ -150,12 +150,13 @@ function startMusic() {
   SOUNDS.storm.play().catch(() => {});
 }
 
-
+/*===================
 document.addEventListener(
   "click",
   startMusic,
   { once: true }
 );
+===============*/
 
 /* =====================================================
    ВСТУП — ВІЩУН КОДУС
@@ -720,7 +721,7 @@ function showStartScreen() {
 
           <button
             class="btn"
-            onclick="playSound('click'); showMap()"
+            onclick="playSound('click'); startKodusIntro()"
           >
             Почати пригоду
           </button>

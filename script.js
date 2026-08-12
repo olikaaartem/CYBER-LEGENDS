@@ -7551,7 +7551,7 @@ function renderSyncPush() {
 function allowUnknownLogin() {
 
   if (
-[12.08.2026 12:34] Ольчик❤️: syncKeyState.gameEnded
+ syncKeyState.gameEnded
   ) {
     return;
   }
@@ -7846,7 +7846,7 @@ function startCodeCountdown() {
         document.getElementById(
           "syncCodeSeconds"
         );
-[12.08.2026 12:34] Ольчик❤️: const miniBar =
+const miniBar =
         document.getElementById(
           "syncMiniBar"
         );
@@ -8149,7 +8149,7 @@ function startSyncAttack() {
 
 
       if (
-[12.08.2026 12:34] Ольчик❤️: syncKeyState.attack >= 40
+syncKeyState.attack >= 40
       ) {
 
         speed =
@@ -8456,7 +8456,7 @@ function loseSyncKeyGame() {
 
 /* =====================================================
    ПЕРЕЗАПУСК 4 ГРИ
-[12.08.2026 12:34] Ольчик❤️: ===================================================== */
+ ===================================================== */
 
 function restartSyncKeyGame() {
 

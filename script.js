@@ -8214,13 +8214,13 @@ function increaseSyncAttack(
 /* =====================================================
    HUD АТАКИ
 ===================================================== */
-
 function updateSyncAttackUI() {
 
   const bar =
     document.getElementById(
       "syncAttackBar"
     );
+
   const percent =
     document.getElementById(
       "syncAttackPercent"
@@ -8229,13 +8229,15 @@ function updateSyncAttackUI() {
   if (bar) {
 
     bar.style.width =
-      ${syncKeyState.attack}%;
+      syncKeyState.attack + "%";
   }
+
   if (percent) {
+
     percent.textContent =
-      `${Math.round(
+      Math.round(
         syncKeyState.attack
-      )}%`;
+      ) + "%";
   }
 }
 /* =====================================================

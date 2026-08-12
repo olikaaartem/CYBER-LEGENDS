@@ -7014,6 +7014,9 @@ function cleanupKeyManager() {
 /* =====================================================
    МІНІГРА 4 — СИНХРОННИЙ КЛЮЧ / 2FA
 ===================================================== */
+[12.08.2026 12:34] Ольчик❤️: /* =====================================================
+   МІНІГРА 4 — СИНХРОННИЙ КЛЮЧ / 2FA
+===================================================== */
 
 let syncKeyState = {
 
@@ -7065,6 +7068,7 @@ function openSyncKeyGame(
 
     codeTimer: null,
     attackTimer: null
+
   };
 
 
@@ -7077,9 +7081,7 @@ function openSyncKeyGame(
 
       <button
         class="btn sync-key-back"
-        onclick="
-          leaveSyncKeyGame()
-        "
+        onclick="leaveSyncKeyGame()"
       >
         ← До випробувань
       </button>
@@ -7098,26 +7100,26 @@ function openSyncKeyGame(
 
       <div
         id="syncKeyMentorStage"
-        class="sync-key-mentor-stage"
+        class="weak-hunter-mentor-stage"
       >
 
         <button
-          class="sync-key-mentor-button"
-          onclick="
-            showSyncKeyInstructions()
-          "
+          type="button"
+          class="weak-hunter-mentor-button"
+          onclick="showSyncKeyInstructions()"
+          aria-label="Натисни на наставника Тотуса"
         >
 
           <img
-            class="sync-key-mentor"
+            class="weak-hunter-mentor"
             src="${ASSETS.totus}"
-            alt="Тотус"
+            alt="Наставник Тотус"
           >
 
         </button>
 
 
-        <div class="sync-key-mentor-hint">
+        <div class="weak-hunter-mentor-hint">
           Натисни на наставника
         </div>
 
@@ -7132,7 +7134,7 @@ function openSyncKeyGame(
 
 
 /* =====================================================
-   ТОТУС — 4 ГРА
+   ТОТУС — ПРАВИЛА 4 ГРИ
 ===================================================== */
 
 function showSyncKeyInstructions() {
@@ -7145,20 +7147,22 @@ function showSyncKeyInstructions() {
       "syncKeyMentorStage"
     );
 
+
   if (!stage) return;
 
 
   stage.innerHTML = `
 
-    <div class="sync-key-dialog-scene">
+    <div class="weak-hunter-dialog-scene">
 
       <img
-        class="sync-key-dialog-mentor"
+        class="weak-hunter-dialog-mentor"
         src="${ASSETS.totus}"
-        alt="Тотус"
+        alt="Наставник Тотус"
       >
 
-      <div class="sync-key-dialog">
+
+      <div class="weak-hunter-dialog">
 
         <h2>
           Синхронний ключ
@@ -7184,15 +7188,33 @@ function showSyncKeyInstructions() {
         </p>
 
         <p>
-          Код змінюється,
+          Код змінюється кожні
+          <strong>7 секунд</strong>,
           тому будь уважним.
         </p>
 
+
+        <div class="weak-hunter-rules">
+
+          <span>
+            🔐 Заблокуй чужий вхід
+          </span>
+
+          <span>
+            📱 Перевір код
+          </span>
+
+          <span>
+            ⏱️ Код змінюється
+          </span>
+
+        </div>
+
+
         <button
-          class="btn"
-          onclick="
-            startSyncKeyGame()
-          "
+          type="button"
+          class="btn weak-hunter-start-button"
+          onclick="startSyncKeyGame()"
         >
           Розпочати випробування
         </button>
@@ -7234,6 +7256,7 @@ function startSyncKeyGame() {
       "syncKeyMentorStage"
     );
 
+
   const gameArea =
     document.getElementById(
       "syncKeyGameArea"
@@ -7260,7 +7283,7 @@ function startSyncKeyGame() {
       <div class="sync-key-title">
 
         <h2>
-          Синхронний ключ
+[12.08.2026 12:34] Ольчик❤️: Синхронний ключ
         </h2>
 
         <p>
@@ -7283,9 +7306,17 @@ function startSyncKeyGame() {
             Комп'ютер Замку
           </div>
 
+
           <h3>
             🔐 Вхід до системи
           </h3>
+
+
+          <p class="sync-computer-text">
+            Мордер намагається отримати доступ.
+            Використай смартфон Героя,
+            щоб захистити систему.
+          </p>
 
 
           <div class="sync-attack-box">
@@ -7293,7 +7324,7 @@ function startSyncKeyGame() {
             <div class="sync-attack-heading">
 
               <span>
-                ⚠ АТАКА МОРДЕРА
+                ⚠️ АТАКА МОРДЕРА
               </span>
 
               <span id="syncAttackPercent">
@@ -7335,9 +7366,7 @@ function startSyncKeyGame() {
           <button
             id="syncSubmitButton"
             class="sync-submit"
-            onclick="
-              checkSyncCode()
-            "
+            onclick="checkSyncCode()"
             disabled
           >
             ПІДТВЕРДИТИ
@@ -7403,6 +7432,7 @@ function startSyncKeyGame() {
           this.value
             .replace(/\D/g, "")
             .slice(0, 6);
+
       }
     );
 
@@ -7416,9 +7446,12 @@ function startSyncKeyGame() {
         ) {
 
           checkSyncCode();
+
         }
+
       }
     );
+
   }
 
 
@@ -7431,7 +7464,7 @@ function startSyncKeyGame() {
 
 
 /* =====================================================
-   PUSH
+   PUSH-ПОВІДОМЛЕННЯ
 ===================================================== */
 
 function renderSyncPush() {
@@ -7440,6 +7473,7 @@ function renderSyncPush() {
     document.getElementById(
       "syncPhoneContent"
     );
+
 
   if (!phone) return;
 
@@ -7451,6 +7485,7 @@ function renderSyncPush() {
       <div class="sync-alert-icon">
         ⚠️
       </div>
+
 
       <h4>
         Спроба входу
@@ -7489,9 +7524,7 @@ function renderSyncPush() {
 
         <button
           class="sync-allow"
-          onclick="
-            allowUnknownLogin()
-          "
+          onclick="allowUnknownLogin()"
         >
           ✓ ДОЗВОЛИТИ
         </button>
@@ -7499,9 +7532,7 @@ function renderSyncPush() {
 
         <button
           class="sync-block"
-          onclick="
-            blockUnknownLogin()
-          "
+          onclick="blockUnknownLogin()"
         >
           ✕ ЗАБЛОКУВАТИ
         </button>
@@ -7520,7 +7551,7 @@ function renderSyncPush() {
 function allowUnknownLogin() {
 
   if (
-    syncKeyState.gameEnded
+[12.08.2026 12:34] Ольчик❤️: syncKeyState.gameEnded
   ) {
     return;
   }
@@ -7535,10 +7566,11 @@ function allowUnknownLogin() {
   if (message) {
 
     message.textContent =
-      "⚠ Це невідомий пристрій! Не дозволяй такий вхід.";
+      "⚠️ Це невідомий пристрій! Не дозволяй такий вхід.";
 
     message.className =
       "sync-computer-message error";
+
   }
 
 
@@ -7578,6 +7610,7 @@ function blockUnknownLogin() {
 
     message.className =
       "sync-computer-message success";
+
   }
 
 
@@ -7648,9 +7681,11 @@ function renderSyncCodeStage() {
         🔐
       </div>
 
+
       <h4>
         Код синхронізації
       </h4>
+
 
       <p class="sync-code-help">
         Введи цей код
@@ -7662,9 +7697,7 @@ function renderSyncCodeStage() {
       <div
         id="syncLiveCode"
         class="sync-live-code"
-        onclick="
-          copySyncCodeToInput()
-        "
+        onclick="copySyncCodeToInput()"
       >
         ${formatSyncCode(
           syncKeyState.activeCode
@@ -7706,6 +7739,7 @@ function renderSyncCodeStage() {
       "syncCodeInput"
     );
 
+
   const button =
     document.getElementById(
       "syncSubmitButton"
@@ -7719,11 +7753,14 @@ function renderSyncCodeStage() {
     input.value = "";
 
     input.focus();
+
   }
 
 
   if (button) {
+
     button.disabled = false;
+
   }
 
 
@@ -7776,6 +7813,9 @@ function startCodeCountdown() {
           syncKeyState.codeTimer
         );
 
+        syncKeyState.codeTimer =
+          null;
+
         return;
       }
 
@@ -7806,9 +7846,7 @@ function startCodeCountdown() {
         document.getElementById(
           "syncCodeSeconds"
         );
-
-
-      const miniBar =
+[12.08.2026 12:34] Ольчик❤️: const miniBar =
         document.getElementById(
           "syncMiniBar"
         );
@@ -7818,15 +7856,20 @@ function startCodeCountdown() {
 
         secondsNode.textContent =
           seconds;
+
       }
 
 
       if (miniBar) {
 
+        miniBar.style.transformOrigin =
+          "left center";
+
         miniBar.style.transform =
           `scaleX(${
             remaining / 7000
           })`;
+
       }
 
 
@@ -7838,7 +7881,11 @@ function startCodeCountdown() {
           syncKeyState.codeTimer
         );
 
+        syncKeyState.codeTimer =
+          null;
+
         changeSyncCode();
+
       }
 
     }, 50);
@@ -7874,6 +7921,28 @@ function changeSyncCode() {
       formatSyncCode(
         syncKeyState.activeCode
       );
+
+
+    code.animate(
+      [
+        {
+          transform: "scale(0.9)",
+          opacity: 0.45
+        },
+        {
+          transform: "scale(1.08)",
+          opacity: 1
+        },
+        {
+          transform: "scale(1)",
+          opacity: 1
+        }
+      ],
+      {
+        duration: 300
+      }
+    );
+
   }
 
 
@@ -7960,6 +8029,8 @@ function checkSyncCode() {
     message.className =
       "sync-computer-message error";
 
+    playSound("wrong");
+
     shakeSyncInput();
 
     return;
@@ -7971,9 +8042,14 @@ function checkSyncCode() {
     syncKeyState.activeCode
   ) {
 
+    input.classList.remove(
+      "sync-wrong"
+    );
+
     input.classList.add(
       "sync-correct"
     );
+
 
     message.textContent =
       "✓ Код підтверджено!";
@@ -7981,7 +8057,9 @@ function checkSyncCode() {
     message.className =
       "sync-computer-message success";
 
+
     playSound("correct");
+
 
     winSyncKeyGame();
 
@@ -7993,13 +8071,14 @@ function checkSyncCode() {
 
 
   message.textContent =
-    "⚠ Код неправильний або вже змінився.";
+    "⚠️ Код неправильний або вже змінився. Перевір актуальний код.";
 
   message.className =
     "sync-computer-message error";
 
 
   playSound("wrong");
+
 
   increaseSyncAttack(10);
 
@@ -8018,6 +8097,7 @@ function shakeSyncInput() {
       "syncCodeInput"
     );
 
+
   if (!input) return;
 
 
@@ -8025,7 +8105,9 @@ function shakeSyncInput() {
     "sync-wrong"
   );
 
+
   void input.offsetWidth;
+
 
   input.classList.add(
     "sync-wrong"
@@ -8055,18 +8137,24 @@ function startSyncAttack() {
           syncKeyState.attackTimer
         );
 
+        syncKeyState.attackTimer =
+          null;
+
         return;
       }
 
 
-      let speed = 0.35;
+      let speed =
+        0.35;
 
 
       if (
-        syncKeyState.attack >= 40
+[12.08.2026 12:34] Ольчик❤️: syncKeyState.attack >= 40
       ) {
 
-        speed = 0.55;
+        speed =
+          0.55;
+
       }
 
 
@@ -8074,7 +8162,9 @@ function startSyncAttack() {
         syncKeyState.attack >= 70
       ) {
 
-        speed = 0.75;
+        speed =
+          0.75;
+
       }
 
 
@@ -8117,6 +8207,7 @@ function increaseSyncAttack(
   ) {
 
     loseSyncKeyGame();
+
   }
 }
 
@@ -8142,7 +8233,8 @@ function updateSyncAttackUI() {
   if (bar) {
 
     bar.style.width =
-      `${syncKeyState.attack}%`;
+      ${syncKeyState.attack}%;
+
   }
 
 
@@ -8152,6 +8244,7 @@ function updateSyncAttackUI() {
       `${Math.round(
         syncKeyState.attack
       )}%`;
+
   }
 }
 
@@ -8206,6 +8299,7 @@ function showSyncVictory(
       "syncKeyGameArea"
     );
 
+
   if (!area) return;
 
 
@@ -8227,9 +8321,11 @@ function showSyncVictory(
         🛡️
       </div>
 
+
       <h2>
         Систему захищено!
       </h2>
+
 
       <p>
         Невідомий вхід заблоковано,
@@ -8237,12 +8333,14 @@ function showSyncVictory(
         другим фактором захисту.
       </p>
 
+
       <p>
         Жовтий кристал:
         <strong>
           ${progress}%
         </strong>
       </p>
+
 
       <button
         class="sync-result-button"
@@ -8318,9 +8416,11 @@ function loseSyncKeyGame() {
         💥
       </div>
 
+
       <h2>
         Мордер майже прорвався!
       </h2>
+
 
       <p>
         Заблокуй невідомий вхід
@@ -8328,20 +8428,18 @@ function loseSyncKeyGame() {
         актуальний код.
       </p>
 
+
       <button
         class="sync-result-button"
-        onclick="
-          restartSyncKeyGame()
-        "
+        onclick="restartSyncKeyGame()"
       >
         СПРОБУВАТИ ЩЕ РАЗ
       </button>
 
+
       <button
         class="sync-result-button secondary"
-        onclick="
-          leaveSyncKeyGame()
-        "
+        onclick="leaveSyncKeyGame()"
       >
         ДО ВИПРОБУВАНЬ
       </button>
@@ -8358,7 +8456,7 @@ function loseSyncKeyGame() {
 
 /* =====================================================
    ПЕРЕЗАПУСК 4 ГРИ
-===================================================== */
+[12.08.2026 12:34] Ольчик❤️: ===================================================== */
 
 function restartSyncKeyGame() {
 
@@ -8390,6 +8488,10 @@ function finishSyncKeyAndReturn(
 }
 
 
+/* =====================================================
+   ВИХІД ДО ВИПРОБУВАНЬ
+===================================================== */
+
 function leaveSyncKeyGame() {
 
   const levelId =
@@ -8409,25 +8511,37 @@ function leaveSyncKeyGame() {
 
 
 /* =====================================================
-   ОЧИЩЕННЯ ТАЙМЕРІВ 4 ГРИ
+   ОЧИЩЕННЯ ТАЙМЕРІВ
 ===================================================== */
 
 function clearSyncKeyTimers() {
 
-  clearInterval(
+  if (
     syncKeyState.codeTimer
-  );
+  ) {
 
-  clearInterval(
+    clearInterval(
+      syncKeyState.codeTimer
+    );
+
+    syncKeyState.codeTimer =
+      null;
+
+  }
+
+
+  if (
     syncKeyState.attackTimer
-  );
+  ) {
 
+    clearInterval(
+      syncKeyState.attackTimer
+    );
 
-  syncKeyState.codeTimer =
-    null;
+    syncKeyState.attackTimer =
+      null;
 
-  syncKeyState.attackTimer =
-    null;
+  }
 }
 
 

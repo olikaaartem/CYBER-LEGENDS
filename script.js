@@ -8221,7 +8221,6 @@ function updateSyncAttackUI() {
     document.getElementById(
       "syncAttackBar"
     );
-
   const percent =
     document.getElementById(
       "syncAttackPercent"
@@ -8232,9 +8231,7 @@ function updateSyncAttackUI() {
     bar.style.width =
       ${syncKeyState.attack}%;
   }
-
   if (percent) {
-
     percent.textContent =
       `${Math.round(
         syncKeyState.attack

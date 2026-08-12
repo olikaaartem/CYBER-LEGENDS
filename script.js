@@ -111,7 +111,7 @@ const SOUNDS = {
   storm: new Audio("music/storm.mp3"),
      
  /* ОЗВУЧКА ВІЩУНА КОДУСА */
-  kodusStart: new Audio("audio codyc/did_kodys_start.m4a")
+  kodusStart: new Audio("audio_kodyc/did_kodys_start.m4a")
 
 };
 

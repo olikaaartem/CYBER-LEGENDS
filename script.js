@@ -7285,7 +7285,7 @@ function startSyncKeyGame() {
       <div class="sync-key-title">
 
         <h2>
-[12.08.2026 12:34] Ольчик❤️: Синхронний ключ
+ Синхронний ключ
         </h2>
 
         <p>

@@ -8222,20 +8222,16 @@ function updateSyncAttackUI() {
       "syncAttackBar"
     );
 
-
   const percent =
     document.getElementById(
       "syncAttackPercent"
     );
 
-
   if (bar) {
 
     bar.style.width =
       ${syncKeyState.attack}%;
-
   }
-
 
   if (percent) {
 
@@ -8243,11 +8239,8 @@ function updateSyncAttackUI() {
       `${Math.round(
         syncKeyState.attack
       )}%`;
-
   }
 }
-
-
 /* =====================================================
    ПЕРЕМОГА 4 ГРИ
 ===================================================== */

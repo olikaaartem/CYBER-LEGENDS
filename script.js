@@ -7550,8 +7550,7 @@ function renderSyncPush() {
 
 function allowUnknownLogin() {
 
-  if (
- syncKeyState.gameEnded
+  if (syncKeyState.gameEnded
   ) {
     return;
   }

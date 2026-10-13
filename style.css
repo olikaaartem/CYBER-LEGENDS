@@ -6722,6 +6722,53 @@ and (orientation: portrait) {
   transform: translateY(0);
 }
 
+/* =====================================================
+   КОДУС — КНОПКА "ПРОПУСТИТИ"
+===================================================== */
+
+.kodus-intro-skip {
+  display: block;
+
+  margin: 14px auto 0;
+
+  padding: 9px 20px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.35);
+
+  border-radius: 12px;
+
+  background:
+    rgba(5, 12, 30, 0.55);
+
+  color:
+    rgba(255, 255, 255, 0.9);
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.kodus-intro-skip:hover {
+  transform: translateY(-1px);
+
+  background:
+    rgba(5, 12, 30, 0.8);
+
+  border-color:
+    rgba(255, 220, 120, 0.75);
+}
+
+.kodus-intro-skip:active {
+  transform: scale(0.97);
+}
 
 /* =====================================================
    ЗНИКНЕННЯ

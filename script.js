@@ -188,16 +188,52 @@ const KODUS_INTRO_TEXT = `
 /* =====================================================
    ДРУКАРСЬКА МАШИНКА
 ===================================================== */
+/* =====================================================
+   КОДУС — ДРУК ТЕКСТУ + ПРОПУСТИТИ
+===================================================== */
 
-function typeKodusText(element, text, speed = 35) {
+let kodusTypingTimer = null;
+let kodusTypingElement = null;
+let kodusTypingFullText = "";
+let kodusTypingFinished = false;
+
+
+/* =====================================================
+   ДРУКАРСЬКА МАШИНКА КОДУСА
+===================================================== */
+
+function typeKodusText(element, text, speed = 35, onFinished = null) {
+
+  /* Зупиняємо попередній друк, якщо він ще працював */
+  if (kodusTypingTimer) {
+    clearTimeout(kodusTypingTimer);
+    kodusTypingTimer = null;
+  }
+
+  kodusTypingElement = element;
+  kodusTypingFullText = text;
+  kodusTypingFinished = false;
 
   element.innerHTML = "";
 
   let index = 0;
 
+
+  function finishTyping() {
+
+    kodusTypingFinished = true;
+    kodusTypingTimer = null;
+
+    if (typeof onFinished === "function") {
+      onFinished();
+    }
+  }
+
+
   function typeNextCharacter() {
 
     if (index >= text.length) {
+      finishTyping();
       return;
     }
 
@@ -205,7 +241,9 @@ function typeKodusText(element, text, speed = 35) {
 
     if (character === "\n") {
 
-      element.innerHTML += "<br>";
+      element.appendChild(
+        document.createElement("br")
+      );
 
     } else {
 
@@ -217,14 +255,51 @@ function typeKodusText(element, text, speed = 35) {
 
     index++;
 
-    setTimeout(
+    kodusTypingTimer = setTimeout(
       typeNextCharacter,
       speed
     );
   }
 
+
   typeNextCharacter();
 }
+
+
+/* =====================================================
+   КОДУС — ПОКАЗАТИ ВЕСЬ ТЕКСТ ОДРАЗУ
+===================================================== */
+
+function showFullKodusText() {
+
+  if (!kodusTypingElement) return;
+
+  if (kodusTypingTimer) {
+    clearTimeout(kodusTypingTimer);
+    kodusTypingTimer = null;
+  }
+
+  kodusTypingElement.innerHTML = "";
+
+  const lines = kodusTypingFullText.split("\n");
+
+  lines.forEach((line, index) => {
+
+    kodusTypingElement.append(
+      document.createTextNode(line)
+    );
+
+    if (index < lines.length - 1) {
+      kodusTypingElement.appendChild(
+        document.createElement("br")
+      );
+    }
+
+  });
+
+  kodusTypingFinished = true;
+}
+
 
 
 /* =====================================================
@@ -315,10 +390,51 @@ function openKodusIntro() {
   button.style.display =
     "none";
 
+   /* =====================================================
+   КНОПКА "ПРОПУСТИТИ"
+===================================================== */
+
+const skipButton =
+  document.createElement("button");
+
+skipButton.className =
+  "kodus-intro-skip";
+
+skipButton.textContent =
+  "Пропустити";
+
+
+skipButton.addEventListener(
+  "click",
+  () => {
+
+    playSound("click");
+
+    /* Зупиняємо голос Кодуса */
+    SOUNDS.kodusStart.pause();
+    SOUNDS.kodusStart.currentTime = 0;
+
+    /* Зупиняємо друкарську машинку
+       та показуємо весь текст */
+    showFullKodusText();
+
+    /* Ховаємо кнопку "Пропустити" */
+    skipButton.style.display = "none";
+
+    /* Показуємо кнопку "ДАЛІ" */
+    button.style.display = "block";
+
+    button.classList.add("show");
+  }
+);
+
+
 
   dialogue.appendChild(name);
 
   dialogue.appendChild(text);
+   
+  dialogue.appendChild(skipButton);
 
   dialogue.appendChild(button);
 
@@ -365,13 +481,15 @@ function openKodusIntro() {
 
   SOUNDS.kodusStart.onended = () => {
 
-    button.style.display =
-      "block";
+  /* Якщо аудіо завершилось природно —
+     прибираємо "Пропустити" */
+  skipButton.style.display = "none";
 
-    button.classList.add(
-      "show"
-    );
-  };
+  /* Показуємо кнопку "ДАЛІ" */
+  button.style.display = "block";
+
+  button.classList.add("show");
+};
 
 
   /* =====================================================

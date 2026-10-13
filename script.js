@@ -296,6 +296,7 @@ function showFullKodusText() {
     }
 
   });
+kodusTypingElement.scrollTop = 0;
 
   kodusTypingFinished = true;
 }

@@ -6921,3 +6921,206 @@ and (orientation: portrait) {
   }
 
 }
+
+/* =====================================================
+   РІВЕНЬ 1 — МІНІГРА 1
+   ФІНАЛ БУДІВЕЛЬНИКА СЕЙФУ
+===================================================== */
+
+.safe-builder-end-overlay {
+  position: absolute;
+  inset: 0;
+
+  z-index: 200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(255, 216, 77, 0.12),
+      rgba(3, 8, 24, 0.78)
+    );
+
+  backdrop-filter: blur(4px);
+
+  animation:
+    safeBuilderEndFade 0.35s ease-out;
+}
+
+
+.safe-builder-end-card {
+  width: min(560px, 88vw);
+
+  padding: 32px 34px;
+
+  text-align: center;
+
+  border-radius: 28px;
+
+  border:
+    2px solid
+    rgba(255, 216, 77, 0.75);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(19, 31, 63, 0.97),
+      rgba(7, 14, 34, 0.98)
+    );
+
+  box-shadow:
+    0 0 30px
+      rgba(255, 216, 77, 0.22),
+    0 24px 70px
+      rgba(0, 0, 0, 0.5);
+
+  animation:
+    safeBuilderEndCardIn
+    0.45s
+    cubic-bezier(
+      0.2,
+      0.8,
+      0.2,
+      1
+    );
+}
+
+
+.safe-builder-end-icon {
+  margin-bottom: 10px;
+
+  font-size: 58px;
+
+  line-height: 1;
+
+  animation:
+    safeBuilderEndIcon
+    1.8s
+    ease-in-out
+    infinite;
+}
+
+
+.safe-builder-end-card h2 {
+  margin:
+    8px
+    0
+    16px;
+
+  font-size:
+    clamp(
+      26px,
+      3vw,
+      38px
+    );
+
+  color: #ffd84d;
+}
+
+
+.safe-builder-end-card p {
+  margin:
+    8px
+    auto;
+
+  max-width: 440px;
+
+  font-size:
+    clamp(
+      16px,
+      1.5vw,
+      20px
+    );
+
+  line-height: 1.5;
+
+  color: #ffffff;
+}
+
+
+.safe-builder-end-progress {
+  margin-top:
+    20px !important;
+
+  margin-bottom:
+    22px !important;
+
+  color:
+    #ffd84d !important;
+
+  font-size:
+    clamp(
+      19px,
+      2vw,
+      24px
+    ) !important;
+
+  font-weight: 900;
+}
+
+
+.safe-builder-end-card .btn {
+  min-width: 240px;
+
+  margin-top: 4px;
+}
+
+
+/* =====================================================
+   АНІМАЦІЇ ФІНАЛУ
+===================================================== */
+
+@keyframes safeBuilderEndFade {
+
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+
+}
+
+
+@keyframes safeBuilderEndCardIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(24px)
+      scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+
+}
+
+
+@keyframes safeBuilderEndIcon {
+
+  0%,
+  100% {
+    transform:
+      scale(1);
+  }
+
+  50% {
+    transform:
+      scale(1.08);
+  }
+
+}
+

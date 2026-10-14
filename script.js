@@ -9199,6 +9199,11 @@ const FOXITA_MAILS = [
    ВІДКРИТИ ПОТРІБНУ МІНІІГРУ
 ===================================================== */
 
+
+/* =====================================================
+   ФОКСІТА — ВСТУП ПЕРЕД КОЖНОЮ МІНІІГРОЮ
+===================================================== */
+
 function openFoxitaGame(
   levelId,
   taskIndex
@@ -9214,6 +9219,274 @@ function openFoxitaGame(
     selectedMail: null,
     phoneStage: 0
   };
+
+
+  const gameBackgrounds = [
+    ASSETS.foxitaGame1Bg,
+    ASSETS.foxitaGame2Bg,
+    ASSETS.foxitaGame3Bg,
+    ASSETS.foxitaGame4Bg
+  ];
+
+
+  const gameTitles = [
+    "Сканер адреси",
+    "Детектор емоцій Мордера",
+    "Лист-пастка",
+    "Безпечний клік"
+  ];
+
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-game-screen foxita-intro-screen"
+      ${bg(gameBackgrounds[taskIndex])}
+    >
+
+      <button
+        class="btn foxita-back"
+        onclick="leaveFoxitaGame()"
+      >
+        ← До випробувань
+      </button>
+
+
+      <div
+        class="foxita-game-shade"
+      ></div>
+
+
+      <div
+        id="foxitaMentorStage"
+        class="foxita-mentor-stage"
+      >
+
+        <button
+          type="button"
+          class="foxita-mentor-button"
+          onclick="showFoxitaInstructions()"
+          aria-label="Натисни на наставницю Фоксіту"
+        >
+
+          <img
+            class="foxita-mentor"
+            src="${ASSETS.foxita}"
+            alt="Наставниця Фоксіта"
+          >
+
+        </button>
+
+
+        <div class="foxita-mentor-hint">
+          Натисни на Фоксіту
+        </div>
+
+
+        <div class="foxita-intro-game-name">
+          Випробування ${taskIndex + 1}
+          <span>${gameTitles[taskIndex]}</span>
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+
+  playSound("click");
+}
+
+
+/* =====================================================
+   ФОКСІТА — ПРАВИЛА МІНІІГРИ
+===================================================== */
+
+function showFoxitaInstructions() {
+
+  playSound("click");
+
+
+  const stage =
+    document.getElementById(
+      "foxitaMentorStage"
+    );
+
+
+  if (!stage) return;
+
+
+  const instructions = [
+
+    {
+      title: "Сканер адреси",
+
+      text: `
+        <p>
+          У Лісі Приманок з'явилися
+          підроблені адреси сайтів.
+        </p>
+
+        <p>
+          Мордер змінює в них
+          літери та цифри,
+          щоб вони були схожі
+          на справжні.
+        </p>
+
+        <p>
+          <b>Твоє завдання:</b>
+          уважно перевірити адреси
+          та знайти всі пастки.
+        </p>
+      `
+    },
+
+
+    {
+      title: "Детектор емоцій Мордера",
+
+      text: `
+        <p>
+          Мордер знає,
+          що страх, цікавість
+          і подарунки змушують
+          людей діяти поспіхом.
+        </p>
+
+        <p>
+          Ти побачиш різні
+          повідомлення.
+        </p>
+
+        <p>
+          <b>Твоє завдання:</b>
+          визначити,
+          де справжнє повідомлення,
+          а де пастка.
+        </p>
+      `
+    },
+
+
+    {
+      title: "Лист-пастка",
+
+      text: `
+        <p>
+          До поштової скриньки
+          потрапили звичайні
+          та фішингові листи.
+        </p>
+
+        <p>
+          Перевіряй відправника,
+          текст листа,
+          термінові вимоги
+          та прохання надати дані.
+        </p>
+
+        <p>
+          <b>Твоє завдання:</b>
+          безпечні листи залишити
+          в пошті,
+          а пастки відправити
+          у смітник.
+        </p>
+      `
+    },
+
+
+    {
+      title: "Безпечний клік",
+
+      text: `
+        <p>
+          На телефон героя
+          прийшло підозріле
+          повідомлення про приз.
+        </p>
+
+        <p>
+          Не натискай
+          на небезпечне посилання.
+        </p>
+
+        <p>
+          <b>Твоє завдання:</b>
+          знайти безпечний спосіб
+          поскаржитися
+          на повідомлення
+          та видалити його.
+        </p>
+      `
+    }
+
+  ];
+
+
+  const current =
+    instructions[
+      foxitaState.taskIndex
+    ];
+
+
+  if (!current) return;
+
+
+  stage.innerHTML = `
+
+    <div class="foxita-dialog-scene">
+
+      <img
+        class="foxita-dialog-mentor"
+        src="${ASSETS.foxita}"
+        alt="Наставниця Фоксіта"
+      >
+
+
+      <div class="foxita-dialog">
+
+        <div class="foxita-dialog-name">
+          Фоксіта
+        </div>
+
+
+        <h2>
+          ${current.title}
+        </h2>
+
+
+        <div class="foxita-dialog-text">
+          ${current.text}
+        </div>
+
+
+        <button
+          class="btn foxita-start-button"
+          onclick="startFoxitaTask()"
+        >
+          ПОЧАТИ
+        </button>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+/* =====================================================
+   ФОКСІТА — ЗАПУСК МІНІІГРИ ПІСЛЯ ПРАВИЛ
+===================================================== */
+
+function startFoxitaTask() {
+
+  playSound("click");
+
+
+  const taskIndex =
+    foxitaState.taskIndex;
 
 
   if (taskIndex === 0) {
@@ -9247,7 +9520,6 @@ function openFoxitaGame(
   }
 
 }
-
 
 /* =====================================================
    СПІЛЬНА КНОПКА НАЗАД

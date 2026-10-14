@@ -4297,73 +4297,124 @@ function finishSafeBuilder(
 /* =====================================================
    ФІНАЛ 1 ГРИ
 ===================================================== */
+/* =====================================================
+   ФІНАЛ 1 ГРИ — БУДІВЕЛЬНИК СЕЙФУ
+===================================================== */
 
 function openSafeBuilderVictory(
   levelId,
   progress
 ) {
 
-  openModal(
+  const gameArea =
+    document.getElementById(
+      "safeBuilderGameArea"
+    );
 
-    "Сейф надійно замкнено!",
+  if (!gameArea) return;
 
-    `
-      <div class="scroll-modal">
 
-        <div
-          style="
-            font-size:64px;
-            margin-bottom:12px;
-          "
-        >
-          🔐✨
-        </div>
+  /* Прибираємо старий фінал,
+     якщо він раптом уже існує */
 
-        <h2>
-          Вітаємо!
-        </h2>
+  const oldOverlay =
+    gameArea.querySelector(
+      ".safe-builder-end-overlay"
+    );
 
-        <p>
-          Ти створив / створила
-          надійний пароль.
-        </p>
+  if (oldOverlay) {
+    oldOverlay.remove();
+  }
 
-        <p>
-          Мордер не зміг
-          зламати сейф!
-        </p>
 
-        <p
-          style="
-            color:#ffd84d;
-            font-weight:900;
-          "
-        >
-          Жовтий кристал:
-          ${progress}%
-        </p>
+  /* Створюємо фінальне вікно
+     прямо поверх мінігри */
 
-        <button
-          class="btn"
-          onclick="
-            closeModal();
-            returnFromPasswordCastleTask(
-              ${levelId},
-              ${progress}
-            );
-          "
-        >
+  const overlay =
+    document.createElement(
+      "div"
+    );
 
-          ${
-            progress >= 100
-              ? "✨ Завершити рівень"
-              : "← Назад до випробувань"
-          }
+  overlay.className =
+    "safe-builder-end-overlay";
 
-        </button>
 
+  overlay.innerHTML = `
+
+    <div class="safe-builder-end-card">
+
+      <div class="safe-builder-end-icon">
+        🔐✨
       </div>
-    `
+
+
+      <h2>
+        Випробування пройдено!
+      </h2>
+
+
+      <p>
+        Сейф надійно замкнено!
+      </p>
+
+
+      <p>
+        Ти створив / створила
+        сильний пароль,
+        і Мордер не зміг
+        його зламати.
+      </p>
+
+
+      <p class="safe-builder-end-progress">
+        Жовтий кристал:
+        ${progress}%
+      </p>
+
+
+      <button
+        class="btn"
+        onclick="
+          finishSafeBuilderAndReturn(
+            ${levelId},
+            ${progress}
+          )
+        "
+      >
+
+        ${
+          progress >= 100
+            ? "✨ Завершити рівень"
+            : "← Назад до випробувань"
+        }
+
+      </button>
+
+    </div>
+
+  `;
+
+
+  gameArea.appendChild(
+    overlay
+  );
+}
+
+
+/* =====================================================
+   ПОВЕРНЕННЯ ПІСЛЯ 1 ГРИ
+===================================================== */
+
+function finishSafeBuilderAndReturn(
+  levelId,
+  progress
+) {
+
+  playSound("click");
+
+  returnFromPasswordCastleTask(
+    levelId,
+    progress
   );
 }
 

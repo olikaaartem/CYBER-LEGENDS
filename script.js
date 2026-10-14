@@ -58,7 +58,7 @@ const ASSETS = {
   totus: "geroi/nastavnuk_sova.png",
   foxita: "geroi/nastavnuk_fox.png",
   nereus: "geroi/nastavnuk_som.png",
-  anubisa: "geroi/nastavnuk_kajjiann.png",
+  anubisa: "geroi/nastavnuk_kajjann.png",
   tifon: "geroi/nastavnuk_drakon.png",
    
  /* ПРОВІДНИК КІБЕРКОРОЛІВСТВА */

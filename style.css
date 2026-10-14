@@ -6461,36 +6461,44 @@ and (orientation: portrait) {
 }
 /* =====================================================
    ВСТУП — ВІЩУН КОДУС
+   ЄДИНИЙ ФІНАЛЬНИЙ БЛОК
+===================================================== */
+
+
+/* =====================================================
+   ЗАТЕМНЕННЯ
 ===================================================== */
 
 .kodus-intro-overlay {
   position: fixed;
   inset: 0;
-  z-index: 99999;
 
-  width: 100vw;
-  height: 100vh;
+  z-index: 9999;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  width: 100vw;
+  height: 100vh;
+
+  padding: 20px;
+
+  box-sizing: border-box;
+
   overflow: hidden;
 
-  background: rgba(2, 7, 20, 0.86);
-  backdrop-filter: blur(6px);
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(18, 45, 90, 0.35),
+      rgba(2, 7, 20, 0.94)
+    );
 
-  animation: kodusOverlayIn 0.5s ease forwards;
-}
+  opacity: 1;
 
-@keyframes kodusOverlayIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  transition:
+    opacity 0.6s ease;
 }
 
 
@@ -6501,18 +6509,18 @@ and (orientation: portrait) {
 .kodus-intro-scene {
   position: relative;
 
-  width: min(1450px, 96vw);
-  height: min(830px, 92vh);
+  width: min(1400px, 96vw);
+  height: min(760px, calc(100vh - 40px));
 
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
 
   gap: 35px;
 
-  padding: 30px 40px;
-
   box-sizing: border-box;
+
+  overflow: hidden;
 }
 
 
@@ -6521,122 +6529,156 @@ and (orientation: portrait) {
 ===================================================== */
 
 .kodus-intro-character {
-  width: min(500px, 38vw);
-  max-height: 88vh;
+  position: relative;
+
+  flex: 0 0 auto;
+
+  width: min(390px, 30vw);
+  height: auto;
+
+  max-height: calc(100vh - 70px);
 
   object-fit: contain;
-  object-position: bottom;
 
-  opacity: 0;
+  align-self: center;
 
-  transform:
-    translateX(-80px)
-    scale(0.94);
+  z-index: 2;
 
   filter:
-    drop-shadow(0 25px 35px rgba(0, 0, 0, 0.55))
-    drop-shadow(0 0 25px rgba(49, 123, 255, 0.3));
+    drop-shadow(
+      0 20px 30px
+      rgba(0, 0, 0, 0.55)
+    )
+    drop-shadow(
+      0 0 25px
+      rgba(67, 146, 255, 0.28)
+    );
 
   animation:
     kodusCharacterIn
-    0.9s
+    0.7s
     ease
-    0.2s
     forwards;
 }
 
+
 @keyframes kodusCharacterIn {
+
+  from {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
   to {
     opacity: 1;
-
-    transform:
-      translateX(0)
-      scale(1);
+    transform: translateX(0);
   }
+
 }
 
 
 /* =====================================================
-   ДІАЛОГ
+   ДІАЛОГОВЕ ВІКНО
 ===================================================== */
 
 .kodus-intro-dialogue {
   position: relative;
 
-  width: min(700px, 53vw);
-  min-height: 360px;
+  flex: 0 1 700px;
 
-  margin-bottom: 65px;
+  width: min(700px, 58vw);
 
-  padding: 35px;
+  height: min(600px, calc(100vh - 80px));
+
+  min-height: 0;
+
+  margin: 0;
+
+  padding: 28px 30px;
 
   box-sizing: border-box;
 
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
   border-radius: 28px;
+
+  color: white;
 
   background:
     linear-gradient(
       145deg,
-      rgba(15, 31, 73, 0.97),
-      rgba(5, 12, 35, 0.98)
+      rgba(18, 52, 105, 0.98),
+      rgba(5, 18, 48, 0.99)
     );
 
   border:
-    2px solid rgba(90, 164, 255, 0.55);
+    2px solid
+    rgba(83, 178, 255, 0.85);
 
   box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.55),
-    0 0 45px rgba(56, 120, 255, 0.14);
+    0 25px 65px
+    rgba(0, 0, 0, 0.6),
+    0 0 35px
+    rgba(55, 145, 255, 0.16);
+
+  z-index: 3;
 
   opacity: 0;
 
-  transform:
-    translateY(35px);
+  transform: translateY(20px);
 
   animation:
     kodusDialogueIn
-    0.7s
+    0.6s
     ease
-    0.55s
+    0.15s
     forwards;
 }
 
+
 @keyframes kodusDialogueIn {
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
+
 }
 
 
 /* =====================================================
-   ІМ'Я
+   ІМ'Я КОДУСА
 ===================================================== */
 
 .kodus-intro-name {
-  display: inline-block;
+  flex-shrink: 0;
+
+  align-self: flex-start;
 
   margin-bottom: 20px;
 
-  padding: 9px 16px;
+  padding: 10px 18px;
 
-  border-radius: 12px;
+  border-radius: 14px;
 
   background:
     linear-gradient(
       135deg,
-      #287cff,
-      #6d4dff
+      #2998ef,
+      #1872c8
     );
 
   color: white;
 
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 900;
-}
 
-.kodus-intro-name::before {
-  content: "🔮 ";
+  box-shadow:
+    0 0 18px
+    rgba(41, 152, 239, 0.28);
 }
 
 
@@ -6645,63 +6687,117 @@ and (orientation: portrait) {
 ===================================================== */
 
 .kodus-intro-text {
-  min-height: 215px;
+  flex: 1 1 auto;
+
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding-right: 14px;
 
   color: white;
 
-  font-size: clamp(17px, 1.6vw, 22px);
-  font-weight: 600;
+  font-size: 19px;
+  font-weight: 700;
 
-  line-height: 1.6;
+  line-height: 1.48;
 
-  text-align: left;
+  white-space: normal;
+
+  scrollbar-width: thin;
 }
 
-.kodus-intro-text::after {
-  content: "▌";
 
-  margin-left: 3px;
+/* СКРОЛ ДЛЯ CHROME / EDGE */
 
-  color: #6ac1ff;
-
-  animation: kodusCursor 0.8s steps(1) infinite;
+.kodus-intro-text::-webkit-scrollbar {
+  width: 8px;
 }
 
-@keyframes kodusCursor {
-  0%,
-  49% {
-    opacity: 1;
-  }
+.kodus-intro-text::-webkit-scrollbar-track {
+  background:
+    rgba(255, 255, 255, 0.08);
 
-  50%,
-  100% {
-    opacity: 0;
-  }
+  border-radius: 20px;
+}
+
+.kodus-intro-text::-webkit-scrollbar-thumb {
+  background:
+    rgba(87, 176, 255, 0.65);
+
+  border-radius: 20px;
 }
 
 
 /* =====================================================
-   КНОПКА ДАЛІ
+   ПРОПУСТИТИ
+===================================================== */
+
+.kodus-intro-skip {
+  flex-shrink: 0;
+
+  align-self: center;
+
+  margin-top: 18px;
+
+  padding: 9px 22px;
+
+  border-radius: 12px;
+
+  border:
+    2px solid
+    rgba(255, 255, 255, 0.7);
+
+  background:
+    rgba(5, 20, 50, 0.65);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.kodus-intro-skip:hover {
+  transform: translateY(-2px);
+
+  background:
+    rgba(35, 105, 185, 0.75);
+}
+
+
+/* =====================================================
+   ДАЛІ
 ===================================================== */
 
 .kodus-intro-button {
-  width: 100%;
-  min-height: 58px;
+  flex-shrink: 0;
 
-  margin-top: 22px;
+  width: 100%;
+
+  margin-top: 18px;
+
+  padding: 14px 24px;
 
   border: none;
 
-  border-radius: 16px;
+  border-radius: 14px;
 
   background:
     linear-gradient(
-      135deg,
-      #ffe060,
-      #ffb62c
+      90deg,
+      #ffe43b,
+      #ffc800
     );
 
-  color: #221900;
+  color: #362700;
 
   font-size: 18px;
   font-weight: 900;
@@ -6710,98 +6806,97 @@ and (orientation: portrait) {
 
   opacity: 0;
 
-  transform: translateY(12px);
+  transform: translateY(8px);
 
   transition:
-    opacity 0.35s ease,
-    transform 0.35s ease;
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    filter 0.2s ease;
 }
+
 
 .kodus-intro-button.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* =====================================================
-   КОДУС — КНОПКА "ПРОПУСТИТИ"
-===================================================== */
 
-.kodus-intro-skip {
-  display: block;
-
-  margin: 14px auto 0;
-
-  padding: 9px 20px;
-
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.35);
-
-  border-radius: 12px;
-
-  background:
-    rgba(5, 12, 30, 0.55);
-
-  color:
-    rgba(255, 255, 255, 0.9);
-
-  font-size: 15px;
-  font-weight: 700;
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease;
+.kodus-intro-button:hover {
+  filter: brightness(1.06);
 }
 
-.kodus-intro-skip:hover {
-  transform: translateY(-1px);
-
-  background:
-    rgba(5, 12, 30, 0.8);
-
-  border-color:
-    rgba(255, 220, 120, 0.75);
-}
-
-.kodus-intro-skip:active {
-  transform: scale(0.97);
-}
 
 /* =====================================================
    ЗНИКНЕННЯ
 ===================================================== */
 
 .kodus-intro-overlay.hide {
+  opacity: 0;
+
   pointer-events: none;
-
-  animation:
-    kodusOverlayOut
-    0.65s
-   ease
-    forwards;
-}
-
-@keyframes kodusOverlayOut {
-  to {
-    opacity: 0;
-  }
 }
 
 
 /* =====================================================
-   МОБІЛЬНА ВЕРСІЯ
+   НИЗЬКИЙ ЕКРАН НОУТБУКА
 ===================================================== */
 
-@media (max-width: 800px) {
+@media (max-height: 750px) {
+
+  .kodus-intro-overlay {
+    padding: 12px;
+  }
+
+  .kodus-intro-scene {
+    height: calc(100vh - 24px);
+
+    gap: 25px;
+  }
+
+  .kodus-intro-character {
+    width: min(330px, 28vw);
+
+    max-height: calc(100vh - 35px);
+  }
+
+  .kodus-intro-dialogue {
+    height: calc(100vh - 35px);
+
+    padding: 22px 26px;
+  }
+
+  .kodus-intro-name {
+    margin-bottom: 14px;
+
+    padding: 8px 15px;
+
+    font-size: 18px;
+  }
+
+  .kodus-intro-text {
+    font-size: 17px;
+
+    line-height: 1.4;
+  }
+
+  .kodus-intro-skip,
+  .kodus-intro-button {
+    margin-top: 12px;
+  }
+
+}
+
+
+/* =====================================================
+   ВУЗЬКИЙ ЕКРАН
+===================================================== */
+
+@media (max-width: 850px) {
 
   .kodus-intro-scene {
     width: 100%;
-    height: 100%;
 
-    padding: 15px;
+    gap: 10px;
   }
 
   .kodus-intro-character {
@@ -6810,325 +6905,19 @@ and (orientation: portrait) {
     left: -8vw;
     bottom: 0;
 
-    width: 55vw;
+    width: 46vw;
 
-    opacity: 0.55;
+    opacity: 0.42;
   }
 
   .kodus-intro-dialogue {
-    width: 78vw;
+    width: 88vw;
+
+    flex-basis: auto;
 
     margin-left: auto;
-    margin-bottom: 25px;
 
-    padding: 25px;
-  }
-}
-/* =====================================================
-   ВСТУП — ВІЩУН КОДУС
-===================================================== */
-
-.kodus-intro-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 999999;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(3, 8, 24, 0.88);
-  backdrop-filter: blur(6px);
-}
-
-
-.kodus-intro-scene {
-  width: 94vw;
-  height: 90vh;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-
-  gap: 40px;
-}
-
-
-/* КОДУС */
-
-.kodus-intro-character {
-  width: 430px;
-  max-height: 85vh;
-
-  object-fit: contain;
-
-  filter:
-    drop-shadow(0 20px 35px rgba(0, 0, 0, 0.55));
-
-  animation: kodusAppear 0.8s ease forwards;
-}
-
-
-@keyframes kodusAppear {
-
-  from {
-    opacity: 0;
-    transform: translateX(-70px);
+    height: calc(100vh - 40px);
   }
 
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-
-/* ДІАЛОГОВЕ ВІКНО */
-/* ДІАЛОГОВЕ ВІКНО */
-
-.kodus-intro-dialogue {
-  width: min(700px, 55vw);
-
-  min-height: 350px;
-
-  margin-bottom: 70px;
-
-  padding: 32px;
-
-  box-sizing: border-box;
-
-  border-radius: 28px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #172850,
-      #071126
-    );
-
-  border:
-    2px solid rgba(91, 169, 255, 0.7);
-
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.6);
-
-  color: white;
-}
-
-
-/* =====================================================
-   КОДУС — ОБЛАСТЬ ТЕКСТУ
-===================================================== */
-
-.kodus-intro-text {
-  flex: 1;
-
-  min-height: 0;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  padding-right: 12px;
-  margin-bottom: 18px;
-
-  scrollbar-width: thin;
-  scrollbar-color:
-    rgba(91, 169, 255, 0.8)
-    rgba(255, 255, 255, 0.08);
-}
-
-.kodus-intro-text::-webkit-scrollbar {
-  width: 7px;
-}
-
-.kodus-intro-text::-webkit-scrollbar-track {
-  background:
-    rgba(255, 255, 255, 0.08);
-
-  border-radius: 10px;
-}
-
-.kodus-intro-text::-webkit-scrollbar-thumb {
-  background:
-    rgba(91, 169, 255, 0.8);
-
-  border-radius: 10px;
-}
-
-
-/* ІМ’Я */
-
-.kodus-intro-name {
-  display: inline-block;
-
-  margin-bottom: 20px;
-
-  padding: 9px 16px;
-
-  border-radius: 12px;
-
-  background: #356dff;
-
-  font-size: 21px;
-  font-weight: 900;
-}
-
-
-/* ТЕКСТ */
-
-.kodus-intro-text {
-  min-height: 210px;
-
-  font-size: 20px;
-  line-height: 1.55;
-
-  color: white;
-}
-
-
-/* МИГАЮЧИЙ КУРСОР */
-
-.kodus-intro-text::after {
-  content: "▌";
-
-  color: #65c5ff;
-
-  animation: kodusCursor 0.8s infinite;
-}
-
-
-@keyframes kodusCursor {
-
-  0%,
-  49% {
-    opacity: 1;
-  }
-
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-
-/* КНОПКА */
-
-.kodus-intro-button {
-  width: 100%;
-
-  min-height: 58px;
-
-  margin-top: 20px;
-
-  border: none;
-
-  border-radius: 16px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ffe060,
-      #ffb52e
-    );
-
-  color: #201800;
-
-  font-size: 18px;
-  font-weight: 900;
-
-  cursor: pointer;
-}
-
-
-.kodus-intro-overlay.hide {
-  opacity: 0;
-
-  pointer-events: none;
-
-  transition: opacity 0.7s ease;
-}
-/* =====================================================
-   КОДУС — ФІНАЛЬНЕ ПОЗИЦІОНУВАННЯ ВСТУПУ
-===================================================== */
-
-.kodus-intro-overlay {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  overflow: hidden;
-}
-
-.kodus-intro-scene {
-  width: min(1400px, 96vw);
-  height: min(760px, 92vh);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 35px;
-
-  padding: 20px 35px;
-
-  box-sizing: border-box;
-}
-
-
-/* КОДУС */
-
-.kodus-intro-character {
-  flex: 0 0 auto;
-
-  width: min(420px, 31vw);
-  max-height: 82vh;
-
-  object-fit: contain;
-
-  align-self: center;
-}
-
-
-/* ДІАЛОГ */
-
-.kodus-intro-dialogue {
-  position: relative;
-
-  width: min(700px, 56vw);
-
-  height: min(600px, 78vh);
-  min-height: 0;
-
-  margin: 0;
-
-  padding: 30px 32px;
-
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-
-  overflow: hidden;
-}
-
-
-/* ТЕКСТ КОДУСА */
-
-.kodus-intro-text {
-  flex: 1;
-  min-height: 0;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  padding-right: 12px;
-  margin-bottom: 15px;
-}
-
-
-/* КНОПКИ НЕ СКРОЛЯТЬСЯ */
-
-.kodus-intro-button,
-.kodus-intro-skip {
-  flex-shrink: 0;
 }

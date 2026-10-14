@@ -15,7 +15,7 @@ const ASSETS = {
   /* ФОНИ */
 
   start: "fon/fon_start.png",
-  map: "fon/NEW_FON_KARTAa.png",
+  map: "fon/NEW_FON_KARTA_2.png",
   heroSelect: "fon/fon_vubir_heroiv.png",
 
   level1: "fon/fon_book.png",
@@ -58,12 +58,12 @@ const ASSETS = {
   totus: "geroi/nastavnuk_sova.png",
   foxita: "geroi/nastavnuk_fox.png",
   nereus: "geroi/nastavnuk_som.png",
-  anubisa: "geroi/nastavnuk_kajjian.png",
+  anubisa: "geroi/nastavnuk_kajjiann.png",
   tifon: "geroi/nastavnuk_drakon.png",
    
  /* ПРОВІДНИК КІБЕРКОРОЛІВСТВА */
 
-kodus: "geroi/did_kodys.png",
+kodus: "geroi/did_kodys_new.png",
 
   /* МЕДАЛЬЙОНИ */
 

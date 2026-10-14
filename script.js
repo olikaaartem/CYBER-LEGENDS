@@ -26,13 +26,32 @@ const ASSETS = {
 
   citadel: "fon/Fon_mordor_1.png",
 
-  /* міні ігри фони для 1 рівня */
+  /* =====================================================
+     МІНІІГРИ — РІВЕНЬ 1 / ТОТУС
+  ===================================================== */
 
   safeBuilderBg: "fon/fon_safe_builder.png",
   safeBuilderSafe: "artefaktu/safe_builder.png",
   weakHunterBg: "fon/weak-password-hunter-bg.png",
   keyManagerBg: "fon/key-manager-bg.png",
   syncKeyBg: "fon/sync-key-bg.png",
+
+
+  /* =====================================================
+     МІНІІГРИ — РІВЕНЬ 2 / ФОКСІТА
+  ===================================================== */
+
+  foxitaGame1Bg: "foxx/foxita-game1-bg.png",
+  foxitaGame2Bg: "foxx/foxita-game2-bg.png",
+  foxitaGame3Bg: "foxx/foxita-game3-bg.png",
+  foxitaGame4Bg: "foxx/foxita-game4-bg.png",
+
+  foxitaPhone: "foxx/foxita-phone.png",
+
+
+
+
+   
   /* ЛОГО */
 
   logo: "artefaktu/logo_game.png",

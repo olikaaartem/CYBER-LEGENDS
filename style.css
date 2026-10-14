@@ -9895,4 +9895,143 @@ and (orientation: portrait) {
   }
 
 }
+/* =====================================================
+   ФОКСІТА — КОРЕКЦІЯ РОЗМІРУ НАСТАВНИЦІ ТА ДІАЛОГУ
+===================================================== */
+
+
+/* Фоксіта ДО натискання */
+
+.foxita-mentor {
+  width: min(22vw, 300px);
+  max-height: 58vh;
+}
+
+
+/* Сцена ПІСЛЯ натискання */
+
+.foxita-dialog-scene {
+  position: absolute;
+  inset: 0;
+
+  z-index: 50;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+
+  gap: 25px;
+
+  padding:
+    80px
+    6vw
+    4vh;
+
+  box-sizing: border-box;
+}
+
+
+/* Фоксіта біля діалогу */
+
+.foxita-dialog-mentor {
+  position: relative;
+
+  left: auto;
+  bottom: auto;
+
+  flex: 0 0 auto;
+
+  width: min(21vw, 285px);
+  max-height: 57vh;
+
+  margin: 0;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 14px 22px
+      rgba(0, 0, 0, 0.42)
+    );
+}
+
+
+/* Діалогове вікно */
+
+.foxita-dialog {
+  position: relative;
+
+  flex: 0 1 570px;
+
+  width: min(570px, 52vw);
+  max-height: 68vh;
+
+  margin:
+    0
+    0
+    8vh
+    0;
+
+  padding:
+    24px
+    30px
+    26px;
+
+  box-sizing: border-box;
+
+  overflow-y: auto;
+
+  z-index: 60;
+}
+
+
+/* =====================================================
+   НОУТБУК — ЯК У ТЕБЕ НА ЕКРАНІ
+===================================================== */
+
+@media (max-height: 800px) {
+
+  .foxita-mentor {
+    width: min(19vw, 250px);
+    max-height: 52vh;
+  }
+
+  .foxita-dialog-scene {
+    gap: 18px;
+
+    padding:
+      65px
+      5vw
+      2vh;
+  }
+
+  .foxita-dialog-mentor {
+    width: min(18vw, 235px);
+    max-height: 51vh;
+  }
+
+  .foxita-dialog {
+    flex-basis: 520px;
+
+    width: min(520px, 53vw);
+    max-height: 66vh;
+
+    margin-bottom: 4vh;
+
+    padding:
+      19px
+      25px
+      21px;
+  }
+
+  .foxita-dialog h2 {
+    font-size: 25px;
+  }
+
+  .foxita-dialog-text {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+}
 

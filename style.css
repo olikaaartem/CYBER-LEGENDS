@@ -7124,3 +7124,490 @@ and (orientation: portrait) {
 
 }
 
+/* =====================================================
+   ФІНАЛЬНІ ПРАВКИ РІВНЯ 1
+   КРИСТАЛ + 4 ГРА + ФІНАЛ БЕЗ СКРОЛУ
+===================================================== */
+
+
+/* =====================================================
+   1. ЖОВТИЙ КРИСТАЛ — НОРМАЛЬНИЙ РОЗМІР
+===================================================== */
+
+.password-final-crystal-image {
+  display: block;
+
+  width: auto;
+  height: clamp(90px, 14vh, 145px);
+
+  max-width: 150px;
+
+  margin:
+    0
+    auto
+    10px;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 0 14px
+      rgba(255, 219, 76, 0.9)
+    )
+    drop-shadow(
+      0 0 32px
+      rgba(255, 190, 25, 0.45)
+    );
+
+  animation:
+    passwordCrystalFloat
+    2s
+    ease-in-out
+    infinite
+    alternate;
+}
+
+
+/* =====================================================
+   2. ФІНАЛ ЗАМКУ — ВСЕ В ОДИН ЕКРАН
+===================================================== */
+
+.password-final-screen {
+  padding: 16px;
+}
+
+
+.password-final-card {
+  width: min(720px, 90vw);
+
+  max-height: none;
+
+  overflow: visible;
+
+  padding:
+    18px
+    34px
+    20px;
+
+  border-radius: 26px;
+}
+
+
+.password-final-eyebrow {
+  margin-bottom: 4px;
+
+  font-size: 11px;
+}
+
+
+.password-final-card h1 {
+  margin:
+    4px
+    0
+    10px;
+
+  font-size:
+    clamp(
+      28px,
+      3.2vw,
+      43px
+    );
+
+  line-height: 1.05;
+}
+
+
+.password-final-dialogue {
+  margin: 0;
+
+  font-size:
+    clamp(
+      14px,
+      1.25vw,
+      18px
+    );
+
+  line-height: 1.38;
+}
+
+
+.password-final-map-button {
+  margin-top: 14px;
+
+  padding:
+    12px
+    20px;
+
+  font-size: 16px;
+}
+
+
+.password-final-glow {
+  width: 400px;
+  height: 400px;
+
+  top: 44%;
+}
+
+
+/* =====================================================
+   3. МІНІГРА 4 — СИНХРОННИЙ КЛЮЧ
+   КОМПАКТНА ВЕРСІЯ ДЛЯ НОУТБУКА
+===================================================== */
+
+.sync-key-topbar {
+  min-height: 72px;
+
+  padding:
+    8px
+    24px;
+}
+
+
+.sync-key-title h2 {
+  font-size:
+    clamp(
+      20px,
+      2vw,
+      30px
+    );
+
+  line-height: 1.05;
+}
+
+
+.sync-key-title p {
+  margin-top: 2px;
+
+  font-size:
+    clamp(
+      11px,
+      1vw,
+      14px
+    );
+}
+
+
+.sync-key-game {
+  height:
+    calc(100vh - 72px);
+
+  gap: 3vw;
+
+  padding:
+    16px
+    6vw
+    18px;
+
+  align-items: center;
+}
+
+
+.sync-computer {
+  width:
+    min(650px, 100%);
+
+  padding: 20px;
+
+  border-radius: 22px;
+}
+
+
+.sync-computer-label {
+  margin-bottom: 7px;
+}
+
+
+.sync-computer h3 {
+  margin-bottom: 7px;
+
+  font-size:
+    clamp(
+      20px,
+      2vw,
+      29px
+    );
+}
+
+
+.sync-computer-text {
+  margin-bottom: 10px;
+
+  font-size: 14px;
+
+  line-height: 1.35;
+}
+
+
+.sync-attack-box {
+  margin:
+    10px
+    0
+    12px;
+
+  padding: 10px;
+}
+
+
+.sync-code-label {
+  margin-bottom: 5px;
+}
+
+
+.sync-code-input {
+  padding:
+    10px
+    16px;
+
+  font-size:
+    clamp(
+      23px,
+      2.5vw,
+      34px
+    );
+}
+
+
+.sync-submit {
+  margin-top: 8px;
+
+  padding:
+    10px
+    16px;
+}
+
+
+.sync-computer-message {
+  min-height: 34px;
+
+  margin-top: 8px;
+
+  padding:
+    7px
+    11px;
+
+  font-size: 13px;
+
+  line-height: 1.25;
+}
+
+
+/* ---------- ТЕЛЕФОН ---------- */
+
+.sync-phone {
+  width:
+    min(330px, 78%);
+
+  padding: 9px;
+
+  border-width: 4px;
+
+  border-radius: 36px;
+}
+
+
+.sync-phone-screen {
+  min-height: 0;
+  height: auto;
+
+  padding:
+    14px
+    14px
+    18px;
+
+  border-radius: 27px;
+}
+
+
+.sync-phone-status {
+  margin-bottom: 10px;
+}
+
+
+.sync-push-card,
+.sync-code-card {
+  padding: 14px;
+
+  border-radius: 17px;
+}
+
+
+.sync-alert-icon,
+.sync-shield {
+  margin-bottom: 4px;
+
+  font-size: 34px;
+}
+
+
+.sync-push-card h4,
+.sync-code-card h4 {
+  margin-bottom: 9px;
+
+  font-size: 18px;
+}
+
+
+.sync-device-info {
+  padding: 9px;
+
+  font-size: 13px;
+
+  line-height: 1.3;
+}
+
+
+.sync-push-question {
+  margin:
+    10px
+    0
+    8px;
+
+  font-size: 16px;
+}
+
+
+.sync-phone-buttons {
+  gap: 7px;
+}
+
+
+.sync-allow,
+.sync-block {
+  padding:
+    9px
+    8px;
+
+  font-size: 12px;
+}
+
+
+.sync-code-help {
+  margin-bottom: 9px;
+
+  font-size: 13px;
+
+  line-height: 1.3;
+}
+
+
+.sync-live-code {
+  padding:
+    10px
+    7px;
+
+  font-size:
+    clamp(
+      23px,
+      2.5vw,
+      34px
+    );
+}
+
+
+.sync-code-countdown {
+  margin-top: 8px;
+
+  font-size: 12px;
+}
+
+
+/* =====================================================
+   ДОДАТКОВО ДЛЯ НИЗЬКИХ ЕКРАНІВ
+===================================================== */
+
+@media screen and (max-height: 760px) {
+
+  .sync-key-game {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+
+  .sync-computer {
+    padding: 16px;
+  }
+
+
+  .sync-phone {
+    width:
+      min(300px, 74%);
+  }
+
+
+  .sync-phone-screen {
+    padding:
+      11px
+      12px
+      14px;
+  }
+
+
+  .password-final-crystal-image {
+    height: 82px;
+  }
+
+
+  .password-final-card {
+    padding:
+      14px
+      28px
+      16px;
+  }
+
+
+  .password-final-card h1 {
+    font-size:
+      clamp(
+        25px,
+        3vw,
+        36px
+      );
+  }
+
+
+  .password-final-dialogue {
+    font-size:
+      clamp(
+        13px,
+        1.15vw,
+        16px
+      );
+
+    line-height: 1.28;
+  }
+
+}
+
+
+/* =====================================================
+   АНІМАЦІЯ МАЛЕНЬКОГО КРИСТАЛА
+===================================================== */
+
+@keyframes passwordCrystalFloat {
+
+  from {
+    transform:
+      translateY(0)
+      scale(1);
+
+    filter:
+      drop-shadow(
+        0 0 12px
+        rgba(255, 219, 76, 0.8)
+      );
+  }
+
+  to {
+    transform:
+      translateY(-5px)
+      scale(1.04);
+
+    filter:
+      drop-shadow(
+        0 0 25px
+        rgba(255, 219, 76, 1)
+      );
+  }
+
+}

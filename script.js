@@ -2514,6 +2514,60 @@ function openTask(levelId, taskIndex) {
 
   }
 
+ /* ===================================================
+     ПЕРЕМИКАЧ МІНІІГОР ЗА РІВНЯМИ
+  =================================================== */
+
+  /* ---------- РІВЕНЬ 2 — ФОКСІТА ---------- */
+
+  if (levelId === 2) {
+
+    openFoxitaGame(
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
+
+
+  /* ---------- РІВЕНЬ 3 — НЕРЕУС ---------- */
+
+  if (levelId === 3) {
+
+    openNereusGame(
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
+
+
+  /* ---------- РІВЕНЬ 4 — АНУБІСА ---------- */
+
+  if (levelId === 4) {
+
+    openAnubisaGame(
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
+
+
+  /* ---------- РІВЕНЬ 5 — ТІФОН ---------- */
+
+  if (levelId === 5) {
+
+    openTifonGame(
+      levelId,
+      taskIndex
+    );
+
+    return;
+  }
 
   /* ===================================================
      ІНШІ РІВНІ
@@ -9017,6 +9071,1418 @@ window.finishPasswordCastleLevel =
   finishPasswordCastleLevel;
 
 
+/* =====================================================
+   РІВЕНЬ 2 — ФОКСІТА
+   ЛІС ПРИМАНОК
+   4 МІНІГРИ
+===================================================== */
+
+
+/* =====================================================
+   СПІЛЬНИЙ СТАН ФОКСІТИ
+===================================================== */
+
+let foxitaState = {
+  levelId: 2,
+  taskIndex: 0,
+  step: 0,
+  score: 0,
+  selectedMail: null,
+  phoneStage: 0
+};
+
+
+/* =====================================================
+   ДАНІ МІНІІГОР
+===================================================== */
+
+const FOXITA_URLS = [
+  {
+    url: "https://youtube.com",
+    dangerous: false
+  },
+  {
+    url: "https://youtub3.com",
+    dangerous: true
+  },
+  {
+    url: "https://google.com",
+    dangerous: false
+  },
+  {
+    url: "https://g00gle-login.com",
+    dangerous: true
+  },
+  {
+    url: "https://instagram.com",
+    dangerous: false
+  },
+  {
+    url: "https://instagrarn-security.com",
+    dangerous: true
+  }
+];
+
+
+const FOXITA_MESSAGES = [
+  {
+    text:
+      "🎁 Вітаємо! Ти виграв новий смартфон! Натисни просто зараз!",
+    trap: true,
+    hint:
+      "Несподіваний подарунок і вимога діяти негайно — ознаки пастки."
+  },
+  {
+    text:
+      "Мамо, я вже закінчила уроки. Подзвони мені, коли зможеш 🙂",
+    trap: false,
+    hint:
+      "Це звичайне особисте повідомлення без підозрілих прохань."
+  },
+  {
+    text:
+      "⚠️ Твій акаунт буде видалено через 10 хвилин! Увійди за посиланням.",
+    trap: true,
+    hint:
+      "Тиск, страх і терміновість часто використовують шахраї."
+  },
+  {
+    text:
+      "Привіт! Завтра тренування починається о 16:00.",
+    trap: false,
+    hint:
+      "Повідомлення не просить дані й не змушує переходити за посиланням."
+  },
+  {
+    text:
+      "🔐 Служба підтримки: надішли нам свій пароль для перевірки.",
+    trap: true,
+    hint:
+      "Справжня служба підтримки не повинна просити твій пароль."
+  }
+];
+
+
+const FOXITA_MAILS = [
+  {
+    from: "school@edu.ua",
+    subject: "Розклад занять на завтра",
+    text:
+      "Привіт! Надсилаємо оновлений розклад занять.",
+    phishing: false
+  },
+  {
+    from: "gift-prize@win-now.xyz",
+    subject: "🎁 ТИ ВИГРАВ ПРИЗ!",
+    text:
+      "Терміново відкрий посилання та введи дані картки.",
+    phishing: true
+  },
+  {
+    from: "coach@sportclub.ua",
+    subject: "Зміна часу тренування",
+    text:
+      "Сьогодні тренування починається о 17:30.",
+    phishing: false
+  },
+  {
+    from: "security-account@verify-now.click",
+    subject: "⚠️ Акаунт заблоковано",
+    text:
+      "Підтвердь пароль протягом 5 хвилин, інакше акаунт буде видалено.",
+    phishing: true
+  }
+];
+
+
+/* =====================================================
+   ВІДКРИТИ ПОТРІБНУ МІНІІГРУ
+===================================================== */
+
+function openFoxitaGame(
+  levelId,
+  taskIndex
+) {
+
+  closeModal();
+
+  foxitaState = {
+    levelId,
+    taskIndex,
+    step: 0,
+    score: 0,
+    selectedMail: null,
+    phoneStage: 0
+  };
+
+
+  if (taskIndex === 0) {
+
+    openFoxitaScanner();
+
+    return;
+  }
+
+
+  if (taskIndex === 1) {
+
+    openFoxitaEmotionDetector();
+
+    return;
+  }
+
+
+  if (taskIndex === 2) {
+
+    openFoxitaMailTrap();
+
+    return;
+  }
+
+
+  if (taskIndex === 3) {
+
+    openFoxitaSafeClick();
+
+  }
+
+}
+
+
+/* =====================================================
+   СПІЛЬНА КНОПКА НАЗАД
+===================================================== */
+
+function leaveFoxitaGame() {
+
+  playSound("click");
+
+  showLevel(2);
+
+  openChallenge(2);
+}
+
+
+/* =====================================================
+   ПРОГРЕС ФОКСІТИ
+===================================================== */
+
+function registerFoxitaTask(
+  taskIndex
+) {
+
+  const levelId = 2;
+
+
+  if (!completedTasks[levelId]) {
+
+    completedTasks[levelId] = [];
+  }
+
+
+  if (
+    !completedTasks[levelId]
+      .includes(taskIndex)
+  ) {
+
+    completedTasks[levelId]
+      .push(taskIndex);
+  }
+
+
+  const progress =
+    Math.min(
+      completedTasks[levelId].length * 25,
+      100
+    );
+
+
+  if (
+    progress >= 100 &&
+    !completedLevels.includes(levelId)
+  ) {
+
+    completedLevels.push(levelId);
+  }
+
+
+  return progress;
+}
+
+
+/* =====================================================
+   РЕЗУЛЬТАТ МІНІІГРИ
+===================================================== */
+
+function showFoxitaVictory(
+  title,
+  message
+) {
+
+  const progress =
+    registerFoxitaTask(
+      foxitaState.taskIndex
+    );
+
+
+  playSound("correct");
+
+
+  const overlay =
+    document.createElement("div");
+
+  overlay.className =
+    "foxita-result-overlay";
+
+
+  overlay.innerHTML = `
+
+    <div class="foxita-result-card">
+
+      <div class="foxita-result-icon">
+        🦊
+      </div>
+
+      <div class="foxita-result-small">
+        ФОКСІТА
+      </div>
+
+      <h2>
+        ${title}
+      </h2>
+
+      <p>
+        ${message}
+      </p>
+
+      <div class="foxita-progress-text">
+        Зелений кристал заряджено:
+        <b>${progress}%</b>
+      </div>
+
+      <div class="foxita-progress-track">
+
+        <div
+          class="foxita-progress-fill"
+          style="width:${progress}%"
+        ></div>
+
+      </div>
+
+      <button
+        class="btn"
+        onclick="
+          this.closest('.foxita-result-overlay').remove();
+          returnFromFoxitaTask(${progress});
+        "
+      >
+        ${
+          progress >= 100
+            ? "✨ ЗАВЕРШИТИ РІВЕНЬ"
+            : "ПРОДОВЖИТИ"
+        }
+      </button>
+
+    </div>
+
+  `;
+
+
+  document.body.appendChild(
+    overlay
+  );
+}
+
+
+/* =====================================================
+   ПОВЕРНЕННЯ ПІСЛЯ ЗАВДАННЯ
+===================================================== */
+
+function returnFromFoxitaTask(
+  progress
+) {
+
+  playSound("click");
+
+
+  if (progress >= 100) {
+
+    showFoxitaFinal();
+
+    return;
+  }
+
+
+  showLevel(2);
+
+  openChallenge(2);
+}
+
+
+/* =====================================================
+   МІНІГРА 1
+   СКАНЕР АДРЕСИ
+===================================================== */
+
+function openFoxitaScanner() {
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-game-screen"
+      ${bg(ASSETS.foxitaGame1Bg)}
+    >
+
+      <button
+        class="btn foxita-back"
+        onclick="leaveFoxitaGame()"
+      >
+        ← До випробувань
+      </button>
+
+      <div class="foxita-game-shade"></div>
+
+      <div class="foxita-game-header">
+
+        <div class="foxita-game-number">
+          ВИПРОБУВАННЯ 1
+        </div>
+
+        <h1>
+          🔎 Сканер адреси
+        </h1>
+
+        <p>
+          Знайди підроблені адреси сайтів.
+        </p>
+
+      </div>
+
+
+      <div class="foxita-scanner-layout">
+
+        <div class="foxita-scanner-panel">
+
+          <div class="foxita-instruction">
+            🦊 Уважно дивись на адресу.
+            Шахраї можуть замінити лише одну
+            літеру або цифру.
+          </div>
+
+          <div
+            id="foxitaUrlList"
+            class="foxita-url-list"
+          ></div>
+
+          <div
+            id="foxitaScannerStatus"
+            class="foxita-status"
+          >
+            Знайдено пасток:
+            <b>0 / 3</b>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+
+  renderFoxitaUrls();
+}
+
+
+function renderFoxitaUrls() {
+
+  const box =
+    document.getElementById(
+      "foxitaUrlList"
+    );
+
+  if (!box) return;
+
+
+  box.innerHTML =
+    FOXITA_URLS
+      .map(
+        (item, index) => `
+
+          <button
+            class="foxita-url-card"
+            data-index="${index}"
+            onclick="
+              checkFoxitaUrl(
+                ${index},
+                this
+              )
+            "
+          >
+
+            <span class="foxita-url-icon">
+              🌐
+            </span>
+
+            <span>
+              ${item.url}
+            </span>
+
+          </button>
+
+        `
+      )
+      .join("");
+}
+
+
+function checkFoxitaUrl(
+  index,
+  button
+) {
+
+  const item =
+    FOXITA_URLS[index];
+
+
+  if (!item || !button) return;
+
+
+  if (
+    button.classList
+      .contains("solved")
+  ) {
+
+    return;
+  }
+
+
+  if (item.dangerous) {
+
+    playSound("correct");
+
+    button.classList.add(
+      "danger",
+      "solved"
+    );
+
+    button.innerHTML +=
+      `<span class="foxita-url-result">⚠️ ПАСТКА</span>`;
+
+
+    foxitaState.score++;
+
+
+    const status =
+      document.getElementById(
+        "foxitaScannerStatus"
+      );
+
+
+    if (status) {
+
+      status.innerHTML = `
+        Знайдено пасток:
+        <b>${foxitaState.score} / 3</b>
+      `;
+    }
+
+
+    if (
+      foxitaState.score >= 3
+    ) {
+
+      setTimeout(
+        () => {
+
+          showFoxitaVictory(
+            "Сканер спрацював!",
+            "Ти помітив підроблені адреси й не потрапив у пастку."
+          );
+
+        },
+        500
+      );
+    }
+
+
+    return;
+  }
+
+
+  playSound("wrong");
+
+  button.classList.add(
+    "safe-flash"
+  );
+
+
+  setTimeout(
+    () => {
+
+      button.classList.remove(
+        "safe-flash"
+      );
+
+    },
+    500
+  );
+
+
+  showFoxitaHint(
+    "Ця адреса виглядає справжньою. Шукай замінені літери, цифри або дивний домен."
+  );
+}
+
+
+/* =====================================================
+   МІНІГРА 2
+   ДЕТЕКТОР ЕМОЦІЙ МОРДЕРА
+===================================================== */
+
+function openFoxitaEmotionDetector() {
+
+  foxitaState.step = 0;
+  foxitaState.score = 0;
+
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-game-screen"
+      ${bg(ASSETS.foxitaGame2Bg)}
+    >
+
+      <button
+        class="btn foxita-back"
+        onclick="leaveFoxitaGame()"
+      >
+        ← До випробувань
+      </button>
+
+      <div class="foxita-game-shade"></div>
+
+      <div class="foxita-game-header">
+
+        <div class="foxita-game-number">
+          ВИПРОБУВАННЯ 2
+        </div>
+
+        <h1>
+          🎭 Детектор емоцій Мордера
+        </h1>
+
+        <p>
+          Не дай страху чи подарункам
+          змусити тебе натиснути.
+        </p>
+
+      </div>
+
+
+      <div class="foxita-detector-layout">
+
+        <div
+          id="foxitaMessageCard"
+          class="foxita-message-card"
+        ></div>
+
+      </div>
+
+    </section>
+  `;
+
+
+  renderFoxitaMessage();
+}
+
+
+function renderFoxitaMessage() {
+
+  const card =
+    document.getElementById(
+      "foxitaMessageCard"
+    );
+
+
+  if (!card) return;
+
+
+  const item =
+    FOXITA_MESSAGES[
+      foxitaState.step
+    ];
+
+
+  if (!item) {
+
+    showFoxitaVictory(
+      "Детектор очищено!",
+      "Ти навчився помічати тиск, страх, терміновість і фальшиві подарунки."
+    );
+
+    return;
+  }
+
+
+  card.innerHTML = `
+
+    <div class="foxita-message-counter">
+      Повідомлення
+      ${foxitaState.step + 1}
+      /
+      ${FOXITA_MESSAGES.length}
+    </div>
+
+    <div class="foxita-message-icon">
+      💬
+    </div>
+
+    <div class="foxita-message-text">
+      ${item.text}
+    </div>
+
+    <div class="foxita-message-question">
+      Що це?
+    </div>
+
+    <div class="foxita-message-actions">
+
+      <button
+        class="foxita-trap-btn"
+        onclick="
+          answerFoxitaMessage(true)
+        "
+      >
+        ⚠️ ПАСТКА
+      </button>
+
+      <button
+        class="foxita-safe-btn"
+        onclick="
+          answerFoxitaMessage(false)
+        "
+      >
+        ✅ БЕЗПЕЧНО
+      </button>
+
+    </div>
+
+  `;
+}
+
+
+function answerFoxitaMessage(
+  answer
+) {
+
+  const item =
+    FOXITA_MESSAGES[
+      foxitaState.step
+    ];
+
+
+  if (!item) return;
+
+
+  if (
+    answer === item.trap
+  ) {
+
+    playSound("correct");
+
+    foxitaState.score++;
+
+    showFoxitaHint(
+      item.trap
+        ? "Правильно! Ти помітив пастку."
+        : "Правильно! Це звичайне безпечне повідомлення.",
+      true
+    );
+
+
+    foxitaState.step++;
+
+
+    setTimeout(
+      renderFoxitaMessage,
+      650
+    );
+
+
+    return;
+  }
+
+
+  playSound("wrong");
+
+
+  showFoxitaHint(
+    item.hint
+  );
+}
+
+
+/* =====================================================
+   МІНІГРА 3
+   ЛИСТ-ПАСТКА
+===================================================== */
+
+function openFoxitaMailTrap() {
+
+  foxitaState.step = 0;
+  foxitaState.score = 0;
+
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-game-screen"
+      ${bg(ASSETS.foxitaGame3Bg)}
+    >
+
+      <button
+        class="btn foxita-back"
+        onclick="leaveFoxitaGame()"
+      >
+        ← До випробувань
+      </button>
+
+      <div class="foxita-game-shade"></div>
+
+      <div class="foxita-game-header">
+
+        <div class="foxita-game-number">
+          ВИПРОБУВАННЯ 3
+        </div>
+
+        <h1>
+          ✉️ Лист-пастка
+        </h1>
+
+        <p>
+          Розсортуй листи правильно.
+        </p>
+
+      </div>
+
+
+      <div class="foxita-mail-layout">
+
+        <div
+          id="foxitaMailCard"
+          class="foxita-mail-card"
+        ></div>
+
+        <div class="foxita-mail-zones">
+
+          <button
+            class="foxita-mail-zone inbox"
+            onclick="
+              sortFoxitaMail(false)
+            "
+          >
+            📥
+            <span>ПОШТА</span>
+          </button>
+
+          <button
+            class="foxita-mail-zone trash"
+            onclick="
+              sortFoxitaMail(true)
+            "
+          >
+            🗑️
+            <span>СМІТНИК</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+
+  renderFoxitaMail();
+}
+
+
+function renderFoxitaMail() {
+
+  const card =
+    document.getElementById(
+      "foxitaMailCard"
+    );
+
+
+  if (!card) return;
+
+
+  const mail =
+    FOXITA_MAILS[
+      foxitaState.step
+    ];
+
+
+  if (!mail) {
+
+    showFoxitaVictory(
+      "Поштова скринька очищена!",
+      "Ти відправив фішингові листи у смітник і зберіг безпечні повідомлення."
+    );
+
+    return;
+  }
+
+
+  card.innerHTML = `
+
+    <div class="foxita-mail-top">
+
+      <div class="foxita-mail-avatar">
+        ✉️
+      </div>
+
+      <div>
+
+        <div class="foxita-mail-from">
+          ${mail.from}
+        </div>
+
+        <div class="foxita-mail-subject">
+          ${mail.subject}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="foxita-mail-body">
+      ${mail.text}
+    </div>
+
+    <div class="foxita-mail-help">
+      Куди відправити цей лист?
+    </div>
+
+  `;
+}
+
+
+function sortFoxitaMail(
+  toTrash
+) {
+
+  const mail =
+    FOXITA_MAILS[
+      foxitaState.step
+    ];
+
+
+  if (!mail) return;
+
+
+  if (
+    toTrash === mail.phishing
+  ) {
+
+    playSound("correct");
+
+    showFoxitaHint(
+      mail.phishing
+        ? "Правильно! Підозрілий лист — у смітник."
+        : "Правильно! Цей лист можна залишити в пошті.",
+      true
+    );
+
+
+    foxitaState.step++;
+
+
+    setTimeout(
+      renderFoxitaMail,
+      650
+    );
+
+
+    return;
+  }
+
+
+  playSound("wrong");
+
+
+  showFoxitaHint(
+    mail.phishing
+      ? "У листі є тиск, підозрілий відправник або прохання надати дані."
+      : "Цей лист не просить пароль чи особисті дані. Подивись уважніше."
+  );
+}
+
+
+/* =====================================================
+   МІНІГРА 4
+   БЕЗПЕЧНИЙ КЛІК
+===================================================== */
+
+function openFoxitaSafeClick() {
+
+  foxitaState.phoneStage = 0;
+
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-game-screen"
+      ${bg(ASSETS.foxitaGame4Bg)}
+    >
+
+      <button
+        class="btn foxita-back"
+        onclick="leaveFoxitaGame()"
+      >
+        ← До випробувань
+      </button>
+
+      <div class="foxita-game-shade"></div>
+
+      <div class="foxita-game-header">
+
+        <div class="foxita-game-number">
+          ВИПРОБУВАННЯ 4
+        </div>
+
+        <h1>
+          📱 Безпечний клік
+        </h1>
+
+        <p>
+          Знешкодь небезпечне повідомлення.
+        </p>
+
+      </div>
+
+
+      <div class="foxita-phone-layout">
+
+        <div class="foxita-phone-wrap">
+
+          <img
+            class="foxita-phone-image"
+            src="${ASSETS.foxitaPhone}"
+            alt="Телефон"
+          >
+
+          <div
+            id="foxitaPhoneContent"
+            class="foxita-phone-content"
+          ></div>
+
+        </div>
+
+
+        <div class="foxita-phone-help">
+
+          <div class="foxita-instruction">
+            🦊 Не переходь за підозрілим
+            посиланням. Знайди безпечний
+            спосіб прибрати повідомлення.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+  `;
+
+
+  renderFoxitaPhone();
+}
+
+
+function renderFoxitaPhone() {
+
+  const phone =
+    document.getElementById(
+      "foxitaPhoneContent"
+    );
+
+
+  if (!phone) return;
+
+
+  if (
+    foxitaState.phoneStage === 0
+  ) {
+
+    phone.innerHTML = `
+
+      <div class="foxita-phone-app">
+        Повідомлення
+      </div>
+
+      <div class="foxita-phone-message">
+
+        <div class="foxita-phone-sender">
+          🎁 SUPER PRIZE
+        </div>
+
+        <p>
+          Вітаємо!
+          Ти виграв смартфон.
+        </p>
+
+        <button
+          class="foxita-danger-link"
+          onclick="foxitaUnsafeClick()"
+        >
+          Отримати подарунок
+        </button>
+
+        <button
+          class="foxita-dots"
+          onclick="foxitaOpenMenu()"
+        >
+          ⋯
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  if (
+    foxitaState.phoneStage === 1
+  ) {
+
+    phone.innerHTML = `
+
+      <div class="foxita-phone-menu">
+
+        <button
+          onclick="foxitaWrongPhoneAction()"
+        >
+          📌 Зберегти
+        </button>
+
+        <button
+          onclick="foxitaReportMessage()"
+        >
+          🚩 Поскаржитися
+        </button>
+
+        <button
+          onclick="foxitaWrongPhoneAction()"
+        >
+          📤 Переслати
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  if (
+    foxitaState.phoneStage === 2
+  ) {
+
+    phone.innerHTML = `
+
+      <div class="foxita-report-success">
+
+        <div class="foxita-big-check">
+          ✓
+        </div>
+
+        <h3>
+          Скаргу надіслано
+        </h3>
+
+        <p>
+          Тепер прибери
+          небезпечне повідомлення.
+        </p>
+
+        <button
+          class="foxita-delete-btn"
+          onclick="foxitaDeleteMessage()"
+        >
+          🗑️ Видалити
+        </button>
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+function foxitaUnsafeClick() {
+
+  playSound("wrong");
+
+
+  showFoxitaHint(
+    "Не натискай на посилання з несподіваними подарунками. Спробуй відкрити меню ⋯."
+  );
+}
+
+
+function foxitaOpenMenu() {
+
+  playSound("click");
+
+  foxitaState.phoneStage = 1;
+
+  renderFoxitaPhone();
+}
+
+
+function foxitaWrongPhoneAction() {
+
+  playSound("wrong");
+
+
+  showFoxitaHint(
+    "Це не знешкодить пастку. Спочатку поскаржся на небезпечне повідомлення."
+  );
+}
+
+
+function foxitaReportMessage() {
+
+  playSound("correct");
+
+  foxitaState.phoneStage = 2;
+
+  renderFoxitaPhone();
+
+
+  showFoxitaHint(
+    "Чудово! Тепер видали повідомлення.",
+    true
+  );
+}
+
+
+function foxitaDeleteMessage() {
+
+  playSound("correct");
+
+
+  showFoxitaVictory(
+    "Пастку знешкоджено!",
+    "Ти не відкрив небезпечне посилання, поскаржився на повідомлення та видалив його."
+  );
+}
+
+
+/* =====================================================
+   ПІДКАЗКА ФОКСІТИ
+===================================================== */
+
+function showFoxitaHint(
+  text,
+  success = false
+) {
+
+  const oldHint =
+    document.querySelector(
+      ".foxita-toast"
+    );
+
+
+  if (oldHint) {
+
+    oldHint.remove();
+  }
+
+
+  const hint =
+    document.createElement("div");
+
+
+  hint.className =
+    "foxita-toast" +
+    (
+      success
+        ? " success"
+        : ""
+    );
+
+
+  hint.innerHTML = `
+
+    <span class="foxita-toast-face">
+      ${success ? "🦊✨" : "🦊"}
+    </span>
+
+    <span>
+      ${text}
+    </span>
+
+  `;
+
+
+  document.body.appendChild(
+    hint
+  );
+
+
+  setTimeout(
+    () => {
+
+      hint.remove();
+
+    },
+    2200
+  );
+}
+
+
+/* =====================================================
+   ФІНАЛ ЛІСУ ПРИМАНОК
+===================================================== */
+
+function showFoxitaFinal() {
+
+  playSound("crystal");
+
+
+  app.innerHTML = `
+
+    <section
+      class="screen foxita-final-screen"
+      ${bg(ASSETS.level2)}
+    >
+
+      <div class="foxita-final-shade"></div>
+
+      <div class="foxita-final-card">
+
+        <img
+          class="foxita-final-mentor"
+          src="${ASSETS.foxita}"
+          alt="Фоксіта"
+        >
+
+        <div class="foxita-final-content">
+
+          <div class="foxita-final-small">
+            ЛІС ПРИМАНОК
+          </div>
+
+          <h1>
+            Ліс Приманок врятовано!
+          </h1>
+
+          <p>
+            🦊 Тепер ти знаєш:
+            не все, що виглядає привабливо
+            в Інтернеті, є безпечним.
+          </p>
+
+          <p>
+            Перевіряй адреси,
+            не піддавайся на тиск,
+            розпізнавай фішингові листи
+            та не натискай підозрілі посилання.
+          </p>
+
+          <div class="foxita-final-crystal">
+            💚
+          </div>
+
+          <div class="foxita-final-progress">
+            Зелений кристал заряджено на
+            <b>100%</b>
+          </div>
+
+          <button
+            class="btn"
+            onclick="finishFoxitaLevel()"
+          >
+            НА КАРТУ СВІТУ
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+  `;
+}
+
+
+/* =====================================================
+   ЗАВЕРШИТИ РІВЕНЬ ФОКСІТИ
+===================================================== */
+
+function finishFoxitaLevel() {
+
+  if (
+    !completedLevels.includes(2)
+  ) {
+
+    completedLevels.push(2);
+  }
+
+
+  playSound("click");
+
+  showMap();
+}
+
+
+/* =====================================================
+   ГЛОБАЛЬНІ ВИКЛИКИ ФОКСІТИ
+===================================================== */
+
+window.openFoxitaGame =
+  openFoxitaGame;
+
+window.leaveFoxitaGame =
+  leaveFoxitaGame;
+
+window.checkFoxitaUrl =
+  checkFoxitaUrl;
+
+window.answerFoxitaMessage =
+  answerFoxitaMessage;
+
+window.sortFoxitaMail =
+  sortFoxitaMail;
+
+window.foxitaUnsafeClick =
+  foxitaUnsafeClick;
+
+window.foxitaOpenMenu =
+  foxitaOpenMenu;
+
+window.foxitaWrongPhoneAction =
+  foxitaWrongPhoneAction;
+
+window.foxitaReportMessage =
+  foxitaReportMessage;
+
+window.foxitaDeleteMessage =
+  foxitaDeleteMessage;
+
+window.returnFromFoxitaTask =
+  returnFromFoxitaTask;
+
+window.finishFoxitaLevel =
+  finishFoxitaLevel;
 
 /* =====================================================
    ЦИТАДЕЛЬ ХАОСУ

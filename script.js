@@ -22,7 +22,7 @@ const ASSETS = {
   level2: "fon/fon_forest.png",
   level3: "fon/fon_ozero.png",
   level4: "fon/fon_kajjian.png",
-  level5: "fon/fon_vylkan.png",
+  level5: "fon/airo-main-bg.png",
 
   citadel: "fon/Fon_mordor_1.png",
 
@@ -10766,6 +10766,355 @@ window.returnFromFoxitaTask =
 
 window.finishFoxitaLevel =
   finishFoxitaLevel;
+
+
+
+/* =====================================================
+   РІВЕНЬ 3 — НЕРЕУС
+   МІНІГРА 1 — ПЕРЕВІРКА ДЖЕРЕЛА
+===================================================== */
+
+let nereusState = {
+  taskIndex: 0,
+  lives: 3,
+  stage: "intro"
+};
+
+function openNereusGame(levelId, taskIndex) {
+  if (levelId !== 3) return;
+
+  if (taskIndex !== 0) {
+    console.warn("Мінігра Нереуса ще готується:", taskIndex + 1);
+    showLevel(3);
+    openChallenge(3);
+    return;
+  }
+
+  closeModal();
+
+  nereusState = {
+    taskIndex,
+    lives: 3,
+    stage: "intro"
+  };
+
+  renderNereusSourceGame();
+}
+
+function renderNereusSourceGame() {
+  const stage = nereusState.stage;
+
+  const background = ASSETS.nereusGame1Bg ||
+    "Nereys/nereus-game1-bg.png";
+
+  const hearts = Array.from(
+    { length: 3 },
+    (_, i) => i < nereusState.lives ? "💙" : "🩶"
+  ).join(" ");
+
+  let content = "";
+
+  if (stage === "intro") {
+    content = `
+      <div class="nereus-panel">
+        <img class="nereus-mentor" src="${ASSETS.nereus}" alt="Нереус">
+        <h2>Нереус має для тебе завдання!</h2>
+        <p>
+          У водах Озера з’явилася підозріла новина.
+          Не поспішай їй вірити!
+          Знайди джерело, якому можна довіряти.
+        </p>
+        <button class="nereus-btn" onclick="nereusSourceRules()">
+          Слухати правила
+        </button>
+      </div>
+    `;
+  }
+
+  if (stage === "rules") {
+    content = `
+      <div class="nereus-panel">
+        <h2>Як грати?</h2>
+        <p>Прочитай новину та обери, де її краще перевірити.</p>
+        <p>Шукай офіційне та надійне джерело.</p>
+        <p>Якщо помилишся, Нереус дасть підказку.</p>
+        <p>Знайди правильне джерело та очисти воду!</p>
+        <button class="nereus-btn" onclick="nereusStartSource()">
+          Почати
+        </button>
+      </div>
+    `;
+  }
+
+  if (stage === "play") {
+    content = `
+      <div class="nereus-panel nereus-game-panel">
+        <div class="nereus-lives">${hearts}</div>
+        <h2>Перевірка джерела</h2>
+        <div class="nereus-news">
+          <strong>ШОК!</strong>
+          Завтра закриваються всі сервери
+          Brawl Stars назавжди!
+        </div>
+        <p>Де найкраще перевірити цю новину?</p>
+        <div class="nereus-options">
+          <button onclick="nereusChooseSource(0)">
+            TikTok-коментар<br>@super_gamer_2026
+          </button>
+          <button onclick="nereusChooseSource(1)">
+            Telegram-канал<br>«Секрети ігор»
+          </button>
+          <button onclick="nereusChooseSource(2)">
+            Офіційна сторінка<br>розробників Supercell
+          </button>
+        </div>
+        <p id="nereus-feedback" aria-live="polite"></p>
+      </div>
+    `;
+  }
+
+  if (stage === "victory") {
+    const progress = (completedTasks[3] || []).length * 25;
+
+    content = `
+      <div class="nereus-panel">
+        <img class="nereus-crystal" src="${ASSETS.blueOn}"
+             alt="Синій кристал">
+        <h2>Чудово! Джерело перевірено ✓</h2>
+        <p>
+          Ти знайшов надійне джерело.
+          Вода Озера Фейків стає чистішою!
+        </p>
+        <p>Синій кристал заряджено: ${progress}%</p>
+        <button class="nereus-btn" onclick="nereusReturnToLevel()">
+          Продовжити
+        </button>
+      </div>
+    `;
+  }
+
+  if (stage === "retry") {
+    content = `
+      <div class="nereus-panel">
+        <img class="nereus-mentor" src="${ASSETS.nereus}" alt="Нереус">
+        <h2>Спробуй ще раз!</h2>
+        <p>
+          Не кожне популярне повідомлення є правдою.
+          Шукай першоджерело інформації.
+        </p>
+        <button class="nereus-btn" onclick="nereusStartSource()">
+          Повторити
+        </button>
+      </div>
+    `;
+  }
+
+  app.innerHTML = `
+    <style>
+      .nereus-screen {
+        min-height: 100vh;
+        box-sizing: border-box;
+        padding: 30px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:
+          linear-gradient(180deg,rgba(3,25,53,.30),rgba(3,25,53,.60)),
+          url("${background}") center / cover no-repeat;
+        font-family: inherit;
+        color: #fff;
+      }
+
+      .nereus-panel {
+        width: min(780px, 94vw);
+        box-sizing: border-box;
+        text-align: center;
+        background: rgba(6,34,66,.90);
+        border: 3px solid #d9b66b;
+        border-radius: 22px;
+        padding: 28px;
+        box-shadow: 0 14px 50px rgba(0,0,0,.4);
+      }
+
+      .nereus-panel h2 {
+        color: #ffe5a1;
+        margin: 12px 0 20px;
+      }
+
+      .nereus-panel p {
+        font-size: 19px;
+        line-height: 1.55;
+      }
+
+      .nereus-mentor {
+        display: block;
+        max-height: 210px;
+        max-width: 85%;
+        object-fit: contain;
+        margin: 0 auto 12px;
+      }
+
+      .nereus-crystal {
+        max-height: 180px;
+        max-width: 75%;
+        object-fit: contain;
+      }
+
+      .nereus-btn,
+      .nereus-options button {
+        cursor: pointer;
+        font: inherit;
+        border-radius: 14px;
+        padding: 14px 22px;
+        border: 2px solid #dfbd76;
+        background: #12587b;
+        color: #fff;
+        transition: transform .15s, background .15s;
+      }
+
+      .nereus-btn:hover,
+      .nereus-options button:hover {
+        transform: translateY(-2px);
+        background: #207fa4;
+      }
+
+      .nereus-options {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin: 20px 0;
+      }
+
+      .nereus-options button {
+        min-height: 110px;
+        overflow-wrap: anywhere;
+      }
+
+      .nereus-news {
+        padding: 20px;
+        background: #f7e8c5;
+        border: 3px solid #d3a754;
+        border-radius: 14px;
+        color: #23344a;
+        font-size: 22px;
+        line-height: 1.4;
+      }
+
+      .nereus-news strong {
+        color: #c83232;
+      }
+
+      .nereus-lives {
+        text-align: right;
+        font-size: 25px;
+      }
+
+      .nereus-back {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 5;
+      }
+
+      #nereus-feedback {
+        min-height: 28px;
+        color: #ffe5a1;
+      }
+
+      @media(max-width: 640px) {
+        .nereus-options {
+          grid-template-columns: 1fr;
+        }
+        .nereus-panel {
+          padding: 20px 14px;
+        }
+        .nereus-panel p {
+          font-size: 16px;
+        }
+      }
+    </style>
+
+    <div class="nereus-screen">
+      <button class="nereus-btn nereus-back"
+              onclick="nereusReturnToLevel()">
+        ← Назад
+      </button>
+      ${content}
+    </div>
+  `;
+}
+
+function nereusSourceRules() {
+  playSound("click");
+  nereusState.stage = "rules";
+  renderNereusSourceGame();
+}
+
+function nereusStartSource() {
+  playSound("click");
+  nereusState.lives = 3;
+  nereusState.stage = "play";
+  renderNereusSourceGame();
+}
+
+function nereusChooseSource(choice) {
+  if (nereusState.stage !== "play") return;
+
+  if (choice === 2) {
+    playSound("correct");
+
+    if (!completedTasks[3]) {
+      completedTasks[3] = [];
+    }
+
+    if (!completedTasks[3].includes(0)) {
+      completedTasks[3].push(0);
+    }
+
+    if (
+      completedTasks[3].length >= 4 &&
+      !completedLevels.includes(3)
+    ) {
+      completedLevels.push(3);
+    }
+
+    nereusState.stage = "victory";
+    renderNereusSourceGame();
+    return;
+  }
+
+  playSound("wrong");
+  nereusState.lives--;
+
+  if (nereusState.lives <= 0) {
+    nereusState.stage = "retry";
+    renderNereusSourceGame();
+    return;
+  }
+
+  const feedback = document.getElementById("nereus-feedback");
+
+  if (feedback) {
+    feedback.textContent =
+      "Нереус підказує: перевір, хто створив гру та де розробники публікують офіційні новини.";
+  }
+
+  const lives = document.querySelector(".nereus-lives");
+
+  if (lives) {
+    lives.textContent = Array.from(
+      { length: 3 },
+      (_, i) => i < nereusState.lives ? "💙" : "🩶"
+    ).join(" ");
+  }
+}
+
+function nereusReturnToLevel() {
+  playSound("click");
+  showLevel(3);
+  openChallenge(3);
+}
+
 
 /* =====================================================
    ЦИТАДЕЛЬ ХАОСУ

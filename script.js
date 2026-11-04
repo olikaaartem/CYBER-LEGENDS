@@ -56,6 +56,15 @@ const ASSETS = {
 
   logo: "artefaktu/logo_game.png",
 
+  /* =====================================================
+     МІНІІГРИ — РІВЕНЬ 3 / НЕРЕУС
+  ===================================================== */
+
+  nereusGame1Bg: "Nereys/nereus-game1-bg.png",
+  nereusGame2Bg: "Nereys/nereus-game2-bg.png",
+  nereusGame3Bg: "Nereys/nereus-game3-bg.png",
+  nereusGame4Bg: "Nereys/nereus-game4-bg.png",
+
   /* АРТЕФАКТИ НАСТАВНИКІВ */
 
   artifactBook: "artefaktu/artefakt_knuga.png",
@@ -63,6 +72,7 @@ const ASSETS = {
   artifactMirror: "artefaktu/artefakt_dzerkalo.png",
   artifactSphere: "artefaktu/artefakt_sfera.png",
   artifactSword: "artefaktu/artefakt_mech.png",
+  artifactAiro: "artefaktu/artifact_airo_cybercompass.png",
 
   /* ГЕРОЇ */
 
@@ -79,6 +89,7 @@ const ASSETS = {
   nereus: "geroi/nastavnuk_som.png",
   anubisa: "geroi/nastavnuk_kajjann.png",
   tifon: "geroi/nastavnuk_drakon.png",
+  airo: "geroi/airo.png",
    
  /* ПРОВІДНИК КІБЕРКОРОЛІВСТВА */
 

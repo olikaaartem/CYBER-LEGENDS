@@ -10769,160 +10769,667 @@ window.finishFoxitaLevel =
 
 
 
-/* =====================================================
+/* ============================================================
+   КІБЕРЛЕГЕНДИ
    РІВЕНЬ 3 — НЕРЕУС
-   МІНІГРА 1 — ПЕРЕВІРКА ДЖЕРЕЛА
-===================================================== */
+   ЛОКАЦІЯ: ОЗЕРО ФЕЙКІВ
+   АРТЕФАКТ: ДЗЕРКАЛО ПРАВДИ
+
+   ЧОТИРИ МІНІІГРИ:
+   1. Перевірка джерела
+   2. Фейк чи факт?
+   3. Фото-детектив
+   4. Ловець клікбейту
+
+   ПОСЛІДОВНІСТЬ:
+   Наставник → Правила → Гра → Результат
+
+   ПРОГРЕС:
+   1 виконана гра = 25% синього кристала.
+   Повторне проходження не додає прогрес.
+
+   ВАЖЛИВО:
+   Цей блок замінює ТІЛЬКИ старий код Нереуса.
+   Функції Тотуса, Фоксіти та Цитаделі не змінюємо.
+============================================================ */
+
+
+/* ============================================================
+   1. ДАНІ ЧОТИРЬОХ МІНІІГОР
+
+   Тут можна редагувати:
+   - назви ігор;
+   - правила;
+   - запитання;
+   - варіанти відповідей;
+   - підказки.
+
+   correct — номер правильної відповіді:
+   0 = перший варіант
+   1 = другий варіант
+   2 = третій варіант
+============================================================ */
+
+const NEREUS_GAMES = [
+
+  /* ----------------------------------------------------------
+     МІНІГРА 1 — ПЕРЕВІРКА ДЖЕРЕЛА
+  ---------------------------------------------------------- */
+  {
+    title: "Перевірка джерела",
+
+    intro:
+      "У водах Озера з'явилася підозріла новина. " +
+      "Не поспішай їй вірити! Знайди першоджерело.",
+
+    rules:
+      "Прочитай новину та обери, де її найкраще " +
+      "перевірити. Надійне джерело допоможе " +
+      "відрізнити правду від вигадки.",
+
+    questions: [
+      {
+        title: "ШОК! Завтра назавжди закриють Brawl Stars!",
+        prompt: "Де перевіриш цю новину?",
+
+        options: [
+          "Коментар @super_gamer_2026 у TikTok",
+          "Telegram-канал «Секрети ігор»",
+          "Офіційна сторінка розробників Supercell"
+        ],
+
+        correct: 2,
+
+        hint:
+          "Згадай, хто створив гру. Саме розробник " +
+          "публікує офіційні оголошення."
+      }
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     МІНІГРА 2 — ФЕЙК ЧИ ФАКТ?
+  ---------------------------------------------------------- */
+  {
+    title: "Фейк чи факт?",
+
+    intro:
+      "Мордер змішав правдиві повідомлення " +
+      "з вигаданими. Допоможи очистити Озеро!",
+
+    rules:
+      "Прочитай кожне твердження та визнач, " +
+      "чи воно правдиве. Не довіряй сенсаціям " +
+      "без доказів.",
+
+    questions: [
+      {
+        title:
+          "Якщо переслати повідомлення десятьом друзям, " +
+          "телефон зарядиться сам.",
+
+        prompt: "Фейк чи факт?",
+
+        options: ["Факт", "Фейк"],
+
+        correct: 1,
+
+        hint:
+          "Пересилання повідомлень не може " +
+          "фізично зарядити акумулятор."
+      },
+      {
+        title:
+          "Унікальний складний пароль допомагає " +
+          "захищати обліковий запис.",
+
+        prompt: "Фейк чи факт?",
+
+        options: ["Факт", "Фейк"],
+
+        correct: 0,
+
+        hint:
+          "Складні унікальні паролі ускладнюють " +
+          "несанкціонований доступ."
+      },
+      {
+        title:
+          "Усі відео в інтернеті обов'язково " +
+          "показують реальні події.",
+
+        prompt: "Фейк чи факт?",
+
+        options: ["Факт", "Фейк"],
+
+        correct: 1,
+
+        hint:
+          "Відео можуть бути змонтованими, " +
+          "постановочними або згенерованими ШІ."
+      }
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     МІНІГРА 3 — ФОТО-ДЕТЕКТИВ
+
+     ПОТОЧНА ВЕРСІЯ:
+     Аналізуємо опис ситуації.
+
+     МАЙБУТНЄ РОЗШИРЕННЯ:
+     Додамо реальні зображення для аналізу,
+     наближення деталей та порівняння фото.
+  ---------------------------------------------------------- */
+  {
+    title: "Фото-детектив",
+
+    intro:
+      "Мордер залишив загадкові зображення. " +
+      "Чи зможеш ти знайти ознаки маніпуляції?",
+
+    rules:
+      "Досліджуй походження фото та його контекст. " +
+      "Одна дивна деталь ще не доводить підробку.",
+
+    questions: [
+      {
+        title:
+          "Сенсаційне фото поширюють без дати, " +
+          "автора та місця зйомки.",
+
+        prompt: "Що потрібно зробити?",
+
+        options: [
+          "Негайно поширити",
+          "Знайти першоджерело та контекст",
+          "Повірити кількості лайків"
+        ],
+
+        correct: 1,
+
+        hint:
+          "Перевір походження фото, дату " +
+          "та обставини його створення."
+      },
+      {
+        title:
+          "На фотографії помітна дивна тінь.",
+
+        prompt: "Який висновок правильний?",
+
+        options: [
+          "Це точно зображення ШІ",
+          "Фото точно справжнє",
+          "Це привід перевірити фото детальніше"
+        ],
+
+        correct: 2,
+
+        hint:
+          "Незвичні деталі можуть мати різні причини. " +
+          "Не роби остаточного висновку без перевірки."
+      },
+      {
+        title:
+          "Те саме фото знайшли в публікації " +
+          "трирічної давнини про іншу подію.",
+
+        prompt: "Що це може означати?",
+
+        options: [
+          "Новий підпис може вводити в оману",
+          "Старе фото підтверджує новину",
+          "Фото треба терміново переслати"
+        ],
+
+        correct: 0,
+
+        hint:
+          "Навіть справжнє фото може вводити " +
+          "в оману через неправдивий підпис."
+      }
+    ]
+  },
+
+  /* ----------------------------------------------------------
+     МІНІГРА 4 — ЛОВЕЦЬ КЛІКБЕЙТУ
+  ---------------------------------------------------------- */
+  {
+    title: "Ловець клікбейту",
+
+    intro:
+      "Мордер створив заголовки-пастки! " +
+      "Не дозволяй їм керувати твоїми емоціями.",
+
+    rules:
+      "Прочитай заголовок та визнач, " +
+      "чи він інформує, чи намагається " +
+      "маніпулювати твоєю увагою.",
+
+    questions: [
+      {
+        title:
+          "ТИ НЕ ПОВІРИШ! ЛІКАРІ ПРИХОВУВАЛИ ЦЕ!!!",
+
+        prompt: "Що перед тобою?",
+
+        options: [
+          "Нейтральний заголовок",
+          "Клікбейт"
+        ],
+
+        correct: 1,
+
+        hint:
+          "Капслок, недомовки та обіцянки " +
+          "сенсації часто використовують у клікбейті."
+      },
+      {
+        title:
+          "Бібліотека опублікувала новий графік роботи.",
+
+        prompt: "Що перед тобою?",
+
+        options: [
+          "Інформативний заголовок",
+          "Клікбейт"
+        ],
+
+        correct: 0,
+
+        hint:
+          "Цей заголовок прямо пояснює, " +
+          "про що йдеться."
+      },
+      {
+        title:
+          "НАТИСНИ НЕГАЙНО, ІНАКШЕ ВТРАТИШ АКАУНТ!",
+
+        prompt: "Який прийом використано?",
+
+        options: [
+          "Спокійне інформування",
+          "Тиск страхом і терміновістю"
+        ],
+
+        correct: 1,
+
+        hint:
+          "Страх і штучна терміновість " +
+          "можуть змусити діяти без перевірки."
+      }
+    ]
+  }
+];
+
+
+/* ============================================================
+   2. СТАН РІВНЯ НЕРЕУСА
+
+   taskIndex — поточна мінігра (0–3)
+   stage — поточний екран:
+     intro   = знайомство з наставником
+     rules   = правила
+     play    = проходження
+     retry   = спроби закінчилися
+     victory = успішне завершення
+
+   question — номер поточного питання
+   lives — кількість спроб
+   feedback — текст підказки
+============================================================ */
 
 let nereusState = {
   taskIndex: 0,
+  stage: "intro",
+  question: 0,
   lives: 3,
-  stage: "intro"
+  feedback: ""
 };
 
+
+/* ============================================================
+   3. ЗАПУСК МІНІІГРИ
+
+   Цю функцію вже викликає openTask()
+   у головному коді гри.
+
+   Тому змінювати openTask() НЕ потрібно.
+============================================================ */
+
 function openNereusGame(levelId, taskIndex) {
+
+  // Переконуємося, що відкриваємо рівень Нереуса.
   if (levelId !== 3) return;
 
-  if (taskIndex !== 0) {
-    console.warn("Мінігра Нереуса ще готується:", taskIndex + 1);
-    showLevel(3);
-    openChallenge(3);
+  // Захист від неправильного номера мінігри.
+  if (
+    !Number.isInteger(taskIndex) ||
+    taskIndex < 0 ||
+    taskIndex >= NEREUS_GAMES.length
+  ) {
+    console.error(
+      "Нереус: невідоме випробування",
+      taskIndex
+    );
     return;
   }
 
+  // Закриваємо попереднє модальне вікно.
   closeModal();
 
+  // Кожне проходження починається з чистого стану.
   nereusState = {
-    taskIndex,
+    taskIndex: taskIndex,
+    stage: "intro",
+    question: 0,
     lives: 3,
-    stage: "intro"
+    feedback: ""
   };
 
-  renderNereusSourceGame();
+  playSound("click");
+
+  // Показуємо початкову сцену.
+  renderNereusGame();
 }
 
-function renderNereusSourceGame() {
+
+/* ============================================================
+   4. ВИБІР ФОНУ
+
+   Для кожної мінігри використовується
+   окремий фон із папки Nereys.
+
+   Назви шляхів уже визначені в ASSETS
+   на початку script.js.
+============================================================ */
+
+function nereusGetBackground() {
+
+  const backgrounds = [
+    ASSETS.nereusGame1Bg,
+    ASSETS.nereusGame2Bg,
+    ASSETS.nereusGame3Bg,
+    ASSETS.nereusGame4Bg
+  ];
+
+  return backgrounds[nereusState.taskIndex];
+}
+
+
+/* ============================================================
+   5. ГОЛОВНА ФУНКЦІЯ ВІДОБРАЖЕННЯ
+
+   Вона створює потрібний екран залежно
+   від значення nereusState.stage.
+
+   Увесь рівень використовує один контейнер,
+   тому під час переходів не залишаються
+   старі елементи попередньої сцени.
+============================================================ */
+
+function renderNereusGame() {
+
+  const game = NEREUS_GAMES[nereusState.taskIndex];
   const stage = nereusState.stage;
 
-  const background = ASSETS.nereusGame1Bg ||
-    "Nereys/nereus-game1-bg.png";
+  const progress = Math.min(
+    100,
+    (completedTasks[3] || []).length * 25
+  );
 
+  // Відображення спроб.
   const hearts = Array.from(
     { length: 3 },
-    (_, i) => i < nereusState.lives ? "💙" : "🩶"
+    (_, index) =>
+      index < nereusState.lives ? "💙" : "🩶"
   ).join(" ");
 
   let content = "";
 
+
+  /* ----------------------------------------------------------
+     ЕКРАН 1 — ЗНАЙОМСТВО З НЕРЕУСОМ
+  ---------------------------------------------------------- */
+
   if (stage === "intro") {
+
     content = `
       <div class="nereus-panel">
-        <img class="nereus-mentor" src="${ASSETS.nereus}" alt="Нереус">
-        <h2>Нереус має для тебе завдання!</h2>
+
+        <img
+          class="nereus-mentor"
+          src="${ASSETS.nereus}"
+          alt="Наставник Нереус"
+        >
+
+        <h2>Нереус вітає тебе!</h2>
+
+        <p>${game.intro}</p>
+
+        <h3>${game.title}</h3>
+
+        <button
+          class="nereus-btn"
+          onclick="nereusNext()"
+        >
+          СЛУХАТИ ПРАВИЛА
+        </button>
+
+      </div>
+    `;
+  }
+
+
+  /* ----------------------------------------------------------
+     ЕКРАН 2 — ПРАВИЛА МІНІІГРИ
+  ---------------------------------------------------------- */
+
+  else if (stage === "rules") {
+
+    content = `
+      <div class="nereus-panel">
+
+        <img
+          class="nereus-mentor"
+          src="${ASSETS.nereus}"
+          alt="Нереус пояснює правила"
+        >
+
+        <h2>${game.title}</h2>
+
+        <p>${game.rules}</p>
+
         <p>
-          У водах Озера з’явилася підозріла новина.
-          Не поспішай їй вірити!
-          Знайди джерело, якому можна довіряти.
+          У тебе три спроби.
+          Якщо помилишся, Нереус підкаже.
         </p>
-        <button class="nereus-btn" onclick="nereusSourceRules()">
-          Слухати правила
+
+        <button
+          class="nereus-btn"
+          onclick="nereusNext()"
+        >
+          ПОЧАТИ ГРУ
         </button>
+
       </div>
     `;
   }
 
-  if (stage === "rules") {
-    content = `
-      <div class="nereus-panel">
-        <h2>Як грати?</h2>
-        <p>Прочитай новину та обери, де її краще перевірити.</p>
-        <p>Шукай офіційне та надійне джерело.</p>
-        <p>Якщо помилишся, Нереус дасть підказку.</p>
-        <p>Знайди правильне джерело та очисти воду!</p>
-        <button class="nereus-btn" onclick="nereusStartSource()">
-          Почати
-        </button>
-      </div>
-    `;
-  }
 
-  if (stage === "play") {
+  /* ----------------------------------------------------------
+     ЕКРАН 3 — ІГРОВИЙ ПРОЦЕС
+  ---------------------------------------------------------- */
+
+  else if (stage === "play") {
+
+    const question = game.questions[nereusState.question];
+
+    const questionProgress =
+      (nereusState.question / game.questions.length) * 100;
+
     content = `
       <div class="nereus-panel nereus-game-panel">
-        <div class="nereus-lives">${hearts}</div>
-        <h2>Перевірка джерела</h2>
+
+        <div class="nereus-lives">
+          ${hearts}
+        </div>
+
+        <h2>${game.title}</h2>
+
+        <p>
+          Завдання
+          ${nereusState.question + 1}
+          із ${game.questions.length}
+        </p>
+
+        <div class="nereus-progress">
+          <div style="width:${questionProgress}%"></div>
+        </div>
+
         <div class="nereus-news">
-          <strong>ШОК!</strong>
-          Завтра закриваються всі сервери
-          Brawl Stars назавжди!
+          ${question.title}
         </div>
-        <p>Де найкраще перевірити цю новину?</p>
+
+        <p>${question.prompt}</p>
+
         <div class="nereus-options">
-          <button onclick="nereusChooseSource(0)">
-            TikTok-коментар<br>@super_gamer_2026
-          </button>
-          <button onclick="nereusChooseSource(1)">
-            Telegram-канал<br>«Секрети ігор»
-          </button>
-          <button onclick="nereusChooseSource(2)">
-            Офіційна сторінка<br>розробників Supercell
-          </button>
+
+          ${question.options.map((option, index) => `
+            <button
+              onclick="nereusAnswer(${index})"
+            >
+              ${option}
+            </button>
+          `).join("")}
+
         </div>
-        <p id="nereus-feedback" aria-live="polite"></p>
-      </div>
-    `;
-  }
 
-  if (stage === "victory") {
-    const progress = (completedTasks[3] || []).length * 25;
-
-    content = `
-      <div class="nereus-panel">
-        <img class="nereus-crystal" src="${ASSETS.blueOn}"
-             alt="Синій кристал">
-        <h2>Чудово! Джерело перевірено ✓</h2>
-        <p>
-          Ти знайшов надійне джерело.
-          Вода Озера Фейків стає чистішою!
+        <p
+          id="nereus-feedback"
+          aria-live="polite"
+        >
+          ${nereusState.feedback}
         </p>
-        <p>Синій кристал заряджено: ${progress}%</p>
-        <button class="nereus-btn" onclick="nereusReturnToLevel()">
-          Продовжити
-        </button>
+
       </div>
     `;
   }
 
-  if (stage === "retry") {
+
+  /* ----------------------------------------------------------
+     ЕКРАН 4 — ЗАКІНЧИЛИСЯ СПРОБИ
+  ---------------------------------------------------------- */
+
+  else if (stage === "retry") {
+
     content = `
       <div class="nereus-panel">
-        <img class="nereus-mentor" src="${ASSETS.nereus}" alt="Нереус">
+
+        <img
+          class="nereus-mentor"
+          src="${ASSETS.nereus}"
+          alt="Нереус"
+        >
+
         <h2>Спробуй ще раз!</h2>
+
         <p>
-          Не кожне популярне повідомлення є правдою.
-          Шукай першоджерело інформації.
+          Навіть досвідчені детективи помиляються.
+          Головне — навчитися перевіряти інформацію!
         </p>
-        <button class="nereus-btn" onclick="nereusStartSource()">
-          Повторити
+
+        <button
+          class="nereus-btn"
+          onclick="nereusRestart()"
+        >
+          ПОВТОРИТИ ВИПРОБУВАННЯ
         </button>
+
       </div>
     `;
   }
+
+
+  /* ----------------------------------------------------------
+     ЕКРАН 5 — ПЕРЕМОГА
+
+     Показуємо актуальний прогрес кристала,
+     який уже записаний у completedTasks.
+  ---------------------------------------------------------- */
+
+  else if (stage === "victory") {
+
+    content = `
+      <div class="nereus-panel">
+
+        <img
+          class="nereus-crystal"
+          src="${ASSETS.blueOn}"
+          alt="Синій кристал"
+        >
+
+        <h2>Випробування пройдено!</h2>
+
+        <p>
+          Чудова робота!
+          Вода Озера Фейків стає чистішою.
+        </p>
+
+        <p>
+          Синій кристал заряджено:
+          <strong>${progress}%</strong>
+        </p>
+
+        <div class="nereus-progress">
+          <div style="width:${progress}%"></div>
+        </div>
+
+        <button
+          class="nereus-btn"
+          onclick="nereusReturnToLevel()"
+        >
+          ДО ВИПРОБУВАНЬ
+        </button>
+
+      </div>
+    `;
+  }
+
+
+  /* ----------------------------------------------------------
+     6. СПІЛЬНИЙ КОНТЕЙНЕР РІВНЯ
+
+     Стилі розміщені тут, щоб для цієї
+     першої інтеграції не змінювати style.css.
+
+     Пізніше можна перенести їх у CSS
+     та узгодити з оформленням Фоксіти.
+  ---------------------------------------------------------- */
+
+  const background = nereusGetBackground();
 
   app.innerHTML = `
+
     <style>
+
       .nereus-screen {
         min-height: 100vh;
         box-sizing: border-box;
-        padding: 30px 20px;
+        padding: 70px 20px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background:
-          linear-gradient(180deg,rgba(3,25,53,.30),rgba(3,25,53,.60)),
+          linear-gradient(
+            180deg,
+            rgba(3,25,53,.28),
+            rgba(3,25,53,.60)
+          ),
           url("${background}") center / cover no-repeat;
-        font-family: inherit;
         color: #fff;
+        font-family: inherit;
       }
 
       .nereus-panel {
@@ -10939,6 +11446,10 @@ function renderNereusSourceGame() {
       .nereus-panel h2 {
         color: #ffe5a1;
         margin: 12px 0 20px;
+      }
+
+      .nereus-panel h3 {
+        color: #aeeaff;
       }
 
       .nereus-panel p {
@@ -10969,7 +11480,9 @@ function renderNereusSourceGame() {
         border: 2px solid #dfbd76;
         background: #12587b;
         color: #fff;
-        transition: transform .15s, background .15s;
+        transition:
+          transform .15s,
+          background .15s;
       }
 
       .nereus-btn:hover,
@@ -10986,7 +11499,7 @@ function renderNereusSourceGame() {
       }
 
       .nereus-options button {
-        min-height: 110px;
+        min-height: 100px;
         overflow-wrap: anywhere;
       }
 
@@ -11000,19 +11513,29 @@ function renderNereusSourceGame() {
         line-height: 1.4;
       }
 
-      .nereus-news strong {
-        color: #c83232;
-      }
-
       .nereus-lives {
         text-align: right;
         font-size: 25px;
       }
 
+      .nereus-progress {
+        height: 12px;
+        background: rgba(255,255,255,.2);
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 16px 0;
+      }
+
+      .nereus-progress > div {
+        height: 100%;
+        background: #5dd6ff;
+        transition: width .3s;
+      }
+
       .nereus-back {
         position: fixed;
-        left: 20px;
         top: 20px;
+        left: 20px;
         z-index: 5;
       }
 
@@ -11021,100 +11544,900 @@ function renderNereusSourceGame() {
         color: #ffe5a1;
       }
 
-      @media(max-width: 640px) {
+      @media (max-width: 640px) {
+
         .nereus-options {
           grid-template-columns: 1fr;
         }
+
         .nereus-panel {
           padding: 20px 14px;
         }
+
         .nereus-panel p {
           font-size: 16px;
         }
+
+        .nereus-news {
+          font-size: 18px;
+        }
       }
+
     </style>
 
     <div class="nereus-screen">
-      <button class="nereus-btn nereus-back"
-              onclick="nereusReturnToLevel()">
-        ← Назад
+
+      <button
+        class="nereus-btn nereus-back"
+        onclick="nereusReturnToLevel()"
+      >
+        ← ДО ВИПРОБУВАНЬ
       </button>
+
       ${content}
+
     </div>
   `;
 }
 
-function nereusSourceRules() {
+
+/* ============================================================
+   7. ПЕРЕХІД МІЖ ПОЧАТКОВИМИ ЕКРАНАМИ
+
+   intro → rules → play
+============================================================ */
+
+function nereusNext() {
+
   playSound("click");
-  nereusState.stage = "rules";
-  renderNereusSourceGame();
+
+  if (nereusState.stage === "intro") {
+    nereusState.stage = "rules";
+  }
+
+  else if (nereusState.stage === "rules") {
+    nereusState.stage = "play";
+  }
+
+  renderNereusGame();
 }
 
-function nereusStartSource() {
-  playSound("click");
-  nereusState.lives = 3;
-  nereusState.stage = "play";
-  renderNereusSourceGame();
-}
 
-function nereusChooseSource(choice) {
+/* ============================================================
+   8. ПЕРЕВІРКА ВІДПОВІДЕЙ
+
+   ПРАВИЛЬНА ВІДПОВІДЬ:
+   - відтворюємо звук;
+   - переходимо до наступного питання;
+   - після останнього завершуємо мінігру.
+
+   НЕПРАВИЛЬНА ВІДПОВІДЬ:
+   - віднімаємо одну спробу;
+   - показуємо підказку;
+   - після трьох помилок пропонуємо повторити.
+============================================================ */
+
+function nereusAnswer(choice) {
+
+  // Захист від натискань поза ігровим екраном.
   if (nereusState.stage !== "play") return;
 
-  if (choice === 2) {
+  const game = NEREUS_GAMES[nereusState.taskIndex];
+
+  const question =
+    game.questions[nereusState.question];
+
+  // Якщо відповідь правильна.
+  if (choice === question.correct) {
+
     playSound("correct");
 
-    if (!completedTasks[3]) {
-      completedTasks[3] = [];
-    }
+    nereusState.feedback = "";
 
-    if (!completedTasks[3].includes(0)) {
-      completedTasks[3].push(0);
-    }
-
+    // Якщо попереду ще є питання.
     if (
-      completedTasks[3].length >= 4 &&
-      !completedLevels.includes(3)
+      nereusState.question <
+      game.questions.length - 1
     ) {
-      completedLevels.push(3);
+
+      nereusState.question++;
+
+      renderNereusGame();
+      return;
     }
 
-    nereusState.stage = "victory";
-    renderNereusSourceGame();
+    // Останнє питання — завершення мінігри.
+    nereusCompleteGame();
     return;
   }
 
+  // Якщо відповідь неправильна.
   playSound("wrong");
+
   nereusState.lives--;
 
+  nereusState.feedback =
+    "💡 Нереус підказує: " + question.hint;
+
+  // Усі три спроби використано.
   if (nereusState.lives <= 0) {
     nereusState.stage = "retry";
-    renderNereusSourceGame();
-    return;
   }
 
-  const feedback = document.getElementById("nereus-feedback");
-
-  if (feedback) {
-    feedback.textContent =
-      "Нереус підказує: перевір, хто створив гру та де розробники публікують офіційні новини.";
-  }
-
-  const lives = document.querySelector(".nereus-lives");
-
-  if (lives) {
-    lives.textContent = Array.from(
-      { length: 3 },
-      (_, i) => i < nereusState.lives ? "💙" : "🩶"
-    ).join(" ");
-  }
+  renderNereusGame();
 }
 
-function nereusReturnToLevel() {
+
+/* ============================================================
+   9. ПОВТОРНЕ ПРОХОДЖЕННЯ
+
+   Скидаємо питання та спроби.
+
+   Уже зароблений прогрес кристала
+   НЕ видаляємо.
+============================================================ */
+
+function nereusRestart() {
+
   playSound("click");
+
+  nereusState.question = 0;
+  nereusState.lives = 3;
+  nereusState.feedback = "";
+  nereusState.stage = "play";
+
+  renderNereusGame();
+}
+
+
+/* ============================================================
+   10. ЗАВЕРШЕННЯ МІНІІГРИ
+
+   Записуємо номер пройденого випробування
+   у спільну систему completedTasks.
+
+   Захист від повторного нарахування:
+   якщо випробування вже пройдене,
+   його номер не додається вдруге.
+
+   Коли пройдено всі 4 випробування,
+   рівень додається до completedLevels.
+============================================================ */
+
+function nereusCompleteGame() {
+
+  const levelId = 3;
+  const taskIndex = nereusState.taskIndex;
+
+  // Створюємо список, якщо його ще немає.
+  if (!completedTasks[levelId]) {
+    completedTasks[levelId] = [];
+  }
+
+  // Додаємо лише нове випробування.
+  if (
+    !completedTasks[levelId].includes(taskIndex)
+  ) {
+
+    completedTasks[levelId].push(taskIndex);
+  }
+
+  // Перевіряємо, чи виконані всі 4 мініігри.
+  const allCompleted = [0, 1, 2, 3].every(
+    index => completedTasks[levelId].includes(index)
+  );
+
+  if (
+    allCompleted &&
+    !completedLevels.includes(levelId)
+  ) {
+
+    completedLevels.push(levelId);
+
+    // Звук повністю зарядженого кристала.
+    playSound("crystal");
+  }
+
+  // Переходимо до екрана результату.
+  nereusState.stage = "victory";
+
+  renderNereusGame();
+}
+
+
+/* ============================================================
+   11. ПОВЕРНЕННЯ ДО ВИБОРУ ВИПРОБУВАНЬ
+
+   Повертаємо гравця до Озера Фейків
+   та відкриваємо список чотирьох мініігор.
+
+   Не скидаємо completedTasks.
+============================================================ */
+
+function nereusReturnToLevel() {
+
+  playSound("click");
+
   showLevel(3);
   openChallenge(3);
 }
 
+
+/* ============================================================
+   КІНЕЦЬ БЛОКУ НЕРЕУСА
+
+   ДАЛІ В ОСНОВНОМУ ФАЙЛІ ЙДЕ:
+   ЦИТАДЕЛЬ ХАОСУ
+
+   ЦЕЙ РОЗДІЛ НЕ ВИДАЛЯТИ.
+============================================================ */
+
+/* ============================================================
+   КІБЕРЛЕГЕНДИ
+   РІВНІ 4 ТА 5 — БАЙТІ Й АЙРО
+
+   РІВЕНЬ 4 — БАЙТІ
+   Тема: захист особистих даних
+   Кристал: рожевий
+
+   РІВЕНЬ 5 — АЙРО
+   Тема: безпека пристроїв
+   Кристал: червоний
+
+   ЦЕ ПЕРША ІГРОВА ВЕРСІЯ:
+   - запуск чотирьох випробувань кожного рівня;
+   - правила перед грою;
+   - перевірка відповідей;
+   - підказки після помилки;
+   - три спроби;
+   - збереження прогресу;
+   - повернення до вибору випробувань.
+
+   Запитання беремо з CHALLENGES у script.js.
+   Функції Тотуса, Фоксіти та Нереуса не змінюємо.
+============================================================ */
+
+
+/* ============================================================
+   1. НАЛАШТУВАННЯ РІВНІВ
+
+   Тут можна змінити:
+   - наставника;
+   - колір;
+   - артефакт;
+   - фони чотирьох мініігор;
+   - текст вступу та правил.
+
+   Назви файлів мають точно збігатися
+   з файлами в репозиторії GitHub.
+============================================================ */
+
+const CYBER_FINAL_LEVELS = {
+
+  4: {
+    name: "Байті",
+    color: "#f08bc8",
+    mentor: ASSETS.anubisa,
+    crystal: ASSETS.pinkOn,
+    artifact: ASSETS.artifactSphere,
+
+    intro:
+      "Привіт, герою! Я Байті. " +
+      "Особисті дані — це справжній скарб. " +
+      "Навчімося захищати його разом!",
+
+    rules:
+      "Прочитай ситуацію та обери " +
+      "найбезпечнішу відповідь.",
+
+    backgrounds: [
+      "Baiti/byte-game1-bg.png",
+      "Baiti/byte-game2-bg.png",
+      "Baiti/byte-game3-bg.png",
+      "Baiti/byte-game4-bg.png"
+    ]
+  },
+
+  5: {
+    name: "Айро",
+    color: "#f16d68",
+    mentor: ASSETS.airo,
+    crystal: ASSETS.redOn,
+    artifact: ASSETS.artifactAiro,
+
+    intro:
+      "Привіт! Я Айро. " +
+      "Разом ми навчимося захищати " +
+      "пристрої та розпізнавати цифрові загрози!",
+
+    rules:
+      "Обери безпечне рішення. " +
+      "Не відкривай підозрілі файли " +
+      "та перевіряй повідомлення.",
+
+    backgrounds: [
+      "AIRO/airo-game1-bg.png",
+      "AIRO/airo-game2-bg.png",
+      "AIRO/airo-game3-bg.png",
+      "AIRO/airo-game4-bg.png"
+    ]
+  }
+};
+
+
+/* ============================================================
+   2. СТАН ПОТОЧНОЇ МІНІІГРИ
+
+   levelId — 4 або 5
+   taskIndex — номер випробування від 0 до 3
+
+   stage:
+   intro   — знайомство
+   rules   — правила
+   play    — запитання
+   retry   — закінчилися спроби
+   victory — перемога
+============================================================ */
+
+let cyberFinalState = {
+  levelId: 4,
+  taskIndex: 0,
+  stage: "intro",
+  lives: 3,
+  feedback: ""
+};
+
+
+/* ============================================================
+   3. СПІЛЬНИЙ ЗАПУСК МІНІІГРИ
+
+   Перевіряємо:
+   - чи існує рівень;
+   - чи є вибране випробування;
+   - чи правильно передано номер гри.
+============================================================ */
+
+function openCyberFinalGame(levelId, taskIndex) {
+
+  const config = CYBER_FINAL_LEVELS[levelId];
+  const task = CHALLENGES[levelId]?.[taskIndex];
+
+  if (
+    !config ||
+    !task ||
+    !Number.isInteger(taskIndex) ||
+    taskIndex < 0 ||
+    taskIndex > 3
+  ) {
+    console.error(
+      "Помилка запуску випробування",
+      levelId,
+      taskIndex
+    );
+    return;
+  }
+
+  // Закриваємо попереднє вікно.
+  closeModal();
+
+  // Починаємо нове проходження.
+  cyberFinalState = {
+    levelId,
+    taskIndex,
+    stage: "intro",
+    lives: 3,
+    feedback: ""
+  };
+
+  renderCyberFinalGame();
+}
+
+
+/* ============================================================
+   4. ФУНКЦІЇ СУМІСНОСТІ ЗІ СТАРИМ КОДОМ
+
+   У твоєму openTask() залишилися виклики
+   openAnubisaGame() та openTifonGame().
+
+   Щоб зараз не змінювати перемикач рівнів,
+   ці функції перенаправляють запуск
+   до нової спільної системи.
+
+   Пізніше їх можна перейменувати
+   на openBaitiGame() та openAiroGame().
+============================================================ */
+
+function openAnubisaGame(levelId, taskIndex) {
+  openCyberFinalGame(4, taskIndex);
+}
+
+function openTifonGame(levelId, taskIndex) {
+  openCyberFinalGame(5, taskIndex);
+}
+
+
+/* ============================================================
+   5. ВІДОБРАЖЕННЯ МІНІІГРИ
+
+   Беремо:
+   - наставника з налаштувань;
+   - запитання з CHALLENGES;
+   - фон відповідного випробування;
+   - прогрес зі спільної системи гри.
+============================================================ */
+
+function renderCyberFinalGame() {
+
+  const state = cyberFinalState;
+  const config = CYBER_FINAL_LEVELS[state.levelId];
+  const task = CHALLENGES[state.levelId][state.taskIndex];
+
+  const background =
+    config.backgrounds[state.taskIndex];
+
+  const completed =
+    completedTasks[state.levelId] || [];
+
+  const progress = Math.min(
+    100,
+    completed.length * 25
+  );
+
+  let content = "";
+
+  /* ----------------------------------------------------------
+     ЕКРАН 1 — НАСТАВНИК
+  ---------------------------------------------------------- */
+
+  if (state.stage === "intro") {
+
+    content = `
+      <img
+        class="cyber-final-mentor"
+        src="${config.mentor}"
+        alt="${config.name}"
+      >
+
+      <h2>${config.name}</h2>
+
+      <p>${config.intro}</p>
+
+      <h3>${task.title}</h3>
+
+      <button
+        class="cyber-final-btn"
+        onclick="cyberFinalNext()"
+      >
+        ДІЗНАТИСЯ ПРАВИЛА
+      </button>
+    `;
+  }
+
+  /* ----------------------------------------------------------
+     ЕКРАН 2 — ПРАВИЛА
+  ---------------------------------------------------------- */
+
+  else if (state.stage === "rules") {
+
+    content = `
+      <h2>${task.title}</h2>
+
+      <p>${config.rules}</p>
+
+      <p>
+        У тебе три спроби.
+        Якщо помилишся, спробуй ще раз.
+      </p>
+
+      <button
+        class="cyber-final-btn"
+        onclick="cyberFinalNext()"
+      >
+        ПОЧАТИ
+      </button>
+    `;
+  }
+
+  /* ----------------------------------------------------------
+     ЕКРАН 3 — ЗАПИТАННЯ
+
+     Кожне випробування використовує
+     своє запитання з CHALLENGES.
+  ---------------------------------------------------------- */
+
+  else if (state.stage === "play") {
+
+    const hearts = Array.from(
+      { length: 3 },
+      (_, index) =>
+        index < state.lives ? "❤️" : "🩶"
+    ).join(" ");
+
+    content = `
+      <div class="cyber-final-lives">
+        ${hearts}
+      </div>
+
+      <h2>${task.title}</h2>
+
+      <p>${task.question}</p>
+
+      <div class="cyber-final-answers">
+
+        ${task.answers.map((answer, index) => `
+          <button
+            class="cyber-final-answer"
+            onclick="cyberFinalAnswer(${index})"
+          >
+            ${answer}
+          </button>
+        `).join("")}
+
+      </div>
+
+      <p
+        class="cyber-final-feedback"
+        aria-live="polite"
+      >
+        ${state.feedback}
+      </p>
+    `;
+  }
+
+  /* ----------------------------------------------------------
+     ЕКРАН 4 — ПОВТОРНА СПРОБА
+  ---------------------------------------------------------- */
+
+  else if (state.stage === "retry") {
+
+    content = `
+      <h2>Спробуй ще раз!</h2>
+
+      <p>
+        Помилки допомагають навчатися.
+        Ти вже знаєш більше, ніж на початку!
+      </p>
+
+      <button
+        class="cyber-final-btn"
+        onclick="cyberFinalRestart()"
+      >
+        ПОВТОРИТИ
+      </button>
+    `;
+  }
+
+  /* ----------------------------------------------------------
+     ЕКРАН 5 — ПЕРЕМОГА
+  ---------------------------------------------------------- */
+
+  else if (state.stage === "victory") {
+
+    content = `
+      <img
+        class="cyber-final-crystal"
+        src="${config.crystal}"
+        alt="Кристал рівня"
+      >
+
+      <h2>Випробування пройдено!</h2>
+
+      <p>
+        ${config.name} пишається твоїм рішенням!
+      </p>
+
+      <p>
+        Кристал заряджено: ${progress}%
+      </p>
+
+      <div class="cyber-final-progress">
+        <div style="
+          width:${progress}%;
+          background:${config.color};
+        "></div>
+      </div>
+
+      <button
+        class="cyber-final-btn"
+        onclick="cyberFinalReturn()"
+      >
+        ДО ВИПРОБУВАНЬ
+      </button>
+    `;
+  }
+
+  /* ----------------------------------------------------------
+     СПІЛЬНИЙ ЕКРАН
+
+     Стилі тимчасово всередині JavaScript,
+     щоб можна було перевірити запуск
+     без окремого редагування CSS.
+
+     Пізніше перенесемо їх у style.css.
+  ---------------------------------------------------------- */
+
+  app.innerHTML = `
+
+    <style>
+
+      .cyber-final-screen {
+        min-height: 100vh;
+        box-sizing: border-box;
+        padding: 75px 20px 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background:
+          linear-gradient(
+            rgba(10, 15, 35, .30),
+            rgba(10, 15, 35, .65)
+          ),
+          url("${background}") center / cover no-repeat;
+        color: white;
+      }
+
+      .cyber-final-panel {
+        width: min(760px, 94vw);
+        box-sizing: border-box;
+        padding: 30px;
+        border: 3px solid ${config.color};
+        border-radius: 22px;
+        background: rgba(15, 23, 48, .91);
+        text-align: center;
+        box-shadow: 0 15px 50px rgba(0,0,0,.4);
+      }
+
+      .cyber-final-panel h2 {
+        font-size: 32px;
+        color: ${config.color};
+      }
+
+      .cyber-final-panel p {
+        font-size: 19px;
+        line-height: 1.5;
+      }
+
+      .cyber-final-mentor {
+        display: block;
+        max-height: 230px;
+        max-width: 85%;
+        object-fit: contain;
+        margin: 0 auto;
+      }
+
+      .cyber-final-crystal {
+        max-height: 170px;
+        max-width: 80%;
+        object-fit: contain;
+      }
+
+      .cyber-final-btn,
+      .cyber-final-answer {
+        cursor: pointer;
+        border: 2px solid ${config.color};
+        border-radius: 12px;
+        background: #24345d;
+        color: white;
+        font: inherit;
+        padding: 15px 20px;
+      }
+
+      .cyber-final-btn:hover,
+      .cyber-final-answer:hover {
+        background: #38578a;
+      }
+
+      .cyber-final-answers {
+        display: grid;
+        gap: 12px;
+        margin: 25px 0;
+      }
+
+      .cyber-final-lives {
+        text-align: right;
+        font-size: 25px;
+      }
+
+      .cyber-final-feedback {
+        min-height: 30px;
+        color: #ffe3a3;
+      }
+
+      .cyber-final-progress {
+        height: 14px;
+        background: rgba(255,255,255,.2);
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 20px 0;
+      }
+
+      .cyber-final-progress div {
+        height: 100%;
+      }
+
+      .cyber-final-back {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        z-index: 5;
+      }
+
+      @media (max-width: 600px) {
+        .cyber-final-panel {
+          padding: 20px 15px;
+        }
+
+        .cyber-final-panel p {
+          font-size: 16px;
+        }
+      }
+
+    </style>
+
+    <section class="cyber-final-screen">
+
+      <button
+        class="cyber-final-btn cyber-final-back"
+        onclick="cyberFinalReturn()"
+      >
+        ← ДО ВИПРОБУВАНЬ
+      </button>
+
+      <div class="cyber-final-panel">
+        ${content}
+      </div>
+
+    </section>
+  `;
+}
+
+
+/* ============================================================
+   6. ПЕРЕХІД МІЖ ЕКРАНАМИ
+
+   intro → rules → play
+============================================================ */
+
+function cyberFinalNext() {
+
+  if (cyberFinalState.stage === "intro") {
+    cyberFinalState.stage = "rules";
+  }
+
+  else if (cyberFinalState.stage === "rules") {
+    cyberFinalState.stage = "play";
+  }
+
+  renderCyberFinalGame();
+}
+
+
+/* ============================================================
+   7. ПЕРЕВІРКА ВІДПОВІДІ
+
+   Якщо правильно:
+   - записуємо завершення випробування.
+
+   Якщо неправильно:
+   - зменшуємо кількість спроб;
+   - пропонуємо спробувати ще раз.
+============================================================ */
+
+function cyberFinalAnswer(index) {
+
+  if (cyberFinalState.stage !== "play") return;
+
+  const state = cyberFinalState;
+
+  const task =
+    CHALLENGES[state.levelId][state.taskIndex];
+
+  if (index === task.correct) {
+
+    playSound("correct");
+
+    cyberFinalComplete();
+    return;
+  }
+
+  playSound("wrong");
+
+  state.lives--;
+
+  state.feedback =
+    "💡 Подумай, яке рішення найкраще " +
+    "захищає тебе та твої дані.";
+
+  if (state.lives <= 0) {
+    state.stage = "retry";
+  }
+
+  renderCyberFinalGame();
+}
+
+
+/* ============================================================
+   8. ПОВТОРНЕ ПРОХОДЖЕННЯ
+
+   Скидаємо лише спроби.
+   Прогрес інших випробувань не змінюємо.
+============================================================ */
+
+function cyberFinalRestart() {
+
+  cyberFinalState.lives = 3;
+  cyberFinalState.feedback = "";
+  cyberFinalState.stage = "play";
+
+  renderCyberFinalGame();
+}
+
+
+/* ============================================================
+   9. ЗБЕРЕЖЕННЯ ПРОГРЕСУ
+
+   Одне випробування = 25%.
+
+   Повторне проходження не нараховує
+   додаткові відсотки.
+
+   Після чотирьох виконаних випробувань
+   рівень додається до completedLevels.
+============================================================ */
+
+function cyberFinalComplete() {
+
+  const levelId = cyberFinalState.levelId;
+  const taskIndex = cyberFinalState.taskIndex;
+
+  if (!completedTasks[levelId]) {
+    completedTasks[levelId] = [];
+  }
+
+  if (
+    !completedTasks[levelId].includes(taskIndex)
+  ) {
+    completedTasks[levelId].push(taskIndex);
+  }
+
+  const allCompleted = [0, 1, 2, 3].every(
+    index => completedTasks[levelId].includes(index)
+  );
+
+  if (
+    allCompleted &&
+    !completedLevels.includes(levelId)
+  ) {
+    completedLevels.push(levelId);
+    playSound("crystal");
+  }
+
+  cyberFinalState.stage = "victory";
+
+  renderCyberFinalGame();
+}
+
+
+/* ============================================================
+   10. ПОВЕРНЕННЯ ДО ВИБОРУ ВИПРОБУВАНЬ
+
+   Повертаємося на екран рівня,
+   потім відкриваємо чотири випробування.
+
+   Накопичений прогрес не скидаємо.
+============================================================ */
+
+function cyberFinalReturn() {
+
+  const levelId = cyberFinalState.levelId;
+
+  showLevel(levelId);
+  openChallenge(levelId);
+}
+
+/* ============================================================
+   КІНЕЦЬ БЛОКУ БАЙТІ ТА АЙРО
+============================================================ */
 
 /* =====================================================
    ЦИТАДЕЛЬ ХАОСУ

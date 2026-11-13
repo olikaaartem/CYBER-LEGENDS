@@ -11225,52 +11225,78 @@ function renderNereusGame() {
   /* ----------------------------------------------------------
      ЕКРАН 2 — ПРАВИЛА МІНІІГРИ
   ---------------------------------------------------------- */
+else if (stage === "rules") {
 
-  else if (stage === "rules") {
+  content = `
+    <div style="
+      width: min(1150px, 95vw);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 45px;
+      flex-wrap: wrap;
+      margin: auto;
+    ">
 
-    content = `
-      <div class="nereus-panel">
+      <!-- НАСТАВНИК ЛІВОРУЧ -->
+      <img
+        src="${ASSETS.nereus}"
+        alt="Нереус пояснює правила"
+        style="
+          width: 260px;
+          max-width: 35vw;
+          height: auto;
+          object-fit: contain;
+          flex-shrink: 0;
+        "
+      >
 
-        <img
-          class="nereus-mentor"
-          src="${ASSETS.nereus}"
-          alt="Нереус пояснює правила"
-        >
-${nereusState.taskIndex === 0 ? `
-  <div class="nereus-bubble-field">
-    ${Array.from({ length: 7 }, (_, i) => `
-      <div class="nereus-floating-bubble"
-     style="--i:${i}">
-  <img
-    src="Nereys/nereus_bubble.png"
-    alt=""
-    style="width:100%; height:100%; object-fit:contain; display:block;"
-  >
-</div>
-    `).join("")}
-  </div>
-` : ""}
-        <h2>${game.title}</h2>
+      <!-- КАРТКА ПРАВИЛ ПРАВОРУЧ -->
+      <div style="
+        flex: 1 1 450px;
+        max-width: 680px;
+        background: rgba(19,24,58,0.94);
+        border: 2px solid #d9b66b;
+        border-radius: 26px;
+        padding: 36px;
+        box-sizing: border-box;
+        box-shadow: 0 15px 45px rgba(0,0,0,.35);
+        text-align: left;
+        color: white;
+      ">
+
+        <h2 style="
+          font-size: 36px;
+          color: #ffe27a;
+          margin-bottom: 20px;
+        ">
+          ${game.title}
+        </h2>
 
         <p>${game.rules}</p>
 
         <p>
-          У тебе три спроби.
-          Якщо помилишся, Нереус підкаже.
+          💙 У тебе три спроби.
+          Якщо помилишся, Нереус допоможе
+          розібратися та підкаже.
         </p>
 
         <button
           class="nereus-btn"
           onclick="nereusNext()"
+          style="
+            width: 100%;
+            margin-top: 18px;
+          "
         >
-          ПОЧАТИ ГРУ
+          ПОЧАТИ ВИПРОБУВАННЯ
         </button>
 
       </div>
-    `;
-  }
 
-
+    </div>
+  `;
+}
   /* ----------------------------------------------------------
      ЕКРАН 3 — ІГРОВИЙ ПРОЦЕС
   ---------------------------------------------------------- */

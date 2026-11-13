@@ -11236,7 +11236,16 @@ function renderNereusGame() {
           src="${ASSETS.nereus}"
           alt="Нереус пояснює правила"
         >
-
+${nereusState.taskIndex === 0 ? `
+  <div class="nereus-bubble-field">
+    ${Array.from({ length: 7 }, (_, i) => `
+      <div class="nereus-floating-bubble"
+           style="--i:${i}">
+        🫧
+      </div>
+    `).join("")}
+  </div>
+` : ""}
         <h2>${game.title}</h2>
 
         <p>${game.rules}</p>
@@ -11460,7 +11469,7 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
             rgba(3,25,53,.28),
             rgba(3,25,53,.60)
           ),
-          url("${background}") center / cover no-repeat;
+       url("${background}") center top / 100% 100% no-repeat;
         color: #fff;
         font-family: inherit;
       }
@@ -11545,6 +11554,28 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
         font-size: 22px;
         line-height: 1.4;
       }
+
+.nereus-bubble-field {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  margin: 12px auto 20px;
+  pointer-events: none;
+}
+
+.nereus-floating-bubble {
+  position: absolute;
+  left: calc(8% + var(--i) * 13%);
+  top: calc(35px + mod(var(--i) * 29px, 110px));
+  font-size: 48px;
+  animation: nereusBubbleFloat 3s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.45s);
+}
+
+@keyframes nereusBubbleFloat {
+  from { transform: translateY(12px); }
+  to   { transform: translateY(-24px); }
+}
 
       .nereus-lives {
         text-align: right;

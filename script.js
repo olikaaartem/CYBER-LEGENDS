@@ -11569,9 +11569,10 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
 
 .nereus-floating-bubble {
   position: absolute;
-  left: calc(5% + var(--i) * 14%);
-  top: 35%;
-  font-size: 90px;
+left: calc(5% + var(--i) * 13%);
+top: calc(15% + var(--i) * 7%);
+width: calc(75px + var(--i) * 8px);
+height: calc(75px + var(--i) * 8px);
   line-height: 1;
   animation: nereusBubbleFloat 7s ease-in-out infinite;
   animation-delay: calc(var(--i) * -0.8s);

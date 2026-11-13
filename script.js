@@ -11240,9 +11240,13 @@ ${nereusState.taskIndex === 0 ? `
   <div class="nereus-bubble-field">
     ${Array.from({ length: 7 }, (_, i) => `
       <div class="nereus-floating-bubble"
-           style="--i:${i}">
-        🫧
-      </div>
+     style="--i:${i}">
+  <img
+    src="Nereys/nereus_bubble.png"
+    alt=""
+    style="width:100%; height:100%; object-fit:contain; display:block;"
+  >
+</div>
     `).join("")}
   </div>
 ` : ""}

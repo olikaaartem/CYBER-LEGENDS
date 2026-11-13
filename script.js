@@ -11276,7 +11276,23 @@ function renderNereusGame() {
           ${hearts}
         </div>
 
-        <h2>${game.title}</h2>
+       ${nereusState.taskIndex === 0 ? `
+  <!-- КіберБраузер: поки лише візуальна панель -->
+  <div style="background:#eaf3ff; color:#183451; padding:12px; border-radius:14px; margin-bottom:18px; text-align:left;">
+    <div style="font-weight:bold; margin-bottom:10px;">
+      🌐 КіберБраузер Нереуса
+    </div>
+    <div style="background:white; padding:10px; border-radius:8px; font-size:14px;">
+      <a href="#"
+   onclick="event.preventDefault(); alert('📰 НОВИНА: У школах скасовують домашні завдання! 😱\n\nАвтор: невідомий\nДата публікації: не вказана\nДжерело: Новини без меж\n\n🔎 Чи можна довіряти такій інформації?');"
+   style="color:#1764c0; text-decoration:underline; cursor:pointer;">
+  🔗 https://cyberlegends.example/news
+</a>
+    </div>
+  </div>
+` : ""}
+
+<h2>${game.title}</h2>
 
         <p>
           Завдання
@@ -11386,12 +11402,14 @@ function renderNereusGame() {
           <div style="width:${progress}%"></div>
         </div>
 
-        <button
-          class="nereus-btn"
-          onclick="nereusReturnToLevel()"
-        >
-          ДО ВИПРОБУВАНЬ
-        </button>
+       <button
+  class="nereus-btn"
+onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
+>
+  ${progress === 100
+    ? "ЗАВЕРШИТИ РІВЕНЬ"
+    : "ДО ВИПРОБУВАНЬ"}
+</button>
 
       </div>
     `;

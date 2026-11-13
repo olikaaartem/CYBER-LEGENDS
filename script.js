@@ -11565,12 +11565,33 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
 
 .nereus-floating-bubble {
   position: absolute;
-  left: calc(8% + var(--i) * 13%);
-  top: calc(35px + mod(var(--i) * 29px, 110px));
-  font-size: 48px;
-  animation: nereusBubbleFloat 3s ease-in-out infinite alternate;
-  animation-delay: calc(var(--i) * -0.45s);
+  left: calc(5% + var(--i) * 14%);
+  top: 35%;
+  font-size: 90px;
+  line-height: 1;
+  animation: nereusBubbleFloat 7s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.8s);
+  will-change: transform;
 }
+
+@keyframes nereusBubbleFloat {
+  0%, 100% {
+    transform: translateY(25px) translateX(0);
+  }
+
+  25% {
+    transform: translateY(-15px) translateX(12px);
+  }
+
+  50% {
+    transform: translateY(-45px) translateX(-8px);
+  }
+
+  75% {
+    transform: translateY(-10px) translateX(8px);
+  }
+}
+
 
 @keyframes nereusBubbleFloat {
   from { transform: translateY(12px); }

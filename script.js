@@ -11466,15 +11466,15 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
       }
 
       .nereus-panel {
-        width: min(780px, 94vw);
-        box-sizing: border-box;
-        text-align: center;
-        background: rgba(6,34,66,.90);
-        border: 3px solid #d9b66b;
-        border-radius: 22px;
-        padding: 28px;
-        box-shadow: 0 14px 50px rgba(0,0,0,.4);
-      }
+  width: min(900px, 94vw);
+  box-sizing: border-box;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 28px;
+  box-shadow: none;
+}
 
       .nereus-panel h2 {
         color: #ffe5a1;

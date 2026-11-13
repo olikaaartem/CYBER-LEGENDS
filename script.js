@@ -11283,11 +11283,26 @@ function renderNereusGame() {
       🌐 КіберБраузер Нереуса
     </div>
     <div style="background:white; padding:10px; border-radius:8px; font-size:14px;">
-      <a href="#"
-   onclick="event.preventDefault(); alert('📰 НОВИНА: У школах скасовують домашні завдання! 😱\n\nАвтор: невідомий\nДата публікації: не вказана\nДжерело: Новини без меж\n\n🔎 Чи можна довіряти такій інформації?');"
+  <a href="#"
+   onclick="event.preventDefault(); document.getElementById('nereus-news-page').style.display='block';"
    style="color:#1764c0; text-decoration:underline; cursor:pointer;">
   🔗 https://cyberlegends.example/news
 </a>
+
+<div id="nereus-news-page"
+     style="display:none; margin-top:15px; padding:16px; background:#fff; border-radius:12px; color:#183451;">
+
+  <h3>📰 Ігрові новини</h3>
+
+  <h4>ШОК! Завтра назавжди закриють Brawl Stars!</h4>
+
+  <p>Автор: невідомий</p>
+  <p>Дата публікації: не вказана</p>
+  <p>Джерело: непідтверджений ігровий блог</p>
+
+  <p>🔎 Чи варто довіряти цій новині без перевірки?</p>
+
+</div>
     </div>
   </div>
 ` : ""}

@@ -123,6 +123,27 @@ kodus: "geroi/did_kodys_new.png",
 
   purpleOff: "artefaktu/purple_kristal_1.png",
   purpleOn: "artefaktu/purple_kristal_2.png"
+
+
+
+  // Кристали для карти Королівства
+  yellowOff: "Kartka_nastavnyka/crystal-yellow-inactive.png",
+  yellowOn: "Kartka_nastavnyka/crystal-yellow-active.png",
+
+  greenOff: "Kartka_nastavnyka/crystal-green-inactive.png",
+  greenOn: "Kartka_nastavnyka/crystal-green-active.png",
+
+  blueOff: "Kartka_nastavnyka/crystal-blue-inactive.png",
+  blueOn: "Kartka_nastavnyka/crystal-blue-active.png",
+
+  pinkOff: "Kartka_nastavnyka/crystal-pink-inactive.png",
+  pinkOn: "Kartka_nastavnyka/crystal-pink-active.png",
+
+  redOff: "Kartka_nastavnyka/crystal-red-inactive.png",
+  redOn: "Kartka_nastavnyka/crystal-red-active.png",
+
+
+   
 };
 
 

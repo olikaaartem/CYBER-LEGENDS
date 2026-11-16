@@ -11331,9 +11331,9 @@ else if (stage === "rules") {
       ${hearts}
     </div>
 
-    <h2 style="margin-bottom:12px;">
-      🫧 Озеро загадкових новин
-    </h2>
+<h2 class="nereus-game-title">
+  Озеро загадкових новин
+</h2>
 
     <div style="
       position:relative;
@@ -11493,8 +11493,8 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
         background:
           linear-gradient(
             180deg,
-            rgba(3,25,53,.28),
-            rgba(3,25,53,.60)
+            rgba(3,25,53,.08),
+            rgba(3,25,53,.15)
           ),
       url("${background}") center center / contain no-repeat;
       background-color: #032744;

@@ -10035,3 +10035,43 @@ and (orientation: portrait) {
 
 }
 
+/* НЕРЕУС — ПОЧАТКОВИЙ ЕКРАН МІНІГРИ */
+
+.nereus-intro-scene {
+  width: 100%;
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.nereus-intro-mentor {
+  width: clamp(210px, 23vw, 340px);
+  max-height: 48vh;
+  object-fit: contain;
+  cursor: pointer;
+  transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.nereus-intro-mentor:hover,
+.nereus-intro-mentor:focus-visible {
+  filter: drop-shadow(0 0 18px rgba(116, 219, 255, 0.65));
+  transform: scale(1.04);
+}
+
+.nereus-mentor-hint {
+  padding: 12px 26px;
+  border: 2px solid #d9b66b;
+  border-radius: 30px;
+  background: rgba(24, 22, 57, 0.94);
+  color: #ffe27a;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  pointer-events: none;
+}
+
+
+

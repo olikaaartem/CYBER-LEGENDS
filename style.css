@@ -10074,4 +10074,21 @@ and (orientation: portrait) {
 }
 
 
+/* НЕРЕУС — ЗАГОЛОВОК МІНІГРИ */
+.nereus-game-title {
+  display: table;
+  margin: 0 auto 12px;
+  padding: 10px 32px;
 
+  background: rgba(27, 21, 57, 0.96);
+  border: 2px solid #e3b94f;
+  border-radius: 20px;
+
+  color: #ffe16b;
+  font-size: clamp(26px, 2.6vw, 44px);
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}

@@ -11213,33 +11213,28 @@ function renderNereusGame() {
      ЕКРАН 1 — ЗНАЙОМСТВО З НЕРЕУСОМ
   ---------------------------------------------------------- */
 
-  if (stage === "intro") {
 
-    content = `
-      <div class="nereus-panel">
+if (stage === "intro") {
+  content = `
+    <div class="nereus-intro-scene">
 
-        <img
-          class="nereus-mentor"
-          src="${ASSETS.nereus}"
-          alt="Наставник Нереус"
-        >
+      <img
+        class="nereus-intro-mentor"
+        src="${ASSETS.nereus}"
+        alt="Натисни на наставника Нереуса"
+        onclick="nereusNext()"
+        role="button"
+        tabindex="0"
+        onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();nereusNext();}"
+      >
 
-        <h2>Нереус вітає тебе!</h2>
-
-        <p>${game.intro}</p>
-
-        <h3>${game.title}</h3>
-
-        <button
-          class="nereus-btn"
-          onclick="nereusNext()"
-        >
-          СЛУХАТИ ПРАВИЛА
-        </button>
-
+      <div class="nereus-mentor-hint">
+        Натисни на наставника
       </div>
-    `;
-  }
+
+    </div>
+  `;
+}
 
 
   /* ----------------------------------------------------------

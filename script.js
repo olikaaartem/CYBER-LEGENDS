@@ -1918,7 +1918,27 @@ function showLevel(levelId) {
           openLevelTheory(${levelId});
         "
       >
-
+      ${levelId === 3 ? `
+        <div style="
+          position:absolute;
+          left:50%;
+          bottom:125px;
+          transform:translateX(-50%);
+          padding:12px 28px;
+          background:rgba(12,22,55,0.88);
+          border:2px solid #59dfff;
+          border-radius:30px;
+          color:#ffffff;
+          font-size:20px;
+          font-weight:bold;
+          text-align:center;
+          z-index:5;
+          pointer-events:none;
+          box-shadow:0 0 18px rgba(89,223,255,0.35);
+        ">
+          🫧 Натисни на наставника
+        </div>
+      ` : ""}
       <div class="level-actions">
 
         <button

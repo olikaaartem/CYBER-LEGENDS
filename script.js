@@ -11334,10 +11334,10 @@ else if (stage === "rules") {
                position:absolute;
                left:${8 + i * 12}%;
                top:${20 + (i % 3) * 18}%;
-               width:105px;
-               height:105px;
+              width:145px;
+              height:145px;
                cursor:pointer;
-             ">
+            " onclick="console.log('Натиснули бульбашку', ${i})">
           <img
             src="Nereys/nereus_bubble.png"
             alt="Загадкова новина"

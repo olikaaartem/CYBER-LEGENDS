@@ -127,20 +127,22 @@ kodus: "geroi/did_kodys_new.png",
 
 
   // Кристали для карти Королівства
-  yellowOff: "Kartka_nastavnyka/crystal-yellow-inactive.png",
-  yellowOn: "Kartka_nastavnyka/crystal-yellow-active.png",
 
-  greenOff: "Kartka_nastavnyka/crystal-green-inactive.png",
-  greenOn: "Kartka_nastavnyka/crystal-green-active.png",
+  mapYellowOff: "Kartka_nastavnyka/crystal-yellow-inactive.png",
+  mapYellowOn: "Kartka_nastavnyka/crystal-yellow-active.png",
 
-  blueOff: "Kartka_nastavnyka/crystal-blue-inactive.png",
-  blueOn: "Kartka_nastavnyka/crystal-blue-active.png",
+  mapGreenOff: "Kartka_nastavnyka/crystal-green-inactive.png",
+  mapGreenOn: "Kartka_nastavnyka/crystal-green-active.png",
 
-  pinkOff: "Kartka_nastavnyka/crystal-pink-inactive.png",
-  pinkOn: "Kartka_nastavnyka/crystal-pink-active.png",
+  mapBlueOff: "Kartka_nastavnyka/crystal-blue-inactive.png",
+  mapBlueOn: "Kartka_nastavnyka/crystal-blue-active.png",
 
-  redOff: "Kartka_nastavnyka/crystal-red-inactive.png",
-  redOn: "Kartka_nastavnyka/crystal-red-active.png",
+  mapPinkOff: "Kartka_nastavnyka/crystal-pink-inactive.png",
+  mapPinkOn: "Kartka_nastavnyka/crystal-pink-active.png",
+
+  mapRedOff: "Kartka_nastavnyka/crystal-red-inactive.png",
+  mapRedOn: "Kartka_nastavnyka/crystal-red-active.png",
+
 
 
    
@@ -11398,9 +11400,9 @@ else if (stage === "rules") {
   <div class="nereus-panel nereus-game-panel"
        style="position:relative; width:min(1250px,96vw);">
 
-    <div class="nereus-lives">
-      ${hearts}
-    </div>
+   <div class="nereus-lives">
+  ${hearts}
+</div>
 
 <h2 class="nereus-game-title">
   Озеро загадкових новин

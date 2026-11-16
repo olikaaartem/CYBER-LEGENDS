@@ -122,7 +122,7 @@ kodus: "geroi/did_kodys_new.png",
   redOn: "artefaktu/red_kristal_2.png",
 
   purpleOff: "artefaktu/purple_kristal_1.png",
-  purpleOn: "artefaktu/purple_kristal_2.png"
+  purpleOn: "artefaktu/purple_kristal_2.png",
 
 
 

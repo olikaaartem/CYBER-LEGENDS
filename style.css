@@ -10074,24 +10074,45 @@ and (orientation: portrait) {
 }
 
 
-/* НЕРЕУС — ЗАГОЛОВОК МІНІГРИ */
-.nereus-game-title {
-  display: table;
-  margin: 0 auto 12px;
-  padding: 10px 32px;
 
-  background: rgba(27, 21, 57, 0.96);
+/* НЕРЕУС — ЗАГОЛОВОК МІНІГРИ */
+
+.nereus-screen .nereus-game-title {
+  position: fixed;
+  top: 105px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+
+  display: block;
+  width: max-content;
+  max-width: calc(100vw - 340px);
+  box-sizing: border-box;
+  margin: 0;
+  padding: 10px 26px;
+
+  background: rgba(27, 21, 57, 0.9);
   border: 2px solid #e3b94f;
   border-radius: 20px;
 
-  color: #ffe16b;
-  font-size: clamp(26px, 2.6vw, 44px);
-  font-weight: 800;
+  color: #ffe6a0;
+  font-size: clamp(20px, 2vw, 30px);
+  font-weight: 700;
   line-height: 1.2;
   text-align: center;
 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
+
+@media (max-width: 700px) {
+  .nereus-screen .nereus-game-title {
+    top: 95px;
+    max-width: calc(100vw - 32px);
+    font-size: 19px;
+    padding: 9px 14px;
+  }
+}
+
 /* =====================================================
    НЕРЕУС — МІНІГРА 1
    АНІМАЦІЯ БУЛЬБАШОК

@@ -1161,6 +1161,10 @@ const LEVELS = [
     artifact: ASSETS.artifactBook,
     crystalOff: ASSETS.yellowOff,
     crystalOn: ASSETS.yellowOn,
+     
+mapCrystalOff: ASSETS.mapYellowOff,
+mapCrystalOn: ASSETS.mapYellowOn,
+  
     color: "#ffd54a",
     x: 37,
     y: 75
@@ -1175,6 +1179,10 @@ const LEVELS = [
     artifact: ASSETS.artifactMagnifier,
     crystalOff: ASSETS.greenOff,
     crystalOn: ASSETS.greenOn,
+     
+mapCrystalOff: ASSETS.mapGreenOff,
+mapCrystalOn: ASSETS.mapGreenOn,
+  
     color: "#42e66f",
     x: 48,
     y: 54
@@ -1189,6 +1197,10 @@ const LEVELS = [
     artifact: ASSETS.artifactMirror,
     crystalOff: ASSETS.blueOff,
     crystalOn: ASSETS.blueOn,
+     
+mapCrystalOff: ASSETS.mapBlueOff,
+mapCrystalOn: ASSETS.mapBlueOn,
+  
     color: "#39b7ff",
     x: 64,
     y: 61
@@ -1203,6 +1215,10 @@ const LEVELS = [
     artifact: ASSETS.artifactSphere,
     crystalOff: ASSETS.pinkOff,
     crystalOn: ASSETS.pinkOn,
+     
+mapCrystalOff: ASSETS.mapPinkOff,
+mapCrystalOn: ASSETS.mapPinkOn,
+  
     color: "#ff78d7",
     x: 64,
     y: 36
@@ -1217,6 +1233,10 @@ const LEVELS = [
     artifact: ASSETS.artifactSword,
     crystalOff: ASSETS.redOff,
     crystalOn: ASSETS.redOn,
+     
+mapCrystalOff: ASSETS.mapRedOff,
+mapCrystalOn: ASSETS.mapRedOn,
+  
     color: "#ff4a35",
     x: 77,
     y: 50
@@ -1297,6 +1317,8 @@ function showMap() {
 
       ${renderCrystalPanel()}
 
+${LEVELS.map(level => renderMapCrystal(level)).join("")}
+
       ${
         LEVELS
           .map(level => renderMapLevel(level))
@@ -1309,6 +1331,34 @@ function showMap() {
   `;
 }
 
+
+/* ==========================================
+   КРИСТАЛИ НА КАРТІ КОРОЛІВСТВА
+========================================== */
+
+function renderMapCrystal(level) {
+
+  const isActive = completedLevels.includes(level.id);
+
+  const crystalImage = isActive
+    ? level.mapCrystalOn
+    : level.mapCrystalOff;
+
+  return `
+    <div
+      class="map-crystal ${isActive ? "active" : "inactive"}"
+      style="
+        left:${level.crystalX ?? level.x}%;
+        top:${level.crystalY ?? level.y}%;
+      "
+    >
+      <img
+        src="${crystalImage}"
+        alt="Кристал: ${level.title}"
+      >
+    </div>
+  `;
+}
 
 function renderMapLevel(level) {
 
@@ -11504,26 +11554,26 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
 
     <style>
 
-      .nereus-screen {
-        min-height: 100vh;
-        box-sizing: border-box;
-        padding: 70px 20px 30px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-       background:
-  linear-gradient(
-    180deg,
-    rgba(3,25,53,.04),
-    rgba(3,25,53,.08)
-  ),
-  url("${background}") center center / contain no-repeat,
-  url("${background}") center center / cover no-repeat;
+    
+.nereus-screen {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 70px 20px 30px;
 
-background-color: #032744;
-        color: #fff;
-        font-family: inherit;
-      }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url("${background}");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #032744;
+
+  color: #fff;
+  font-family: inherit;
+}
+
 
       .nereus-panel {
   width: min(900px, 94vw);

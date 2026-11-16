@@ -11490,14 +11490,16 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
         display: flex;
         justify-content: center;
         align-items: center;
-        background:
-          linear-gradient(
-            180deg,
-            rgba(3,25,53,.08),
-            rgba(3,25,53,.15)
-          ),
-      url("${background}") center center / contain no-repeat;
-      background-color: #032744;
+       background:
+  linear-gradient(
+    180deg,
+    rgba(3,25,53,.04),
+    rgba(3,25,53,.08)
+  ),
+  url("${background}") center center / contain no-repeat,
+  url("${background}") center center / cover no-repeat;
+
+background-color: #032744;
         color: #fff;
         font-family: inherit;
       }

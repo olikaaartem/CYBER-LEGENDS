@@ -10079,10 +10079,10 @@ and (orientation: portrait) {
 
 .nereus-screen .nereus-game-title {
   position: fixed;
-  top: 105px;
+  top: 110px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 30;
+  z-index: 100;
 
   display: block;
   width: max-content;

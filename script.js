@@ -11705,7 +11705,69 @@ function nereusOpenBubble(index) {
     "GTA 6: ексклюзивні бонуси новим гравцям!"
   ];
 
-  alert("🪞 Дзеркало правди\n\n" + titles[index]);
+ const images = [
+  "Nereys/nereus-news-brawlstars.png",
+  "Nereys/nereus-news-homework.png",
+  "Nereys/nereus-news-smartphone.png",
+  "Nereys/nereus-news-nasa.png",
+  "Nereys/nereus-news-minecraft.png",
+  "Nereys/nereus-news-shelter.png",
+  "Nereys/nereus-news-gta6-bonus.png"
+];
+
+const overlay = document.createElement("div");
+overlay.id = "nereus-news-overlay";
+
+overlay.style.cssText = `
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  background:rgba(2,8,28,.88);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  box-sizing:border-box;
+`;
+
+overlay.innerHTML = `
+  <div style="
+    position:relative;
+    width:min(1400px,96vw);
+    max-height:94vh;
+    overflow:auto;
+    border:3px solid #d9b66b;
+    border-radius:20px;
+    background:#08152e;
+    box-shadow:0 0 45px rgba(85,200,255,.3);
+  ">
+    <button
+      onclick="document.getElementById('nereus-news-overlay').remove()"
+      style="
+        position:sticky;
+        top:12px;
+        float:right;
+        margin:12px;
+        z-index:2;
+        padding:12px 20px;
+        border:2px solid #d9b66b;
+        border-radius:12px;
+        background:#101b3b;
+        color:white;
+        cursor:pointer;
+      "
+    >✕ Закрити</button>
+
+    <img
+      src="${images[index]}"
+      alt="${titles[index]}"
+      style="display:block;width:100%;height:auto;"
+    >
+  </div>
+`;
+
+document.getElementById("nereus-news-overlay")?.remove();
+document.body.appendChild(overlay);
 }
 
 function nereusNext() {

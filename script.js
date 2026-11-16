@@ -11593,35 +11593,9 @@ background-color: #032744;
   pointer-events: none;
 }
 
-.nereus-floating-bubble {
-  position: absolute;
-left: calc(5% + var(--i) * 13%);
-top: calc(15% + var(--i) * 7%);
-width: calc(75px + var(--i) * 8px);
-height: calc(75px + var(--i) * 8px);
-  line-height: 1;
-  animation: nereusBubbleFloat 7s ease-in-out infinite;
-  animation-delay: calc(var(--i) * -0.8s);
-  will-change: transform;
-}
 
-@keyframes nereusBubbleFloat {
-  0%, 100% {
-    transform: translateY(25px) translateX(0);
-  }
 
-  25% {
-    transform: translateY(-15px) translateX(12px);
-  }
 
-  50% {
-    transform: translateY(-45px) translateX(-8px);
-  }
-
-  75% {
-    transform: translateY(-10px) translateX(8px);
-  }
-}
 
 
 @keyframes nereusBubbleFloat {

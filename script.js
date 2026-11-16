@@ -11496,7 +11496,8 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
             rgba(3,25,53,.28),
             rgba(3,25,53,.60)
           ),
-       url("${background}") center top / 100% 100% no-repeat;
+      url("${background}") center center / contain no-repeat;
+      background-color: #032744;
         color: #fff;
         font-family: inherit;
       }

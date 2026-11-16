@@ -11337,7 +11337,7 @@ else if (stage === "rules") {
               width:165px;
               height:165px;
                cursor:pointer;
-            " onclick="console.log('Натиснули бульбашку', ${i})">
+            "onclick="nereusOpenBubble(${i})">
           <img
             src="Nereys/nereus_bubble.png"
             alt="Загадкова новина"
@@ -11684,6 +11684,29 @@ height: calc(75px + var(--i) * 8px);
 
    intro → rules → play
 ============================================================ */
+
+function nereusOpenBubble(index) {
+  if (nereusState.stage !== "play") return;
+  if (nereusState.taskIndex !== 0) return;
+
+  if (!Number.isInteger(index) || index < 0 || index > 6) {
+    return;
+  }
+
+  nereusState.activeBubble = index;
+
+  const titles = [
+    "Brawl Stars закривають?!",
+    "У школах скасовують домашні завдання!",
+    "Блогер роздає смартфони!",
+    "NASA опублікувало фотографії космосу",
+    "Секретний режим Minecraft!",
+    "Відкрили новий притулок для тварин",
+    "GTA 6: ексклюзивні бонуси новим гравцям!"
+  ];
+
+  alert("🪞 Дзеркало правди\n\n" + titles[index]);
+}
 
 function nereusNext() {
 

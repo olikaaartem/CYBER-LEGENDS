@@ -10092,3 +10092,49 @@ and (orientation: portrait) {
 
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
+/* =====================================================
+   НЕРЕУС — МІНІГРА 1
+   АНІМАЦІЯ БУЛЬБАШОК
+===================================================== */
+
+.nereus-floating-bubble {
+  position: absolute;
+  z-index: 20;
+  pointer-events: auto;
+  cursor: pointer;
+
+  animation: nereusBubbleFloat 7s ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.8s);
+
+  will-change: transform;
+}
+
+.nereus-floating-bubble img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.nereus-floating-bubble:hover {
+  filter: drop-shadow(0 0 18px rgba(125, 230, 255, 0.85));
+}
+
+@keyframes nereusBubbleFloat {
+  0%, 100% {
+    transform: translate(0, 15px);
+  }
+
+  25% {
+    transform: translate(10px, -10px);
+  }
+
+  50% {
+    transform: translate(-8px, -30px);
+  }
+
+  75% {
+    transform: translate(8px, -8px);
+  }
+}

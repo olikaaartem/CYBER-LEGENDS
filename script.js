@@ -11334,8 +11334,8 @@ else if (stage === "rules") {
                position:absolute;
                left:${8 + i * 12}%;
                top:${20 + (i % 3) * 18}%;
-              width:145px;
-              height:145px;
+              width:165px;
+              height:165px;
                cursor:pointer;
             " onclick="console.log('Натиснули бульбашку', ${i})">
           <img

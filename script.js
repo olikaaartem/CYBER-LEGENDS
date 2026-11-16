@@ -11308,43 +11308,65 @@ else if (stage === "rules") {
     const questionProgress =
       (nereusState.question / game.questions.length) * 100;
 
-    content = `
-      <div class="nereus-panel nereus-game-panel">
+   content = `
+  <div class="nereus-panel nereus-game-panel"
+       style="position:relative; width:min(1250px,96vw);">
 
-        <div class="nereus-lives">
-          ${hearts}
+    <div class="nereus-lives">
+      ${hearts}
+    </div>
+
+    <h2 style="margin-bottom:12px;">
+      🫧 Озеро загадкових новин
+    </h2>
+
+    <div style="
+      position:relative;
+      width:100%;
+      height:clamp(300px,48vh,490px);
+      overflow:hidden;
+    ">
+
+      ${Array.from({ length: 7 }, (_, i) => `
+        <div class="nereus-floating-bubble"
+             style="
+               --i:${i};
+               position:absolute;
+               left:${8 + i * 12}%;
+               top:${20 + (i % 3) * 18}%;
+               width:105px;
+               height:105px;
+               cursor:pointer;
+             ">
+          <img
+            src="Nereys/nereus_bubble.png"
+            alt="Загадкова новина"
+            style="width:100%;height:100%;object-fit:contain;"
+          >
         </div>
+      `).join("")}
 
-       ${nereusState.taskIndex === 0 ? `
-  <!-- КіберБраузер: поки лише візуальна панель -->
-  <div style="background:#eaf3ff; color:#183451; padding:12px; border-radius:14px; margin-bottom:18px; text-align:left;">
-    <div style="font-weight:bold; margin-bottom:10px;">
-      🌐 КіберБраузер Нереуса
     </div>
-    <div style="background:white; padding:10px; border-radius:8px; font-size:14px;">
-  <a href="#"
-   onclick="event.preventDefault(); document.getElementById('nereus-news-page').style.display='block';"
-   style="color:#1764c0; text-decoration:underline; cursor:pointer;">
-  🔗 https://cyberlegends.example/news
-</a>
 
-<div id="nereus-news-page"
-     style="display:none; margin-top:15px; padding:16px; background:#fff; border-radius:12px; color:#183451;">
-
-  <h3>📰 Ігрові новини</h3>
-
-  <h4>ШОК! Завтра назавжди закриють Brawl Stars!</h4>
-
-  <p>Автор: невідомий</p>
-  <p>Дата публікації: не вказана</p>
-  <p>Джерело: непідтверджений ігровий блог</p>
-
-  <p>🔎 Чи варто довіряти цій новині без перевірки?</p>
-
-</div>
+    <div style="
+      max-width:750px;
+      margin:12px auto;
+      padding:18px 24px;
+      background:rgba(7,29,57,.85);
+      border:2px solid #d9b66b;
+      border-radius:18px;
+      text-align:center;
+    ">
+      💙 <strong>Нереус:</strong>
+      У кожній бульбашці захована новина.
+      Обери одну, щоб перевірити її джерело
+      за допомогою Дзеркала правди!
     </div>
+
   </div>
-` : ""}
+`;
+
+  
 
 <h2>${game.title}</h2>
 

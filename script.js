@@ -11436,20 +11436,7 @@ else if (stage === "rules") {
 
     </div>
 
-    <div style="
-      max-width:750px;
-      margin:12px auto;
-      padding:18px 24px;
-      background:rgba(7,29,57,.85);
-      border:2px solid #d9b66b;
-      border-radius:18px;
-      text-align:center;
-    ">
-      💙 <strong>Нереус:</strong>
-      У кожній бульбашці захована новина.
-      Обери одну, щоб перевірити її джерело
-      за допомогою Дзеркала правди!
-    </div>
+   
 
   </div>
 `;

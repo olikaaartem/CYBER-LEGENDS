@@ -10138,3 +10138,36 @@ and (orientation: portrait) {
     transform: translate(8px, -8px);
   }
 }
+
+/* ==========================================
+   КРИСТАЛИ НА КАРТІ
+========================================== */
+
+.map-crystal {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 105px;
+  height: 125px;
+  z-index: 65;
+  pointer-events: none;
+}
+
+.map-crystal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.map-crystal.active img {
+  filter: drop-shadow(0 0 14px rgba(255, 235, 140, 0.8));
+  animation: mapCrystalGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes mapCrystalGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px rgba(255, 235, 140, 0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 22px rgba(255, 235, 140, 1));
+  }
+}

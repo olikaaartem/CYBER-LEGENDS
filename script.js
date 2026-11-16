@@ -11367,47 +11367,7 @@ else if (stage === "rules") {
 `;
 
   
-
-<h2>${game.title}</h2>
-
-        <p>
-          Завдання
-          ${nereusState.question + 1}
-          із ${game.questions.length}
-        </p>
-
-        <div class="nereus-progress">
-          <div style="width:${questionProgress}%"></div>
-        </div>
-
-        <div class="nereus-news">
-          ${question.title}
-        </div>
-
-        <p>${question.prompt}</p>
-
-        <div class="nereus-options">
-
-          ${question.options.map((option, index) => `
-            <button
-              onclick="nereusAnswer(${index})"
-            >
-              ${option}
-            </button>
-          `).join("")}
-
-        </div>
-
-        <p
-          id="nereus-feedback"
-          aria-live="polite"
-        >
-          ${nereusState.feedback}
-        </p>
-
-      </div>
-    `;
-  }
+}
 
 
   /* ----------------------------------------------------------

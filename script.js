@@ -11185,11 +11185,13 @@ const NEREUS_GAMES = [
 ============================================================ */
 
 let nereusState = {
-  taskIndex: 0,
+  taskIndex: taskIndex,
   stage: "intro",
   question: 0,
   lives: 3,
-  feedback: ""
+  feedback: "",
+  checkedBubbles: [],
+  activeBubble: null
 };
 
 
@@ -11224,13 +11226,23 @@ function openNereusGame(levelId, taskIndex) {
   closeModal();
 
   // Кожне проходження починається з чистого стану.
-  nereusState = {
-    taskIndex: taskIndex,
-    stage: "intro",
-    question: 0,
-    lives: 3,
-    feedback: ""
-  };
+/* ============================================================
+   НЕРЕУС — НОВИЙ ЗАПУСК МІНІГРИ
+
+   Очищуємо попередні відповіді та перевірені новини.
+   Кожна мінігра починається з трьома сердечками.
+   Прогрес кристала не змінюємо.
+============================================================ */
+
+nereusState = {
+  taskIndex: taskIndex,
+  stage: "intro",
+  question: 0,
+  lives: 3,
+  feedback: "",
+  checkedBubbles: [],
+  activeBubble: null
+};
 
   playSound("click");
 
@@ -11417,56 +11429,230 @@ else if (stage === "rules") {
     </div>
   `;
 }
-  /* ----------------------------------------------------------
-     ЕКРАН 3 — ІГРОВИЙ ПРОЦЕС
-  ---------------------------------------------------------- */
+ 
+/* ============================================================
+   ЕКРАН 3 — ІГРОВИЙ ПРОЦЕС НЕРЕУСА
 
-  else if (stage === "play") {
+   Кожна мінігра має власний ігровий вміст.
+   Спільні: HUD, сердечка, фон, кнопки.
+============================================================ */
 
-    const question = game.questions[nereusState.question];
+else if (stage === "play") {
 
-    const questionProgress =
-      (nereusState.question / game.questions.length) * 100;
+  const taskIndex = nereusState.taskIndex;
+  const question = game.questions[nereusState.question];
 
-   content = `
-   <div class="nereus-panel nereus-game-panel"
-     style="position:relative; width:min(1250px,96vw);">
-${renderGameHUD(game.title, nereusState.lives)}
+  let gameContent = "";
 
-    <div style="
+  /* ==========================================================
+     МІНІГРА 1 — ПЕРЕВІРКА ДЖЕРЕЛА
+     Сім інтерактивних бульбашок із новинами
+  ========================================================== */
+
+/* ==========================================================
+   МІНІГРА 1 — ПЕРЕВІРКА ДЖЕРЕЛА
+   Сім бульбашок + прогрес перевірки
+========================================================== */
+
+if (taskIndex === 0) {
+
+  const checkedBubbles = Array.isArray(nereusState.checkedBubbles)
+    ? nereusState.checkedBubbles
+    : [];
+
+  gameContent = `
+    <div class="nereus-bubbles-area" style="
       position:relative;
       width:100%;
       height:clamp(300px,48vh,490px);
       overflow:hidden;
     ">
 
-      ${Array.from({ length: 7 }, (_, i) => `
-        <div class="nereus-floating-bubble"
-             style="
-               --i:${i};
-               position:absolute;
-               left:${8 + i * 12}%;
-               top:${20 + (i % 3) * 18}%;
-              width:165px;
-              height:165px;
-               cursor:pointer;
-            "onclick="nereusOpenBubble(${i})">
-          <img
-            src="Nereys/nereus_bubble.png"
-            alt="Загадкова новина"
-            style="width:100%;height:100%;object-fit:contain;"
-          >
-        </div>
-      `).join("")}
+      ${Array.from({ length: 7 }, (_, i) => {
+
+        const checked = checkedBubbles.includes(i);
+
+        return `
+          <div class="nereus-floating-bubble"
+               style="
+                 --i:${i};
+                 position:absolute;
+                 left:${8 + i * 12}%;
+                 top:${20 + (i % 3) * 18}%;
+                 width:165px;
+                 height:165px;
+                 cursor:${checked ? "default" : "pointer"};
+                 opacity:${checked ? "0.45" : "1"};
+               "
+               ${checked ? "" : `onclick="nereusOpenBubble(${i})"`}>
+
+            <img
+              src="Nereys/nereus_bubble.png"
+              alt="${checked ? "Перевірена новина" : "Загадкова новина"}"
+              style="
+                width:100%;
+                height:100%;
+                object-fit:contain;
+              "
+            >
+
+            ${checked ? `
+              <span style="
+                position:absolute;
+                top:50%;
+                left:50%;
+                transform:translate(-50%,-50%);
+                font-size:52px;
+                filter:drop-shadow(0 3px 5px #00152b);
+                pointer-events:none;
+              ">✅</span>
+            ` : ""}
+
+          </div>
+        `;
+      }).join("")}
 
     </div>
 
-   
+    <div style="
+      width:max-content;
+      max-width:90%;
+      margin:8px auto 0;
+      padding:10px 22px;
+      background:rgba(19,24,58,.94);
+      border:2px solid #d9b66b;
+      border-radius:16px;
+      color:#ffe27a;
+      font-size:20px;
+      font-weight:700;
+      text-align:center;
+    ">
+      🪞 Перевірено новин:
+      ${checkedBubbles.length} / 7
+    </div>
+  `;
+}
 
-  </div>
-`;
+  /* ==========================================================
+     МІНІГРА 2 — ФЕЙК ЧИ ФАКТ?
+     Твердження та вибір відповіді
+  ========================================================== */
 
-  
+  else if (taskIndex === 1) {
+
+    gameContent = `
+      <div class="nereus-panel" style="
+        max-width:780px;
+        margin:auto;
+        background:rgba(19,24,58,.94);
+        border:2px solid #d9b66b;
+        border-radius:24px;
+        padding:30px;
+      ">
+
+        <p>
+          Питання ${nereusState.question + 1}
+          із ${game.questions.length}
+        </p>
+
+        <div class="nereus-news">
+          ${question.title}
+        </div>
+
+        <h3>${question.prompt}</h3>
+
+        <div class="nereus-options" style="
+          grid-template-columns:repeat(2,minmax(0,1fr));
+        ">
+          ${question.options.map((option, i) => `
+            <button onclick="nereusAnswer(${i})">
+              ${option}
+            </button>
+          `).join("")}
+        </div>
+
+        <p id="nereus-feedback">
+          ${nereusState.feedback || ""}
+        </p>
+
+      </div>
+    `;
+  }
+
+  /* ==========================================================
+     МІНІГРА 3 — ФОТО-ДЕТЕКТИВ
+     Тимчасовий екран до підключення фото
+  ========================================================== */
+
+  else if (taskIndex === 2) {
+
+    gameContent = `
+      <div class="nereus-panel" style="
+        max-width:780px;
+        margin:auto;
+        background:rgba(19,24,58,.94);
+        border:2px solid #d9b66b;
+        border-radius:24px;
+        padding:36px;
+      ">
+
+        <h2>Фото-Детектив</h2>
+
+        <p>
+          Тут з'являться фотографії для аналізу,
+          інструменти дослідження та перевірка
+          ознак маніпуляції.
+        </p>
+
+      </div>
+    `;
+  }
+
+  /* ==========================================================
+     МІНІГРА 4 — ЛОВЕЦЬ КЛІКБЕЙТУ
+     Тимчасовий екран до підключення риболовлі
+  ========================================================== */
+
+  else if (taskIndex === 3) {
+
+    gameContent = `
+      <div class="nereus-panel" style="
+        max-width:780px;
+        margin:auto;
+        background:rgba(19,24,58,.94);
+        border:2px solid #d9b66b;
+        border-radius:24px;
+        padding:36px;
+      ">
+
+        <h2>Ловець Клікбейту</h2>
+
+        <p>
+          Тут буде риболовля з вудкою,
+          рибками та заголовками-пастками.
+        </p>
+
+      </div>
+    `;
+  }
+
+  /* ==========================================================
+     СПІЛЬНА ОБОЛОНКА ДЛЯ ВСІХ ЧОТИРЬОХ ІГОР
+  ========================================================== */
+
+  content = `
+    <div class="nereus-panel nereus-game-panel"
+         style="
+           position:relative;
+           width:min(1250px,96vw);
+         ">
+
+      ${renderGameHUD(game.title, nereusState.lives)}
+
+      ${gameContent}
+
+    </div>
+  `;
 }
 
 
@@ -11762,90 +11948,340 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
    intro → rules → play
 ============================================================ */
 
+/* ============================================================
+   НЕРЕУС — МІНІГРА 1
+   ПЕРЕВІРКА ДЖЕРЕЛА
+
+   1. Вибір однієї із семи бульбашок
+   2. Перегляд зображення новини
+   3. Дзеркало правди — вибір джерела
+   4. Перевірка відповіді
+   5. Зарахування всіх семи новин
+   6. Перемога після семи правильних перевірок
+============================================================ */
+
+
+/* ============================================================
+   1. ДАНІ СЕМИ НОВИН
+============================================================ */
+
+const NEREUS_BUBBLE_NEWS = [
+  {
+    title: "Brawl Stars закривають?!",
+    image: "Nereys/nereus-news-brawlstars.png",
+    options: [
+      "Коментар випадкового гравця",
+      "Офіційний сайт Supercell",
+      "Анонімний Telegram-канал"
+    ],
+    correct: 1,
+    hint: "Офіційні новини про гру перевіряють у розробника."
+  },
+  {
+    title: "У школах скасовують домашні завдання!",
+    image: "Nereys/nereus-news-homework.png",
+    options: [
+      "Повідомлення друга",
+      "Вірусне відео",
+      "Офіційне повідомлення школи або органу освіти"
+    ],
+    correct: 2,
+    hint: "Перевір, чи є офіційне повідомлення про зміни."
+  },
+  {
+    title: "Блогер роздає смартфони!",
+    image: "Nereys/nereus-news-smartphone.png",
+    options: [
+      "Підтверджений акаунт організатора та правила акції",
+      "Коментар «Я вже виграв!»",
+      "Сторінка, яка просить пароль"
+    ],
+    correct: 0,
+    hint: "Перевір організатора й правила. Нікому не передавай пароль."
+  },
+  {
+    title: "NASA опублікувало фотографії космосу",
+    image: "Nereys/nereus-news-nasa.png",
+    options: [
+      "Анонімний допис",
+      "Офіційний сайт NASA",
+      "Коментар під відео"
+    ],
+    correct: 1,
+    hint: "Першоджерелом космічних знімків може бути NASA."
+  },
+  {
+    title: "Секретний режим Minecraft!",
+    image: "Nereys/nereus-news-minecraft.png",
+    options: [
+      "Невідомий сайт із завантаженням",
+      "Повідомлення в чаті",
+      "Офіційні новини Minecraft"
+    ],
+    correct: 2,
+    hint: "Інформацію про оновлення шукай у розробників."
+  },
+  {
+    title: "Відкрили новий притулок для тварин",
+    image: "Nereys/nereus-news-shelter.png",
+    options: [
+      "Офіційна сторінка притулку та його контакти",
+      "Анонімний репост",
+      "Неперевірений збір коштів"
+    ],
+    correct: 0,
+    hint: "Перевір адресу, контакти й першоджерело повідомлення."
+  },
+  {
+    title: "GTA 6: ексклюзивні бонуси!",
+    image: "Nereys/nereus-news-gta6-bonus.png",
+    options: [
+      "Посилання від незнайомця",
+      "Офіційні повідомлення Rockstar Games",
+      "Сайт, що просить пароль від акаунта"
+    ],
+    correct: 1,
+    hint: "Ігрові бонуси перевіряй в офіційного видавця."
+  }
+];
+
+
+/* ============================================================
+   2. ВІДКРИТТЯ БУЛЬБАШКИ
+============================================================ */
+
 function nereusOpenBubble(index) {
+
   if (nereusState.stage !== "play") return;
   if (nereusState.taskIndex !== 0) return;
 
-  if (!Number.isInteger(index) || index < 0 || index > 6) {
+  if (
+    !Number.isInteger(index) ||
+    index < 0 ||
+    index >= NEREUS_BUBBLE_NEWS.length
+  ) return;
+
+  if (!Array.isArray(nereusState.checkedBubbles)) {
+    nereusState.checkedBubbles = [];
+  }
+
+  const news = NEREUS_BUBBLE_NEWS[index];
+
+  document.getElementById("nereus-news-overlay")?.remove();
+
+  const overlay = document.createElement("div");
+  overlay.id = "nereus-news-overlay";
+
+  overlay.style.cssText = `
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    background:rgba(2,8,28,.90);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    box-sizing:border-box;
+  `;
+
+  const panel = document.createElement("div");
+
+  panel.style.cssText = `
+    position:relative;
+    width:min(1000px,96vw);
+    max-height:94vh;
+    overflow:auto;
+    background:#101b3b;
+    border:3px solid #d9b66b;
+    border-radius:22px;
+    padding:22px;
+    box-sizing:border-box;
+    color:white;
+    text-align:center;
+  `;
+
+  panel.innerHTML = `
+    <h2 style="color:#ffe27a;margin:8px 0 18px;">
+      ${news.title}
+    </h2>
+
+    <img
+      src="${news.image}"
+      alt="${news.title}"
+      style="
+        display:block;
+        max-width:100%;
+        max-height:48vh;
+        width:auto;
+        height:auto;
+        object-fit:contain;
+        margin:0 auto 18px;
+        border-radius:12px;
+      "
+    >
+
+    <h3 style="color:#ffe27a;">
+      🪞 Дзеркало правди
+    </h3>
+
+    <p>
+      Де найкраще перевірити цю інформацію?
+    </p>
+
+    <div id="nereus-mirror-options"
+         style="
+           display:grid;
+           gap:12px;
+           margin:18px auto;
+           max-width:720px;
+         ">
+    </div>
+
+    <p id="nereus-mirror-feedback"
+       role="status"
+       style="
+         min-height:28px;
+         color:#ffe27a;
+         font-weight:600;
+       ">
+    </p>
+  `;
+
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "✕ Закрити";
+
+  closeButton.className = "nereus-btn";
+
+  closeButton.style.cssText = `
+    display:block;
+    margin:0 0 12px auto;
+    background:linear-gradient(180deg,#6d42ff,#4725c9);
+    color:white;
+    border:2px solid #d9b66b;
+    border-radius:12px;
+    padding:10px 18px;
+    cursor:pointer;
+  `;
+
+  closeButton.addEventListener("click", () => overlay.remove());
+
+  panel.prepend(closeButton);
+  overlay.appendChild(panel);
+  document.body.appendChild(overlay);
+
+  const optionsContainer =
+    panel.querySelector("#nereus-mirror-options");
+
+  const feedback =
+    panel.querySelector("#nereus-mirror-feedback");
+
+  if (nereusState.checkedBubbles.includes(index)) {
+    feedback.textContent = "✅ Цю новину вже перевірено!";
+  }
+
+  news.options.forEach((option, choice) => {
+
+    const button = document.createElement("button");
+
+    button.className = "nereus-btn";
+    button.textContent = option;
+
+    button.style.cssText = `
+      padding:14px 20px;
+      border:2px solid #d9b66b;
+      border-radius:14px;
+      background:linear-gradient(180deg,#6d42ff,#4725c9);
+      color:white;
+      font:inherit;
+      cursor:pointer;
+    `;
+
+    button.disabled =
+      nereusState.checkedBubbles.includes(index);
+
+    button.addEventListener("click", () => {
+      nereusCheckBubble(index, choice);
+    });
+
+    optionsContainer.appendChild(button);
+  });
+}
+
+
+/* ============================================================
+   3. ПЕРЕВІРКА ВІДПОВІДІ ДЗЕРКАЛА
+============================================================ */
+
+function nereusCheckBubble(index, choice) {
+
+  if (nereusState.stage !== "play") return;
+  if (nereusState.taskIndex !== 0) return;
+
+  const news = NEREUS_BUBBLE_NEWS[index];
+  if (!news) return;
+
+  if (!Array.isArray(nereusState.checkedBubbles)) {
+    nereusState.checkedBubbles = [];
+  }
+
+  if (nereusState.checkedBubbles.includes(index)) return;
+
+  const overlay =
+    document.getElementById("nereus-news-overlay");
+
+  if (!overlay) return;
+
+  const feedback =
+    overlay.querySelector("#nereus-mirror-feedback");
+
+  if (choice !== news.correct) {
+
+    playSound("wrong");
+
+    nereusState.lives = Math.max(0, nereusState.lives - 1);
+
+    if (nereusState.lives === 0) {
+      overlay.remove();
+      nereusState.stage = "retry";
+      renderNereusGame();
+      return;
+    }
+
+    feedback.textContent = "💡 " + news.hint;
+
+    overlay.remove();
+    renderNereusGame();
+    nereusOpenBubble(index);
+
+    const newFeedback = document.querySelector(
+      "#nereus-mirror-feedback"
+    );
+
+    if (newFeedback) {
+      newFeedback.textContent = "💡 " + news.hint;
+    }
+
     return;
   }
 
-  nereusState.activeBubble = index;
+  playSound("correct");
 
-  const titles = [
-    "Brawl Stars закривають?!",
-    "У школах скасовують домашні завдання!",
-    "Блогер роздає смартфони!",
-    "NASA опублікувало фотографії космосу",
-    "Секретний режим Minecraft!",
-    "Відкрили новий притулок для тварин",
-    "GTA 6: ексклюзивні бонуси новим гравцям!"
-  ];
+  nereusState.checkedBubbles.push(index);
 
- const images = [
-  "Nereys/nereus-news-brawlstars.png",
-  "Nereys/nereus-news-homework.png",
-  "Nereys/nereus-news-smartphone.png",
-  "Nereys/nereus-news-nasa.png",
-  "Nereys/nereus-news-minecraft.png",
-  "Nereys/nereus-news-shelter.png",
-  "Nereys/nereus-news-gta6-bonus.png"
-];
+  overlay.remove();
 
-const overlay = document.createElement("div");
-overlay.id = "nereus-news-overlay";
+  if (
+    nereusState.checkedBubbles.length ===
+    NEREUS_BUBBLE_NEWS.length
+  ) {
+    nereusCompleteGame();
+    return;
+  }
 
-overlay.style.cssText = `
-  position:fixed;
-  inset:0;
-  z-index:99999;
-  background:rgba(2,8,28,.88);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:24px;
-  box-sizing:border-box;
-`;
-
-overlay.innerHTML = `
-  <div style="
-    position:relative;
-    width:min(1400px,96vw);
-    max-height:94vh;
-    overflow:auto;
-    border:3px solid #d9b66b;
-    border-radius:20px;
-    background:#08152e;
-    box-shadow:0 0 45px rgba(85,200,255,.3);
-  ">
-    <button
-      onclick="document.getElementById('nereus-news-overlay').remove()"
-      style="
-        position:sticky;
-        top:12px;
-        float:right;
-        margin:12px;
-        z-index:2;
-        padding:12px 20px;
-        border:2px solid #d9b66b;
-        border-radius:12px;
-        background:#101b3b;
-        color:white;
-        cursor:pointer;
-      "
-    >✕ Закрити</button>
-
-    <img
-      src="${images[index]}"
-      alt="${titles[index]}"
-      style="display:block;width:100%;height:auto;"
-    >
-  </div>
-`;
-
-document.getElementById("nereus-news-overlay")?.remove();
-document.body.appendChild(overlay);
+  renderNereusGame();
 }
+
+
 
 function nereusNext() {
 
@@ -11936,14 +12372,29 @@ function nereusAnswer(choice) {
    Уже зароблений прогрес кристала
    НЕ видаляємо.
 ============================================================ */
+/* ============================================================
+   НЕРЕУС — ПОВТОРНЕ ПРОХОДЖЕННЯ
+
+   Скидаємо:
+   - поточне питання;
+   - три сердечка;
+   - підказки;
+   - сім перевірених новин.
+
+   Зароблений прогрес кристала не видаляємо.
+============================================================ */
 
 function nereusRestart() {
 
   playSound("click");
 
+  document.getElementById("nereus-news-overlay")?.remove();
+
   nereusState.question = 0;
   nereusState.lives = 3;
   nereusState.feedback = "";
+  nereusState.checkedBubbles = [];
+  nereusState.activeBubble = null;
   nereusState.stage = "play";
 
   renderNereusGame();

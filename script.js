@@ -11418,16 +11418,9 @@ else if (stage === "rules") {
       (nereusState.question / game.questions.length) * 100;
 
    content = `
-  <div class="nereus-panel nereus-game-panel"
-       style="position:relative; width:min(1250px,96vw);">
-
-   <div class="nereus-lives">
-  ${hearts}
-</div>
-
-<h2 class="nereus-game-title">
-  Озеро загадкових новин
-</h2>
+   <div class="nereus-panel nereus-game-panel"
+     style="position:relative; width:min(1250px,96vw);">
+${renderGameHUD("Озеро загадкових новин", nereusState.lives)}
 
     <div style="
       position:relative;

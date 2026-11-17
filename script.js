@@ -11250,7 +11250,28 @@ function nereusGetBackground() {
   return backgrounds[nereusState.taskIndex];
 }
 
+/* =====================================================
+   СПІЛЬНИЙ ІНТЕРФЕЙС МІНІІГОР
+   Заголовок + червоні сердечка
+===================================================== */
 
+function renderGameHUD(title, lives = 3) {
+
+  const hearts = Array.from(
+    { length: 3 },
+    (_, i) => i < lives ? "❤️" : "🩶"
+  ).join(" ");
+
+  return `
+    <div class="game-hud-title">
+      ${title}
+    </div>
+
+    <div class="game-hud-lives">
+      ${hearts}
+    </div>
+  `;
+}
 /* ============================================================
    5. ГОЛОВНА ФУНКЦІЯ ВІДОБРАЖЕННЯ
 

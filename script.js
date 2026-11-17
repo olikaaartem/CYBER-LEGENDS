@@ -1168,8 +1168,11 @@ mapCrystalOff: ASSETS.mapYellowOff,
 mapCrystalOn: ASSETS.mapYellowOn,
   
     color: "#ffd54a",
-    x: 37,
-    y: 75
+x: 37,
+y: 75,
+
+crystalX: 30.5,
+crystalY: 75
   },
 
   {

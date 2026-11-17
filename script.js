@@ -2020,7 +2020,7 @@ function showLevel(levelId) {
           pointer-events:none;
           box-shadow:0 0 18px rgba(89,223,255,0.35);
         ">
-          🫧 Натисни на наставника
+           Натисни на наставника
         </div>
       ` : ""}
       <div class="level-actions">
@@ -11185,7 +11185,7 @@ const NEREUS_GAMES = [
 ============================================================ */
 
 let nereusState = {
-  taskIndex: taskIndex,
+  taskIndex: 0,
   stage: "intro",
   question: 0,
   lives: 3,

@@ -10262,20 +10262,20 @@ and (orientation: portrait) {
 /* ЗАГОЛОВОК */
 .game-hud-title {
   position: absolute;
-  top: -65px;
+  top: -175px;
   left: 50%;
   transform: translateX(-50%);
 
   z-index: 100;
 
-  padding: 10px 28px;
+  padding: 8px 22px;
   border-radius: 18px;
 
   background: rgba(24, 17, 58, 0.9);
   border: 2px solid #e7bd4e;
   color: #ffe58c;
 
-  font-size: clamp(23px, 2.4vw, 40px);
+  font-size: clamp(20px, 1.7vw, 28px);
   font-weight: 900;
   text-align: center;
   white-space: nowrap;

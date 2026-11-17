@@ -101,7 +101,7 @@ kodus: "geroi/did_kodys_new.png",
   medalFoxita: "artefaktu/medaliony_2.png",
   medalNereus: "artefaktu/medaliony_3.png",
   medalAnubisa: "artefaktu/medaliony_4.png",
-  medalTifon: "artefaktu/medaliony_5.png",
+  medalAiro: "artefaktu/medaliony_6.png",
   medalMordor: "artefaktu/maska_medaliony.png",
 
   /* КРИСТАЛИ */
@@ -1189,8 +1189,11 @@ mapCrystalOff: ASSETS.mapGreenOff,
 mapCrystalOn: ASSETS.mapGreenOn,
   
     color: "#42e66f",
-    x: 48,
-    y: 54
+   x: 48,
+y: 54,
+
+crystalX: 34.5,
+crystalY: 57
   },
 
   {
@@ -1208,7 +1211,10 @@ mapCrystalOn: ASSETS.mapBlueOn,
   
     color: "#39b7ff",
     x: 64,
-    y: 61
+y: 61,
+
+crystalX: 59,
+crystalY: 65
   },
 
   {
@@ -1225,16 +1231,19 @@ mapCrystalOff: ASSETS.mapPinkOff,
 mapCrystalOn: ASSETS.mapPinkOn,
   
     color: "#ff78d7",
-    x: 64,
-    y: 36
+ x: 64,
+y: 36,
+
+crystalX: 70,
+crystalY: 46
   },
 
   {
     id: 5,
-    title: "Фортеця Захисту",
+    title: "Башта алгоритмів",
     mentorId: 5,
     bg: ASSETS.level5,
-    medal: ASSETS.medalTifon,
+    medal: ASSETS.medalAiro,
     artifact: ASSETS.artifactSword,
     crystalOff: ASSETS.redOff,
     crystalOn: ASSETS.redOn,
@@ -1244,7 +1253,10 @@ mapCrystalOn: ASSETS.mapRedOn,
   
     color: "#ff4a35",
     x: 77,
-    y: 50
+y: 50,
+
+crystalX: 70,
+crystalY: 46
   }
 
 ];

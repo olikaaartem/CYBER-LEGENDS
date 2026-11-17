@@ -1430,11 +1430,7 @@ function renderCitadelButton(allDone) {
 
       <img
         class="map-level-medal"
-        src="${
-          allDone
-            ? CITADEL.crystalOn
-            : CITADEL.crystalOff
-        }"
+       src="${CITADEL.medal}"
         alt="Цитадель Хаосу"
       >
 
@@ -11435,7 +11431,7 @@ else if (stage === "rules") {
    content = `
    <div class="nereus-panel nereus-game-panel"
      style="position:relative; width:min(1250px,96vw);">
-${renderGameHUD("Озеро загадкових новин", nereusState.lives)}
+${renderGameHUD(game.title, nereusState.lives)}
 
     <div style="
       position:relative;

@@ -1171,8 +1171,8 @@ mapCrystalOn: ASSETS.mapYellowOn,
 x: 37,
 y: 75,
 
-crystalX: 30.5,
-crystalY: 75
+crystalX: 31,
+crystalY: 74
   },
 
   {
@@ -1193,7 +1193,7 @@ mapCrystalOn: ASSETS.mapGreenOn,
 y: 54,
 
 crystalX: 34.5,
-crystalY: 57
+crystalY: 59
   },
 
   {
@@ -1213,8 +1213,8 @@ mapCrystalOn: ASSETS.mapBlueOn,
     x: 64,
 y: 61,
 
-crystalX: 59,
-crystalY: 65
+crystalX: 58.5,
+crystalY: 66
   },
 
   {
@@ -1234,7 +1234,7 @@ mapCrystalOn: ASSETS.mapPinkOn,
  x: 64,
 y: 36,
 
-crystalX: 70,
+crystalX: 69.5,
 crystalY: 46
   },
 
@@ -1255,7 +1255,7 @@ mapCrystalOn: ASSETS.mapRedOn,
     x: 77,
 y: 50,
 
-crystalX: 70,
+crystalX: 69.5,
 crystalY: 46
   }
 

@@ -128,20 +128,20 @@ kodus: "geroi/did_kodys_new.png",
 
   // Кристали для карти Королівства
 
-  mapYellowOff: "Kartka_nastavnyka/crystal-yellow-inactive.png",
-  mapYellowOn: "Kartka_nastavnyka/crystal-yellow-active.png",
+  mapYellowOff: "Kartka_nastavnuka/crystal-yellow-inactive.png",
+  mapYellowOn: "Kartka_nastavnuka/crystal-yellow-active.png",
 
-  mapGreenOff: "Kartka_nastavnyka/crystal-green-inactive.png",
-  mapGreenOn: "Kartka_nastavnyka/crystal-green-active.png",
+  mapGreenOff: "Kartka_nastavnuka/crystal-green-inactive.png",
+  mapGreenOn: "Kartka_nastavnuka/crystal-green-active.png",
 
-  mapBlueOff: "Kartka_nastavnyka/crystal-blue-inactive.png",
-  mapBlueOn: "Kartka_nastavnyka/crystal-blue-active.png",
+  mapBlueOff: "Kartka_nastavnuka/crystal-blue-inactive.png",
+  mapBlueOn: "Kartka_nastavnuka/crystal-blue-active.png",
 
-  mapPinkOff: "Kartka_nastavnyka/crystal-pink-inactive.png",
-  mapPinkOn: "Kartka_nastavnyka/crystal-pink-active.png",
+  mapPinkOff: "Kartka_nastavnuka/crystal-pink-inactive.png",
+  mapPinkOn: "Kartka_nastavnuka/crystal-pink-active.png",
 
-  mapRedOff: "Kartka_nastavnyka/crystal-red-inactive.png",
-  mapRedOn: "Kartka_nastavnyka/crystal-red-active.png",
+  mapRedOff: "Kartka_nastavnuka/crystal-red-inactive.png",
+  mapRedOn: "Kartka_nastavnuka/crystal-red-active.png",
 
 
 
@@ -11624,18 +11624,18 @@ onclick="${progress === 100 ? 'openLevelReward(3)' : 'nereusReturnToLevel()'}"
         border-radius: 14px;
         padding: 14px 22px;
         border: 2px solid #dfbd76;
-        background: #12587b;
+       background: linear-gradient(180deg, #6d42ff, #4725c9);
         color: #fff;
         transition:
           transform .15s,
           background .15s;
       }
 
-      .nereus-btn:hover,
-      .nereus-options button:hover {
-        transform: translateY(-2px);
-        background: #207fa4;
-      }
+.nereus-btn:hover,
+.nereus-options button:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #7b55ff, #5630d8);
+}
 
       .nereus-options {
         display: grid;
